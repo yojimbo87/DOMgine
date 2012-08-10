@@ -71,6 +71,7 @@ Walker.prototype.move = function (x, y) {
             // show first position in current sprite row
             this._current.column = 0;
             this._element.css('backgroundPosition', '0px -' + (this._current.row * this._options.height) + 'px');
+            this._findDirection(direction);
             
             return;
         }
@@ -97,6 +98,7 @@ Walker.prototype.move = function (x, y) {
                         // show first position in current sprite row
                         self._current.column = 0;
                         self._element.css('backgroundPosition', '0px -' + (self._current.row * self._options.height) + 'px');
+                        self._findDirection(stepDirection);
                         
                         return;
                     }
@@ -308,6 +310,6 @@ Walker.prototype._isDirectionBlocked = function (direction) {
     return result;
 };
 
-Walker.prototype._findDirection = function () {
+Walker.prototype._findDirection = function (direction) {
     
 };
