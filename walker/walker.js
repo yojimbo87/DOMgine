@@ -65,21 +65,16 @@ Walker.prototype.move = function (x, y) {
         );
         this._current.direction = direction.cardinality;
         this._current.row = direction.row;
-    
-        self._scanObstacles();
-        
-        if (self._isDirectionBlocked(direction, direction)) {
-            self._clearObstacles();
-            self._element.stop(true, false);
+
+        if (this._isDirectionBlocked(direction, direction)) {
+            this._element.stop(true, false);
             // show first position in current sprite row
-            self._current.column = 0;
-            self._element.css('backgroundPosition', '0px -' + (self._current.row * self._options.height) + 'px');
+            this._current.column = 0;
+            this._element.css('backgroundPosition', '0px -' + (this._current.row * this._options.height) + 'px');
             
             return;
         }
         
-        self._clearObstacles();
-    
         this._element.animate(
             {
                 left: x,
@@ -91,16 +86,13 @@ Walker.prototype.move = function (x, y) {
                 step: function() {
                     position = self._element.position(),
                     stepCount++;
-                    
-                    self._scanObstacles();
-                    
+
                     stepDirection = self._getDirection(
                         position.left,
                         position.top
                     );
                     
                     if (self._isDirectionBlocked(direction, stepDirection)) {
-                        self._clearObstacles();
                         self._element.stop(true, false);
                         // show first position in current sprite row
                         self._current.column = 0;
@@ -127,8 +119,6 @@ Walker.prototype.move = function (x, y) {
                             self._current.column = 0;
                         }
                     }
-
-                    self._clearObstacles();
                 },
                 complete: function() {
                     self._path.pop();
@@ -303,15 +293,21 @@ Walker.prototype._clearObstacles = function (x, y) {
 };
 
 Walker.prototype._isDirectionBlocked = function (original, step) {
-    var i, len, obstaclesCount;
+    var result = false,
+        i, len, obstaclesCount;
+    
+    this._scanObstacles();
     
     for (i = 0, len = original.cardinality.length; i < len; i++) {
         obstaclesCount = this._obstacles['' + original.cardinality[i] + 'Count'];
             
         if (obstaclesCount > 0) {
-            return true;
+            result = true;
+            break;
         }
     }
     
-    return false;
+    this._clearObstacles();
+    
+    return result;
 };
