@@ -180,6 +180,7 @@ Walker.prototype._getDirection = function (x, y) {
 
 Walker.prototype._scanObstacles = function () {
     var offset = this._element.offset(),
+        obstacles = this._obstacles,
         x = offset.left, 
         y = offset.top,
         elem, i, len;
@@ -189,9 +190,9 @@ Walker.prototype._scanObstacles = function () {
         elem = document.elementFromPoint(x + i, y - 1);
         
         if (elem && (elem.id !== 'playground')) {
-            if (this._obstacles.n[elem.id] === undefined) {
-                this._obstacles.n[elem.id] = elem;
-                this._obstacles.nCount++;
+            if (obstacles.n[elem.id] === undefined) {
+                obstacles.n[elem.id] = elem;
+                obstacles.nCount++;
             }
         }
     }
@@ -202,9 +203,9 @@ Walker.prototype._scanObstacles = function () {
         elem = document.elementFromPoint(x + i, y + 3 + this._options.height);
         
         if (elem && (elem.id !== 'playground')) {
-            if (this._obstacles.s[elem.id] === undefined) {
-                this._obstacles.s[elem.id] = elem;
-                this._obstacles.sCount++;
+            if (obstacles.s[elem.id] === undefined) {
+                obstacles.s[elem.id] = elem;
+                obstacles.sCount++;
             }
         }
     }
@@ -214,9 +215,9 @@ Walker.prototype._scanObstacles = function () {
         elem = document.elementFromPoint(x - 1, y + i);
         
         if (elem && (elem.id !== 'playground')) {
-            if (this._obstacles.w[elem.id] === undefined) {
-                this._obstacles.w[elem.id] = elem;
-                this._obstacles.wCount++;
+            if (obstacles.w[elem.id] === undefined) {
+                obstacles.w[elem.id] = elem;
+                obstacles.wCount++;
             }
         }
     }
@@ -226,30 +227,30 @@ Walker.prototype._scanObstacles = function () {
         elem = document.elementFromPoint(x + 3 + this._options.width, y + i);
         
         if (elem && (elem.id !== 'playground')) {
-            if (this._obstacles.e[elem.id] === undefined) {
-                this._obstacles.e[elem.id] = elem.id;
-                this._obstacles.eCount++;
+            if (obstacles.e[elem.id] === undefined) {
+                obstacles.e[elem.id] = elem.id;
+                obstacles.eCount++;
             }
         }
     }
     
     var s = 'N: <br />';
-    for (var item in this._obstacles.n) {
+    for (var item in obstacles.n) {
         s += item + '<br />';
     }
     
     s += 'S: <br />';
-    for (var item in this._obstacles.s) {
+    for (var item in obstacles.s) {
         s += item + '<br />';
     }
     
     s += 'W: <br />';
-    for (var item in this._obstacles.w) {
+    for (var item in obstacles.w) {
         s += item + '<br />';
     }
     
     s += 'E: <br />';
-    for (var item in this._obstacles.e) {
+    for (var item in obstacles.e) {
         s += item + '<br />';
     }
     
