@@ -36,7 +36,7 @@ Walker.prototype.move = function(destinationX, destinationY) {
         duration = 0,
         i, len;
 
-    // stop _current animation
+    // stop current animation
     $(this._element).stop(true, false);
     
     var posDiffX = diffX,
@@ -58,28 +58,28 @@ Walker.prototype.move = function(destinationX, destinationY) {
     
     // compute sprite direction toward destination position
     if((diffX < 0) && (diffY >= -10) && (diffY <= 22)) {
-        this._current.direction = "w";
+        this._current.direction = 'w';
         this._current.row = 1;
     } else if((diffX >= -10) && (diffX <= 22) && (diffY < 0)) {
-        this._current.direction = "n";
+        this._current.direction = 'n';
         this._current.row = 3;
     } else if((diffX > 0) && (diffY >= -10) && (diffY <= 22)) {
-        this._current.direction = "e";
+        this._current.direction = 'e';
         this._current.row = 2;
     } else if((diffX >= -0) && (diffX <= 22) && (diffY > 0)) {
-        this._current.direction = "s";
+        this._current.direction = 's';
         this._current.row = 0;
     } else if((diffX < 0) && (diffY < 0)) {
-        this._current.direction = "nw";
+        this._current.direction = 'nw';
         this._current.row = 6;
     } else if((diffX > 0) && (diffY < 0)) {
-        this._current.direction = "ne";
+        this._current.direction = 'ne';
         this._current.row = 7;
     } else if((diffX < 0) && (diffY > 0)) {
-        this._current.direction = "sw";
+        this._current.direction = 'sw';
         this._current.row = 5;
     } else if((diffX > 0) && (diffY > 0)) {
-        this._current.direction = "se";
+        this._current.direction = 'se';
         this._current.row = 4;
     }
     
@@ -99,34 +99,34 @@ Walker.prototype.move = function(destinationX, destinationY) {
         }, 
         {
             duration: duration, 
-            easing: "linear",
+            easing: 'linear',
             step: function() {
                 stepCount++;
+                
+                // change position within sprite after certain amount of steps
                 if(stepCount % 18 === 0) {
                     self._current.x = self._element.position().left;
                     self._current.y = self._element.position().top;
                 
                     //$("#debug").append("step " + self._current.x + " " +  self._current.y + "<br />");
-                
-                    self._element.css(
-                        "backgroundPosition",
-                        (self._current.column * self._options.width) + "px " +
-                        "-" + (self._current.row * self._options.height) + "px"
-                    );
                     
+                    // set appropriate position from sprite
+                    self._element.css(
+                        'backgroundPosition',
+                        (self._current.column * self._options.width) + 'px ' +
+                        '-' + (self._current.row * self._options.height) + 'px'
+                    );
                     self._current.column++;
-        
+                    
+                    // go to beginning position within sprite when the end column was reached
                     if(self._current.column === self._options.columnsCount) {
                         self._current.column = 0;
                     }
                 }
             },
             complete: function() {
-                self._element.css(
-                    "backgroundPosition",
-                    "0px " +
-                    "-" + (self._current.row * self._options.height) + "px"
-                );
+                // show first position in current sprite row
+                self._element.css('backgroundPosition', '0px -' + (self._current.row * self._options.height) + 'px');
             }
         }
     );
