@@ -35,24 +35,22 @@ function Walker(options) {
     this._path = [];
 };
 
-Walker.prototype.move = function (destinationX, destinationY) {
+Walker.prototype.move = function (x, y) {
     var self = this,
-        diffX = destinationX - self._current.x,
-        diffY = destinationY - self._current.y,
         stepCount = 0,
         direction,
         i, len;
 
     this._path.push({
-        x: destinationX,
-        y: destinationY
+        x: x,
+        y: y
     });
     
     // stop current animation
     $(this._element).stop(true, false);
     
     // compute sprite direction toward destination position
-    direction = this._getDirection(diffX, diffY);
+    direction = this._getDirection(x, y);
     this._current.direction = direction.cardinality;
     this._current.row = direction.row;
     
@@ -67,8 +65,8 @@ Walker.prototype.move = function (destinationX, destinationY) {
     
     $(this._element).animate(
         {
-            left: destinationX,
-            top: destinationY
+            left: x,
+            top: y
         }, 
         {
             duration: direction.duration, 
@@ -112,12 +110,14 @@ Walker.prototype.move = function (destinationX, destinationY) {
     );
 };
 
-Walker.prototype._getDirection = function (diffX, diffY) {
+Walker.prototype._getDirection = function (x, y) {
     var direction = { 
             cardinality: 'w',
             row: 1,
             duration: 600
         },
+        diffX = x - this._current.x,
+        diffY = y - this._current.y,
         posDiffX = diffX,
         posDiffY = diffY;
     
@@ -129,12 +129,14 @@ Walker.prototype._getDirection = function (diffX, diffY) {
         posDiffY = posDiffY * (-1);
     }
     
+    // compute duration
     if (posDiffX > posDiffY) {
         direction.duration = (posDiffX / this._options.height) * 600;
     } else {
         direction.duration = (posDiffY / this._options.height) * 600;
     }
 
+    // compute sprite row number and its cardinal direction
     if ((diffX < 0) && (diffY >= -10) && (diffY <= 22)) {
         direction.cardinality = 'w';
         direction.row = 1;
