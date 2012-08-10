@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    var actor1 = new Sprite({
+    var actor1 = new Walker({
         element: $("#actor1"),
         sprite: "lemming.png",
         height: 32,

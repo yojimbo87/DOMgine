@@ -1,4 +1,4 @@
-function Sprite(options) {
+function Walker(options) {
     this._element = options.element;
     this.current = {
         column: options.currentColumn || 0,
@@ -21,7 +21,7 @@ function Sprite(options) {
 
 
 
-Sprite.prototype.move = function(destinationX, destinationY) {
+Walker.prototype.move = function(destinationX, destinationY) {
     var self = this,
         diffX = destinationX - self.current.x,
         diffY = destinationY - self.current.y,
