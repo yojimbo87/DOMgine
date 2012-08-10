@@ -23,8 +23,6 @@ $(document).ready(function() {
     });
     
     $("#playground").click(function(e) {
-        
-        //actor1.move(e.offsetX, e.offsetY);
         actor1.move(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
     });
 });

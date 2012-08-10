@@ -2,4 +2,5 @@ body { font-size: 10px; }
 
 #playground { background: #7f006e; border: 1px solid #000; height: 500px; width: 500px; }
 
-#actor1 { z-index: 9999; }
+#actor1 { border: 1px solid blue; z-index: 9999; }
+#actor2 { border: 1px solid red; }
