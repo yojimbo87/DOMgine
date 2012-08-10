@@ -31,9 +31,9 @@ function Walker(options) {
         W: {},
         E: {}
     };
-}
-
-
+    
+    this._path = [];
+};
 
 Walker.prototype.move = function (destinationX, destinationY) {
     var self = this,
@@ -41,13 +41,19 @@ Walker.prototype.move = function (destinationX, destinationY) {
         diffY = destinationY - self._current.y,
         stepCount = 0,
         duration = 0,
+        direction, posDiffX, posDiffY,
         i, len;
 
+    this._path.push({
+        x: destinationX,
+        y: destinationY
+    });
+    
     // stop current animation
     $(this._element).stop(true, false);
     
-    var posDiffX = diffX,
-        posDiffY = diffY;
+    posDiffX = diffX,
+    posDiffY = diffY;
     
     if (posDiffX < 0) {
         posDiffX = posDiffX * (-1);
@@ -64,31 +70,9 @@ Walker.prototype.move = function (destinationX, destinationY) {
     }
     
     // compute sprite direction toward destination position
-    if ((diffX < 0) && (diffY >= -10) && (diffY <= 22)) {
-        this._current.direction = 'w';
-        this._current.row = 1;
-    } else if ((diffX >= -10) && (diffX <= 22) && (diffY < 0)) {
-        this._current.direction = 'n';
-        this._current.row = 3;
-    } else if ((diffX > 0) && (diffY >= -10) && (diffY <= 22)) {
-        this._current.direction = 'e';
-        this._current.row = 2;
-    } else if ((diffX >= -0) && (diffX <= 22) && (diffY > 0)) {
-        this._current.direction = 's';
-        this._current.row = 0;
-    } else if ((diffX < 0) && (diffY < 0)) {
-        this._current.direction = 'nw';
-        this._current.row = 6;
-    } else if ((diffX > 0) && (diffY < 0)) {
-        this._current.direction = 'ne';
-        this._current.row = 7;
-    } else if ((diffX < 0) && (diffY > 0)) {
-        this._current.direction = 'sw';
-        this._current.row = 5;
-    } else if ((diffX > 0) && (diffY > 0)) {
-        this._current.direction = 'se';
-        this._current.row = 4;
-    }
+    direction = this._getDirection(diffX, diffY);
+    this._current.direction = direction.cardinality;
+    this._current.row = direction.row;
     
     /*$("#debug").html(
         "from: " + self._current.x + " " + self._current.y +
@@ -144,6 +128,41 @@ Walker.prototype.move = function (destinationX, destinationY) {
             }
         }
     );
+};
+
+Walker.prototype._getDirection = function (diffX, diffY) {
+    var direction = { 
+            cardinality: 'w',
+            row: 1
+        };
+
+    if ((diffX < 0) && (diffY >= -10) && (diffY <= 22)) {
+        direction.cardinality = 'w';
+        direction.row = 1;
+    } else if ((diffX >= -10) && (diffX <= 22) && (diffY < 0)) {
+        direction.cardinality = 'n';
+        direction.row = 3;
+    } else if ((diffX > 0) && (diffY >= -10) && (diffY <= 22)) {
+        direction.cardinality = 'e';
+        direction.row = 2;
+    } else if ((diffX >= -0) && (diffX <= 22) && (diffY > 0)) {
+        direction.cardinality = 's';
+        direction.row = 0;
+    } else if ((diffX < 0) && (diffY < 0)) {
+        direction.cardinality = 'nw';
+        direction.row = 6;
+    } else if ((diffX > 0) && (diffY < 0)) {
+        direction.cardinality = 'ne';
+        direction.row = 7;
+    } else if ((diffX < 0) && (diffY > 0)) {
+        direction.cardinality = 'sw';
+        direction.row = 5;
+    } else if ((diffX > 0) && (diffY > 0)) {
+        direction.cardinality = 'se';
+        direction.row = 4;
+    }
+    
+    return direction;
 };
 
 Walker.prototype._scanObstacles = function () {
