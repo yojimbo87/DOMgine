@@ -2,7 +2,7 @@ $(document).ready(function() {
 
     var actor1 = new Walker({
         element: $("#actor1"),
-        sprite: "lemming.png",
+        sprite: "../sprites/lemming.png",
         height: 32,
         width: 32,
         columnsCount: 8,
