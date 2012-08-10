@@ -40,8 +40,7 @@ Walker.prototype.move = function (destinationX, destinationY) {
         diffX = destinationX - self._current.x,
         diffY = destinationY - self._current.y,
         stepCount = 0,
-        duration = 0,
-        direction, posDiffX, posDiffY,
+        direction,
         i, len;
 
     this._path.push({
@@ -51,23 +50,6 @@ Walker.prototype.move = function (destinationX, destinationY) {
     
     // stop current animation
     $(this._element).stop(true, false);
-    
-    posDiffX = diffX,
-    posDiffY = diffY;
-    
-    if (posDiffX < 0) {
-        posDiffX = posDiffX * (-1);
-    }
-    
-    if (posDiffY < 0) {
-        posDiffY = posDiffY * (-1);
-    }
-    
-    if (posDiffX > posDiffY) {
-        duration = (posDiffX / this._options.height) * 600;
-    } else {
-        duration = (posDiffY / this._options.height) * 600;
-    }
     
     // compute sprite direction toward destination position
     direction = this._getDirection(diffX, diffY);
@@ -89,7 +71,7 @@ Walker.prototype.move = function (destinationX, destinationY) {
             top: destinationY
         }, 
         {
-            duration: duration, 
+            duration: direction.duration, 
             easing: 'linear',
             step: function() {
                 var position;
@@ -133,8 +115,25 @@ Walker.prototype.move = function (destinationX, destinationY) {
 Walker.prototype._getDirection = function (diffX, diffY) {
     var direction = { 
             cardinality: 'w',
-            row: 1
-        };
+            row: 1,
+            duration: 600
+        },
+        posDiffX = diffX,
+        posDiffY = diffY;
+    
+    if (posDiffX < 0) {
+        posDiffX = posDiffX * (-1);
+    }
+    
+    if (posDiffY < 0) {
+        posDiffY = posDiffY * (-1);
+    }
+    
+    if (posDiffX > posDiffY) {
+        direction.duration = (posDiffX / this._options.height) * 600;
+    } else {
+        direction.duration = (posDiffY / this._options.height) * 600;
+    }
 
     if ((diffX < 0) && (diffY >= -10) && (diffY <= 22)) {
         direction.cardinality = 'w';
