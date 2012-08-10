@@ -108,14 +108,17 @@ Walker.prototype.move = function (destinationX, destinationY) {
             duration: duration, 
             easing: 'linear',
             step: function() {
+                var position;
+            
                 stepCount++;
                 
                 self._scanObstacles();
                 
                 // change position within sprite after certain amount of steps
                 if (stepCount % 18 === 0) {
-                    self._current.x = self._element.position().left;
-                    self._current.y = self._element.position().top;
+                    position = self._element.position()
+                    self._current.x = position.left;
+                    self._current.y = position.top;
                 
                     //$("#debug").append("step " + self._current.x + " " +  self._current.y + "<br />");
                     
