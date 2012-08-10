@@ -1,0 +1,8 @@
+
+body { font-size: 10px; }
+
+#playground { background: #7f006e; border: 1px solid #000; height: 500px; width: 500px; }
+
+#actor1 { height: 32px; left: 0px; position: absolute; top: 0px; width: 32px; }
+#actor2 { height: 64px; width: 32px; }
+#actor3 { height: 24px; width: 16px; }
