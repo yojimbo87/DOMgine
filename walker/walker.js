@@ -39,64 +39,73 @@ Walker.prototype.move = function (x, y) {
     var self = this,
         stepCount = 0,
         direction,
-        i, len;
+        i;
 
+    // clear path and add new destination
+    this._path = [];
     this._path.push({
         x: x,
         y: y
     });
     
-    // stop current animation
-    $(this._element).stop(true, false);
+    for (i = (this._path.length - 1); i >= 0; i--) {
     
-    // compute sprite direction toward destination position
-    direction = this._getDirection(x, y);
-    this._current.direction = direction.cardinality;
-    this._current.row = direction.row;
+        $("#debug").append('loop ' + this._path[i].x + ' ' + this._path[i].y);
     
-    $(this._element).animate(
-        {
-            left: x,
-            top: y
-        }, 
-        {
-            duration: direction.duration, 
-            easing: 'linear',
-            step: function() {
-                var position;
-            
-                stepCount++;
+        // stop current animation
+        this._element.stop(true, false);
+        
+        // compute sprite direction toward destination position
+        direction = this._getDirection(x, y);
+        this._current.direction = direction.cardinality;
+        this._current.row = direction.row;
+    
+        this._element.animate(
+            {
+                left: x,
+                top: y
+            }, 
+            {
+                duration: direction.duration, 
+                easing: 'linear',
+                step: function() {
+                    var position;
                 
-                self._scanObstacles();
-                
-                // change position within sprite after certain amount of steps
-                if (stepCount % 18 === 0) {
-                    position = self._element.position()
-                    self._current.x = position.left;
-                    self._current.y = position.top;
-                
-                    // set appropriate position from sprite
-                    self._element.css(
-                        'backgroundPosition',
-                        (self._current.column * self._options.width) + 'px ' +
-                        '-' + (self._current.row * self._options.height) + 'px'
-                    );
-                    self._current.column++;
+                    stepCount++;
                     
-                    // go to beginning position within sprite when the end column was reached
-                    if(self._current.column === self._options.columnsCount) {
-                        self._current.column = 0;
+                    self._scanObstacles();
+                    
+                    // change position within sprite after certain amount of steps
+                    if (stepCount % 18 === 0) {
+                        position = self._element.position()
+                        self._current.x = position.left;
+                        self._current.y = position.top;
+                    
+                        // set appropriate position from sprite
+                        self._element.css(
+                            'backgroundPosition',
+                            (self._current.column * self._options.width) + 'px ' +
+                            '-' + (self._current.row * self._options.height) + 'px'
+                        );
+                        self._current.column++;
+                        
+                        // go to beginning position within sprite when the end column was reached
+                        if(self._current.column === self._options.columnsCount) {
+                            self._current.column = 0;
+                        }
                     }
-                }
 
-                self._clearObstacles();
-            },
-            complete: function() {
-                // show first position in current sprite row
-                self._element.css('backgroundPosition', '0px -' + (self._current.row * self._options.height) + 'px');
+                    self._clearObstacles();
+                },
+                complete: function() {
+                    self._path.pop();
+                
+                    // show first position in current sprite row
+                    self._element.css('backgroundPosition', '0px -' + (self._current.row * self._options.height) + 'px');
+                }
             }
-        }
-    );
+        );
+    }
 };
 
 Walker.prototype._getDirection = function (x, y) {
