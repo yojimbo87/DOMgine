@@ -26,10 +26,14 @@ function Walker(options) {
     });
     
     this._obstacles = {
-        N: {},
-        S: {},
-        W: {},
-        E: {}
+        n: {},
+        s: {},
+        w: {},
+        e: {},
+        nCount: 0,
+        sCount: 0,
+        wCount: 0,
+        eCount: 0
     };
     
     this._path = [];
@@ -41,22 +45,22 @@ Walker.prototype.move = function (x, y) {
         direction,
         i;
 
+    // stop current animation
+    this._element.stop(true, false);
+        
     // clear path and add new destination
     this._path = [];
     this._path.push({
         x: x,
         y: y
     });
-    
-    for (i = (this._path.length - 1); i >= 0; i--) {
-    
-        $("#debug").append('loop ' + this._path[i].x + ' ' + this._path[i].y);
-    
-        // stop current animation
-        this._element.stop(true, false);
-        
+
+    for (i = (this._path.length - 1); i >= 0; i--) {        
         // compute sprite direction toward destination position
-        direction = this._getDirection(x, y);
+        direction = this._getDirection(
+            this._path[i].x, 
+            this._path[i].y
+        );
         this._current.direction = direction.cardinality;
         this._current.row = direction.row;
     
@@ -69,15 +73,25 @@ Walker.prototype.move = function (x, y) {
                 duration: direction.duration, 
                 easing: 'linear',
                 step: function() {
-                    var position;
+                    var position = self._element.position(),
+                        stepDirection;
                 
                     stepCount++;
                     
                     self._scanObstacles();
                     
+                    stepDirection = self._getDirection(
+                        position.left,
+                        position.top
+                    );
+                    
+                    if (self._isDirectionBlocked(direction, stepDirection)) {
+                        self._element.stop(true, false);
+                        return;
+                    }
+                    
                     // change position within sprite after certain amount of steps
                     if (stepCount % 18 === 0) {
-                        position = self._element.position()
                         self._current.x = position.left;
                         self._current.y = position.top;
                     
@@ -175,8 +189,9 @@ Walker.prototype._scanObstacles = function () {
         elem = document.elementFromPoint(x + i, y - 1);
         
         if (elem && (elem.id !== 'playground')) {
-            if (this._obstacles.N[elem.id] === undefined) {
-                this._obstacles.N[elem.id] = elem;
+            if (this._obstacles.n[elem.id] === undefined) {
+                this._obstacles.n[elem.id] = elem;
+                this._obstacles.nCount++;
             }
         }
     }
@@ -187,8 +202,9 @@ Walker.prototype._scanObstacles = function () {
         elem = document.elementFromPoint(x + i, y + 3 + this._options.height);
         
         if (elem && (elem.id !== 'playground')) {
-            if (this._obstacles.S[elem.id] === undefined) {
-                this._obstacles.S[elem.id] = elem;
+            if (this._obstacles.s[elem.id] === undefined) {
+                this._obstacles.s[elem.id] = elem;
+                this._obstacles.sCount++;
             }
         }
     }
@@ -198,8 +214,9 @@ Walker.prototype._scanObstacles = function () {
         elem = document.elementFromPoint(x - 1, y + i);
         
         if (elem && (elem.id !== 'playground')) {
-            if (this._obstacles.W[elem.id] === undefined) {
-                this._obstacles.W[elem.id] = elem;
+            if (this._obstacles.w[elem.id] === undefined) {
+                this._obstacles.w[elem.id] = elem;
+                this._obstacles.wCount++;
             }
         }
     }
@@ -209,29 +226,30 @@ Walker.prototype._scanObstacles = function () {
         elem = document.elementFromPoint(x + 3 + this._options.width, y + i);
         
         if (elem && (elem.id !== 'playground')) {
-            if (this._obstacles.E[elem.id] === undefined) {
-                this._obstacles.E[elem.id] = elem.id;
+            if (this._obstacles.e[elem.id] === undefined) {
+                this._obstacles.e[elem.id] = elem.id;
+                this._obstacles.eCount++;
             }
         }
     }
     
     var s = 'N: <br />';
-    for (var item in this._obstacles.N) {
+    for (var item in this._obstacles.n) {
         s += item + '<br />';
     }
     
     s += 'S: <br />';
-    for (var item in this._obstacles.S) {
+    for (var item in this._obstacles.s) {
         s += item + '<br />';
     }
     
     s += 'W: <br />';
-    for (var item in this._obstacles.W) {
+    for (var item in this._obstacles.w) {
         s += item + '<br />';
     }
     
     s += 'E: <br />';
-    for (var item in this._obstacles.E) {
+    for (var item in this._obstacles.e) {
         s += item + '<br />';
     }
     
@@ -240,9 +258,28 @@ Walker.prototype._scanObstacles = function () {
 
 Walker.prototype._clearObstacles = function (x, y) {
     this._obstacles = {
-        N: {},
-        S: {},
-        W: {},
-        E: {}
+        n: {},
+        s: {},
+        w: {},
+        e: {},
+        nCount: 0,
+        sCount: 0,
+        wCount: 0,
+        eCount: 0
     };
+};
+
+Walker.prototype._isDirectionBlocked = function (original, step) {
+    var i, len;
+    
+    for (i = 0, len = original.cardinality.length; i < len; i++) {
+        var count = this._obstacles['' + original.cardinality[i] + 'Count'];
+            
+        
+        if (count > 0) {
+            return true;
+        }
+    }
+    
+    return false;
 };

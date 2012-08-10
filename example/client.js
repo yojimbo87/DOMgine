@@ -4,8 +4,8 @@ $(document).ready(function() {
         element: $("#actor1"),
         sprite: "../sprites/lemming.png",
         start: {
-            x: 0,
-            y: 0
+            x: 16,
+            y: 16
         }
     });
     
