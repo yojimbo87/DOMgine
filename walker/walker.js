@@ -54,15 +54,6 @@ Walker.prototype.move = function (x, y) {
     this._current.direction = direction.cardinality;
     this._current.row = direction.row;
     
-    /*$("#debug").html(
-        "from: " + self._current.x + " " + self._current.y +
-        "<br /> to: " + destinationX + " " + destinationY +
-        "<br /> diff: " + diffX + " " + diffY + 
-        "<br /> dir: " + self._current.direction +
-        "<br /> dur: " + duration +
-        "<br />"
-    );*/
-    
     $(this._element).animate(
         {
             left: x,
@@ -84,8 +75,6 @@ Walker.prototype.move = function (x, y) {
                     self._current.x = position.left;
                     self._current.y = position.top;
                 
-                    //$("#debug").append("step " + self._current.x + " " +  self._current.y + "<br />");
-                    
                     // set appropriate position from sprite
                     self._element.css(
                         'backgroundPosition',
@@ -170,10 +159,10 @@ Walker.prototype._scanObstacles = function () {
     var offset = this._element.offset(),
         x = offset.left, 
         y = offset.top,
-        elem, i;
+        elem, i, len;
         
     // check North direction
-    for (i = 0; i < this._options.width; i++) {
+    for (i = 0, len = this._options.width; i < len; i++) {
         elem = document.elementFromPoint(x + i, y - 1);
         
         if (elem && (elem.id !== 'playground')) {
@@ -184,7 +173,7 @@ Walker.prototype._scanObstacles = function () {
     }
     
     // check South direction
-    for (i = 0; i < this._options.width; i++) {
+    for (i = 0, len = this._options.width; i < len; i++) {
         // +3 because of top and bottom border
         elem = document.elementFromPoint(x + i, y + 3 + this._options.height);
         
@@ -196,7 +185,7 @@ Walker.prototype._scanObstacles = function () {
     }
     
     // check West direction
-    for (i = 0; i < this._options.height; i++) {
+    for (i = 0, len = this._options.height; i < len; i++) {
         elem = document.elementFromPoint(x - 1, y + i);
         
         if (elem && (elem.id !== 'playground')) {
@@ -207,7 +196,7 @@ Walker.prototype._scanObstacles = function () {
     }
     
     // check East direction
-    for (i = 0; i < this._options.height; i++) {
+    for (i = 0, len = this._options.height; i < len; i++) {
         elem = document.elementFromPoint(x + 3 + this._options.width, y + i);
         
         if (elem && (elem.id !== 'playground')) {
