@@ -4,3 +4,5 @@ body { font-size: 10px; }
 
 #actor1 { border: 1px solid blue; z-index: 9999; }
 #actor2 { border: 1px solid red; }
+#actor3 { border: 1px solid red; }
+#actor4 { border: 1px solid red; }
