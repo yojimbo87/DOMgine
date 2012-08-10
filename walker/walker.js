@@ -43,6 +43,8 @@ Walker.prototype.move = function (x, y) {
     var self = this,
         stepCount = 0,
         direction,
+        position,
+        stepDirection,
         i;
 
     // stop current animation
@@ -56,13 +58,27 @@ Walker.prototype.move = function (x, y) {
     });
 
     for (i = (this._path.length - 1); i >= 0; i--) {        
-        // compute sprite direction toward destination position
+        // compute sprite direction towards destination position
         direction = this._getDirection(
             this._path[i].x, 
             this._path[i].y
         );
         this._current.direction = direction.cardinality;
         this._current.row = direction.row;
+    
+        self._scanObstacles();
+        
+        if (self._isDirectionBlocked(direction, direction)) {
+            self._clearObstacles();
+            self._element.stop(true, false);
+            // show first position in current sprite row
+            self._current.column = 0;
+            self._element.css('backgroundPosition', '0px -' + (self._current.row * self._options.height) + 'px');
+            
+            return;
+        }
+        
+        self._clearObstacles();
     
         this._element.animate(
             {
@@ -73,9 +89,7 @@ Walker.prototype.move = function (x, y) {
                 duration: direction.duration, 
                 easing: 'linear',
                 step: function() {
-                    var position = self._element.position(),
-                        stepDirection;
-                
+                    position = self._element.position(),
                     stepCount++;
                     
                     self._scanObstacles();
@@ -86,6 +100,7 @@ Walker.prototype.move = function (x, y) {
                     );
                     
                     if (self._isDirectionBlocked(direction, stepDirection)) {
+                        self._clearObstacles();
                         self._element.stop(true, false);
                         // show first position in current sprite row
                         self._current.column = 0;
@@ -192,7 +207,10 @@ Walker.prototype._scanObstacles = function () {
         
     // check North direction
     for (i = 0, len = this._options.width; i < len; i++) {
-        elem = document.elementFromPoint(x + i, y - 1);
+        elem = document.elementFromPoint(
+            Math.round(x + i), 
+            Math.floor(y - 1)
+        );
         
         if (elem && (elem.id !== 'playground')) {
             if (obstacles.n[elem.id] === undefined) {
@@ -205,7 +223,10 @@ Walker.prototype._scanObstacles = function () {
     // check South direction
     for (i = 0, len = this._options.width; i < len; i++) {
         // +3 because of top and bottom border
-        elem = document.elementFromPoint(x + i, y + 3 + this._options.height);
+        elem = document.elementFromPoint(
+            Math.round(x + i), 
+            Math.floor(y + 3 + this._options.height)
+        );
         
         if (elem && (elem.id !== 'playground')) {
             if (obstacles.s[elem.id] === undefined) {
@@ -217,7 +238,10 @@ Walker.prototype._scanObstacles = function () {
     
     // check West direction
     for (i = 0, len = this._options.height; i < len; i++) {
-        elem = document.elementFromPoint(x - 1, y + i);
+        elem = document.elementFromPoint(
+            Math.floor(x - 1), 
+            Math.round(y + i)
+        );
         
         if (elem && (elem.id !== 'playground')) {
             if (obstacles.w[elem.id] === undefined) {
@@ -229,7 +253,10 @@ Walker.prototype._scanObstacles = function () {
     
     // check East direction
     for (i = 0, len = this._options.height; i < len; i++) {
-        elem = document.elementFromPoint(x + 3 + this._options.width, y + i);
+        elem = document.elementFromPoint(
+            Math.floor(x + 3 + this._options.width), 
+            Math.round(y + i)
+        );
         
         if (elem && (elem.id !== 'playground')) {
             if (obstacles.e[elem.id] === undefined) {

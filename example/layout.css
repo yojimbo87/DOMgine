@@ -1,4 +1,4 @@
-body { font-size: 10px; }
+body { font-size: 10px; margin: 0px; padding: 0px; }
 
 #playground { background: #7f006e; border: 1px solid #000; height: 500px; width: 500px; }
 
