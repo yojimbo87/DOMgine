@@ -66,7 +66,7 @@ Walker.prototype.move = function (x, y) {
         this._current.direction = direction.cardinality;
         this._current.row = direction.row;
 
-        if (this._isDirectionBlocked(direction, direction)) {
+        if (this._isDirectionBlocked(direction)) {
             this._element.stop(true, false);
             // show first position in current sprite row
             this._current.column = 0;
@@ -92,7 +92,7 @@ Walker.prototype.move = function (x, y) {
                         position.top
                     );
                     
-                    if (self._isDirectionBlocked(direction, stepDirection)) {
+                    if (self._isDirectionBlocked(direction)) {
                         self._element.stop(true, false);
                         // show first position in current sprite row
                         self._current.column = 0;
@@ -279,7 +279,10 @@ Walker.prototype._scanObstacles = function () {
     $("#debug").html(s);
 };
 
-Walker.prototype._clearObstacles = function (x, y) {
+Walker.prototype._isDirectionBlocked = function (direction) {
+    var result = false,
+        i, len, obstaclesCount;
+    
     this._obstacles = {
         n: {},
         s: {},
@@ -290,16 +293,11 @@ Walker.prototype._clearObstacles = function (x, y) {
         wCount: 0,
         eCount: 0
     };
-};
-
-Walker.prototype._isDirectionBlocked = function (original, step) {
-    var result = false,
-        i, len, obstaclesCount;
     
     this._scanObstacles();
     
-    for (i = 0, len = original.cardinality.length; i < len; i++) {
-        obstaclesCount = this._obstacles['' + original.cardinality[i] + 'Count'];
+    for (i = 0, len = direction.cardinality.length; i < len; i++) {
+        obstaclesCount = this._obstacles['' + direction.cardinality[i] + 'Count'];
             
         if (obstaclesCount > 0) {
             result = true;
@@ -307,7 +305,9 @@ Walker.prototype._isDirectionBlocked = function (original, step) {
         }
     }
     
-    this._clearObstacles();
-    
     return result;
+};
+
+Walker.prototype._findDirection = function () {
+    
 };
