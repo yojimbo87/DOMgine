@@ -87,6 +87,10 @@ Walker.prototype.move = function (x, y) {
                     
                     if (self._isDirectionBlocked(direction, stepDirection)) {
                         self._element.stop(true, false);
+                        // show first position in current sprite row
+                        self._current.column = 0;
+                        self._element.css('backgroundPosition', '0px -' + (self._current.row * self._options.height) + 'px');
+                        
                         return;
                     }
                     
@@ -115,6 +119,7 @@ Walker.prototype.move = function (x, y) {
                     self._path.pop();
                 
                     // show first position in current sprite row
+                    self._element.column = 0;
                     self._element.css('backgroundPosition', '0px -' + (self._current.row * self._options.height) + 'px');
                 }
             }
@@ -271,13 +276,12 @@ Walker.prototype._clearObstacles = function (x, y) {
 };
 
 Walker.prototype._isDirectionBlocked = function (original, step) {
-    var i, len;
+    var i, len, obstaclesCount;
     
     for (i = 0, len = original.cardinality.length; i < len; i++) {
-        var count = this._obstacles['' + original.cardinality[i] + 'Count'];
+        obstaclesCount = this._obstacles['' + original.cardinality[i] + 'Count'];
             
-        
-        if (count > 0) {
+        if (obstaclesCount > 0) {
             return true;
         }
     }
