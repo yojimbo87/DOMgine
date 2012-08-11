@@ -1,5 +1,5 @@
 function Walker(options) {
-    this._element = options.element;
+    this._element = $('#' + options.id);
     this._current = {
         column: options._currentColumn || 0,
         row: options._currentRow || 0,
