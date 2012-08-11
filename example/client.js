@@ -30,7 +30,7 @@ $(document).ready(function() {
         id: 'actor3',
         sprite: '../sprites/lemming.png',
         start: {
-            x: 165,
+            x: 192,
             y: 128
         }
     });
@@ -39,7 +39,7 @@ $(document).ready(function() {
         id: 'actor4',
         sprite: '../sprites/lemming.png',
         start: {
-            x: 200,
+            x: 256,
             y: 128
         }
     });

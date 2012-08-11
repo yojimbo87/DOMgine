@@ -214,10 +214,9 @@ Walker.prototype._scanObstacles = function () {
     
     // check South direction
     for (i = 0, len = this._options.width; i < len; i++) {
-        // +3 because of top and bottom border
         elem = document.elementFromPoint(
             Math.round(x + i), 
-            Math.floor(y + 3 + this._options.height)
+            Math.floor(y + 1 + this._options.height)
         );
         
         if (elem && (elem.id !== 'playground')) {
@@ -246,7 +245,7 @@ Walker.prototype._scanObstacles = function () {
     // check East direction
     for (i = 0, len = this._options.height; i < len; i++) {
         elem = document.elementFromPoint(
-            Math.floor(x + 3 + this._options.width), 
+            Math.floor(x + 1 + this._options.width), 
             Math.round(y + i)
         );
         
