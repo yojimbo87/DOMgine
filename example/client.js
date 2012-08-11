@@ -1,5 +1,11 @@
 $(document).ready(function() {
 
+    var playground = new Playground({
+        id: 'playground',
+        map: {},
+        tile: {}
+    });
+
     var actor1 = new Walker({
         id: 'actor1',
         sprite: '../sprites/lemming.png',
