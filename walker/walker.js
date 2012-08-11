@@ -13,7 +13,8 @@ function Walker(options) {
         columnsCount: options.columnsCount || 8,
         rowsCount: options.rowsCount || 8,
         height: options.height || 32,
-        width: options.width || 32
+        width: options.width || 32,
+        mapMovement: options.mapMovement || false
     };
     
     this._element.css({
@@ -92,6 +93,11 @@ Walker.prototype.move = function (x, y) {
                         position.left,
                         position.top
                     );
+                    
+                    if (self._options.mapMovement === true) {
+                        playground.updateEntityPosition(self._element.attr('id'));
+                        //playground.printMap();
+                    }
                     
                     if (self._isDirectionBlocked(direction)) {
                         self._element.stop(true, false);

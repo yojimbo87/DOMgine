@@ -38,15 +38,33 @@ Playground.prototype._registerElements = function () {
     this._element.children().each(function () {
         var $el = $(this),
             position = $el.position(),
-            x = position.left / self._options.tile.width,
-            y = position.top / self._options.tile.height;
+            y = position.left / self._options.tile.width,
+            x = position.top / self._options.tile.height;
     
         self._entities[this.id] = {
-            element: $el
+            element: $el,
+            x: x,
+            y: y
         };
         
-        self._map[y][x] = 1;
+        self._map[x][y] = 1;
     });
+};
+
+Playground.prototype.updateEntityPosition = function (elementID) {
+    var entity = this._entities[elementID],
+        position, x, y;
+        
+    if (entity) {
+        position = entity.element.position(),
+        y = Math.round(position.left / this._options.tile.width),
+        x = Math.round(position.top / this._options.tile.height);
+        
+        this._map[entity.x][entity.y] = 0;
+        entity.x = x;
+        entity.y = y;
+        this._map[x][y] = 1;
+    }
 };
 
 Playground.prototype.printMap = function () {

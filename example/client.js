@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    var playground = new Playground({
+    playground = new Playground({
         id: 'playground',
         map: {},
         tile: {}
@@ -12,7 +12,8 @@ $(document).ready(function() {
         start: {
             x: 32,
             y: 32
-        }
+        },
+        mapMovement: true
     });
     
     var actor2 = new Walker({
