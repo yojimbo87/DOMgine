@@ -5,15 +5,13 @@ $(document).ready(function() {
         map: {},
         tile: {}
     });
-
-    playground.printMap();
     
     var actor1 = new Walker({
         id: 'actor1',
         sprite: '../sprites/lemming.png',
         start: {
-            x: 16,
-            y: 16
+            x: 32,
+            y: 32
         }
     });
     
@@ -43,6 +41,9 @@ $(document).ready(function() {
             y: 128
         }
     });
+    
+    playground.init();
+    playground.printMap();
     
     $('#playground').click(function(e) {
         actor1.move(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);

@@ -14,12 +14,9 @@ function Playground(options) {
     
     this._map = [];
     this._entities = {};
-    
-    this._initMap();
-    this._registerElements();
 };
 
-Playground.prototype._initMap = function () {
+Playground.prototype.init = function () {
     var mapWidth = this._options.map.width / this._options.tile.width,
         mapHeight = this._options.map.height / this._options.tile.height,
         i, j;
@@ -31,15 +28,24 @@ Playground.prototype._initMap = function () {
             this._map[i][j] = 0;
         }
     }
+    
+    this._registerElements();
 };
 
 Playground.prototype._registerElements = function () {
     var self = this;
     
     this._element.children().each(function () {
+        var $el = $(this),
+            position = $el.position(),
+            x = position.left / self._options.tile.width,
+            y = position.top / self._options.tile.height;
+    
         self._entities[this.id] = {
-            element: $(this)
+            element: $el
         };
+        
+        self._map[y][x] = 1;
     });
 };
 
