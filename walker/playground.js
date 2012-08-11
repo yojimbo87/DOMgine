@@ -16,6 +16,7 @@ function Playground(options) {
     this._entities = {};
     
     this._initMap();
+    this._registerElements();
 };
 
 Playground.prototype._initMap = function () {
@@ -30,8 +31,6 @@ Playground.prototype._initMap = function () {
             this._map[i][j] = 0;
         }
     }
-    
-    this._registerElements();
 };
 
 Playground.prototype._registerElements = function () {
@@ -41,7 +40,20 @@ Playground.prototype._registerElements = function () {
         self._entities[this.id] = {
             element: $(this)
         };
-        
-        $('#debug').append(this.id);
     });
+};
+
+Playground.prototype.printMap = function () {
+    var $map = $('#map'),
+        i, j;
+    
+    $map.html('');
+    
+    for (i = 0; i < this._map.length; i++) {
+        for (j = 0; j < this._map[i].length; j++) {
+            $map.append(this._map[i][j] + ' ');
+        }
+        
+        $map.append('<br />');
+    }
 };

@@ -6,6 +6,8 @@ $(document).ready(function() {
         tile: {}
     });
 
+    playground.printMap();
+    
     var actor1 = new Walker({
         id: 'actor1',
         sprite: '../sprites/lemming.png',

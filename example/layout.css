@@ -1,6 +1,6 @@
-body { font-size: 10px; margin: 0px; padding: 0px; }
+body { font-family: Courier New; font-size: 11px; margin: 0px; padding: 0px; }
 
-#playground { background: #7f006e; border: 1px solid #000; height: 500px; width: 500px; }
+#playground { background: #7f006e; border: 1px solid #000; height: 512px; width: 512px; }
 
 #actor1 { border: 1px solid blue; z-index: 9999; }
 #actor2 { border: 1px solid red; }
