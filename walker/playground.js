@@ -57,8 +57,8 @@ Playground.prototype.updateEntityPosition = function (elementID) {
         
     if (entity) {
         position = entity.element.position(),
-        y = Math.round(position.left / this._options.tile.width),
-        x = Math.round(position.top / this._options.tile.height);
+        y = Math.floor(position.left / this._options.tile.width),
+        x = Math.floor(position.top / this._options.tile.height);
         
         this._map[entity.x][entity.y] = 0;
         entity.x = x;

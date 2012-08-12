@@ -42,8 +42,8 @@ function Walker(options) {
 
 Walker.prototype.move = function (left, top) {
     var self = this,
-        x = Math.round(top / this._options.width),
-        y = Math.round(left / this._options.height),
+        x = Math.floor(top / this._options.width),
+        y = Math.floor(left / this._options.height),
         stepCount = 0,
         direction,
         position,
