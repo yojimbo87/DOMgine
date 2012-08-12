@@ -46,6 +46,8 @@ Walker.prototype.move = function (left, top) {
         y = Math.floor(top / this._options.height),
         iteration = 0;
 
+    $('#debug').append('---<br />');
+        
     // stop current animation
     this._element.stop(true, false);
         
@@ -54,7 +56,7 @@ Walker.prototype.move = function (left, top) {
         { x: x, y: y }
     );
        
-    $('#map').html(JSON.stringify(this._path));
+    $('#map').append(JSON.stringify(this._path) + '<br />');
 
     if (this._path.length > 0) {
         (function animate(iteration) {
@@ -66,6 +68,10 @@ Walker.prototype.move = function (left, top) {
                 }
             });
         })(iteration);
+    } else {
+        // show first position in current sprite row
+        this._element.column = 0;
+        this._element.css('backgroundPosition', '0px -' + (this._current.row * this._options.height) + 'px');
     }
 };
 
@@ -73,7 +79,7 @@ Walker.prototype._getDirection = function (x, y) {
     var direction = { 
             cardinality: 'w',
             row: 1,
-            duration: 600
+            duration: 800
         },
         xDiff = x - this._current.x,
         yDiff = y - this._current.y,
@@ -91,9 +97,9 @@ Walker.prototype._getDirection = function (x, y) {
     
     // compute duration
     if (xDur > yDur) {
-        direction.duration = xDur * 600;
+        direction.duration = xDur * 800;
     } else {
-        direction.duration = yDur * 600;
+        direction.duration = yDur * 800;
     }
     
     // compute sprite row number and its cardinal direction
@@ -135,19 +141,21 @@ Walker.prototype._animationCycle = function (iteration, callback) {
     this._current.x = this._path[iteration][0];
     this._current.y = this._path[iteration][1];
     
-    $('#debug').append(iteration + '<br />');
+    $('#debug').append(this._current.x  + ' ' + this._current.y + '<br />');
     
     if ((iteration + 1) < this._path.length) {
         nextX = this._path[iteration + 1][0];
         nextY = this._path[iteration + 1][1];
-        
-        direction = this._getDirection(nextX, nextY);
-        
-        this._current.direction = direction.cardinality;
-        this._current.row = direction.row;
     } else {
         nextX = this._current.x;
         nextY = this._current.y;
+    }
+    
+    direction = this._getDirection(nextX, nextY);
+    
+    if ((iteration + 1) < this._path.length) {
+        this._current.direction = direction.cardinality;
+        this._current.row = direction.row;
     }
     
     this._element.animate(
@@ -183,8 +191,6 @@ Walker.prototype._animationCycle = function (iteration, callback) {
                 }
             },
             complete: function() {
-                //self._path.shift();
-            
                 // show first position in current sprite row
                 self._element.column = 0;
                 self._element.css('backgroundPosition', '0px -' + (self._current.row * self._options.height) + 'px');

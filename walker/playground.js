@@ -16,7 +16,7 @@ function Playground(options) {
         width: 0,
         height: 0
     };
-    this._finder = new PF.JumpPointFinder();
+    this._finder = new PF.AStarFinder({ allowDiagonal: true });
     
     this._map = [];
     this._entities = {};
