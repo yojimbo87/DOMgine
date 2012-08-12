@@ -40,8 +40,10 @@ function Walker(options) {
     this._path = [];
 };
 
-Walker.prototype.move = function (x, y) {
+Walker.prototype.move = function (left, top) {
     var self = this,
+        x = Math.round(top / this._options.width),
+        y = Math.round(left / this._options.height),
         stepCount = 0,
         direction,
         position,
@@ -67,7 +69,7 @@ Walker.prototype.move = function (x, y) {
         this._current.direction = direction.cardinality;
         this._current.row = direction.row;
 
-        if (this._isDirectionBlocked(direction)) {
+        /*if (this._isDirectionBlocked(direction)) {
             this._element.stop(true, false);
             // show first position in current sprite row
             this._current.column = 0;
@@ -75,12 +77,12 @@ Walker.prototype.move = function (x, y) {
             this._findDirection(direction);
             
             return;
-        }
+        }*/
         
         this._element.animate(
             {
-                left: x,
-                top: y
+                left: y * this._options.width,
+                top: x * this._options.height
             }, 
             {
                 duration: direction.duration, 
@@ -99,7 +101,7 @@ Walker.prototype.move = function (x, y) {
                         //playground.printMap();
                     }
                     
-                    if (self._isDirectionBlocked(direction)) {
+                    /*if (self._isDirectionBlocked(direction)) {
                         self._element.stop(true, false);
                         // show first position in current sprite row
                         self._current.column = 0;
@@ -107,7 +109,7 @@ Walker.prototype.move = function (x, y) {
                         self._findDirection(stepDirection);
                         
                         return;
-                    }
+                    }*/
                     
                     // change position within sprite after certain amount of steps
                     if (stepCount % 18 === 0) {
