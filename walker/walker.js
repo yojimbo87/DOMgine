@@ -56,8 +56,6 @@ Walker.prototype.move = function (left, top) {
        
     $('#map').html(JSON.stringify(this._path));
 
-    //for (i = 0, len = this._path.length; i < len; i++) {    
-    //}
     if (this._path.length > 0) {
         (function animate(iteration) {
             self._animationCycle(iteration, function () {
@@ -68,8 +66,6 @@ Walker.prototype.move = function (left, top) {
                 }
             });
         })(iteration);
-        
-        //this._animate(x, y);
     }
 };
 
@@ -144,15 +140,15 @@ Walker.prototype._animationCycle = function (iteration, callback) {
     if ((iteration + 1) < this._path.length) {
         nextX = this._path[iteration + 1][0];
         nextY = this._path[iteration + 1][1];
+        
+        direction = this._getDirection(nextX, nextY);
+        
+        this._current.direction = direction.cardinality;
+        this._current.row = direction.row;
     } else {
         nextX = this._current.x;
         nextY = this._current.y;
     }
-    
-    direction = this._getDirection(nextX, nextY);
-    
-    this._current.direction = direction.cardinality;
-    this._current.row = direction.row;
     
     this._element.animate(
         {
