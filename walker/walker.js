@@ -47,42 +47,48 @@ Walker.prototype.move = function (left, top) {
         stepCount = 0,
         direction,
         position,
-        stepDirection,
-        i;
+        nextX, nextY,
+        i, len;
 
     // stop current animation
     this._element.stop(true, false);
         
     // clear path and add new destination
-    this._path = [];
-    this._path.push({
+    //this._path = [];
+    /* this._path.push({
         x: x,
         y: y
-    });
+    });*/
+    
+    this._path = playground.findPath(
+        { x: this._current.x, y: this._current.y },
+        { x: x, y: y }
+    );
+    
+    
+    $('#map').html(JSON.stringify(this._path));
 
-    for (i = (this._path.length - 1); i >= 0; i--) {        
-        // compute sprite direction towards destination position
-        direction = this._getDirection(
-            this._path[i].x, 
-            this._path[i].y
-        );
+    for (i = 0, len = this._path.length; i < len; i++) {    
+        this._current.x = this._path[i][0];
+        this._current.y = this._path[i][1];
+        
+        if ((i + 1) < len) {
+            nextX = this._path[i + 1][0];
+            nextY = this._path[i + 1][1];
+        } else {
+            nextX = this._current.x;
+            nextY = this._current.y;
+        }
+        
+        direction = this._getDirection(nextX, nextY);
+        
         this._current.direction = direction.cardinality;
         this._current.row = direction.row;
-
-        /*if (this._isDirectionBlocked(direction)) {
-            this._element.stop(true, false);
-            // show first position in current sprite row
-            this._current.column = 0;
-            this._element.css('backgroundPosition', '0px -' + (this._current.row * this._options.height) + 'px');
-            this._findDirection(direction);
-            
-            return;
-        }*/
         
         this._element.animate(
             {
-                left: x * this._options.width,
-                top: y * this._options.height
+                left: nextX * this._options.width,
+                top: nextY * this._options.height
             }, 
             {
                 duration: direction.duration, 
@@ -91,31 +97,12 @@ Walker.prototype.move = function (left, top) {
                     position = self._element.position(),
                     stepCount++;
 
-                    /*stepDirection = self._getDirection(
-                        position.left,
-                        position.top
-                    );*/
-                    
-                    if (self._options.mapMovement === true) {
-                        playground.updateEntityPosition(self._element.attr('id'));
-                        //playground.printMap();
-                    }
-                    
-                    /*if (self._isDirectionBlocked(direction)) {
-                        self._element.stop(true, false);
-                        // show first position in current sprite row
-                        self._current.column = 0;
-                        self._element.css('backgroundPosition', '0px -' + (self._current.row * self._options.height) + 'px');
-                        self._findDirection(stepDirection);
-                        
-                        return;
-                    }*/
+                    //if (self._options.mapMovement === true) {
+                    //    playground.updateEntityPosition(self._element.attr('id'));
+                    //}
                     
                     // change position within sprite after certain amount of steps
                     if (stepCount % 18 === 0) {
-                        self._current.x = x;//Math.floor(position.left / this._options.width);
-                        self._current.y = y;//Math.floor(position.top / this._options.height);
-                    
                         // set appropriate position from sprite
                         self._element.css(
                             'backgroundPosition',
@@ -131,7 +118,7 @@ Walker.prototype.move = function (left, top) {
                     }
                 },
                 complete: function() {
-                    self._path.pop();
+                    //self._path.shift();
                 
                     // show first position in current sprite row
                     self._element.column = 0;

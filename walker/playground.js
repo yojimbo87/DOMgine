@@ -12,19 +12,27 @@ function Playground(options) {
         }
     };
     
+    this._mapScale = {
+        width: 0,
+        height: 0
+    };
+    this._finder = new PF.JumpPointFinder();
+    
     this._map = [];
     this._entities = {};
 };
 
 Playground.prototype.init = function () {
-    var mapWidth = this._options.map.width / this._options.tile.width,
-        mapHeight = this._options.map.height / this._options.tile.height,
-        i, j;
+    var i, ilen,
+        j, jlen;
+
+    this._mapScale.width = this._options.map.width / this._options.tile.width;
+    this._mapScale.height = this._options.map.height / this._options.tile.height;
     
-    for (i = 0; i < mapWidth; i++) {
+    for (i = 0, ilen = this._mapScale.width; i < ilen; i++) {
         this._map[i] = [];
     
-        for (j = 0; j < mapHeight; j++) {
+        for (j = 0, jlen = this._mapScale.height; j < jlen; j++) {
             this._map[i][j] = 0;
         }
     }
@@ -57,14 +65,30 @@ Playground.prototype.updateEntityPosition = function (elementID) {
         
     if (entity) {
         position = entity.element.position(),
-        y = Math.floor(position.left / this._options.tile.width),
-        x = Math.floor(position.top / this._options.tile.height);
+        x = Math.floor(position.left / this._options.tile.width),
+        y = Math.floor(position.top / this._options.tile.height);
         
         this._map[entity.x][entity.y] = 0;
         entity.x = x;
         entity.y = y;
         this._map[x][y] = 1;
     }
+};
+
+Playground.prototype.findPath = function (start, end) {
+    var grid = new PF.Grid(
+            this._mapScale.width,
+            this._mapScale.height, 
+            this._map
+        );
+    
+    return this._finder.findPath(
+        start.x, 
+        start.y, 
+        end.x, 
+        end.y, 
+        grid
+    );
 };
 
 Playground.prototype.printMap = function () {
@@ -75,7 +99,7 @@ Playground.prototype.printMap = function () {
     
     for (i = 0; i < this._map.length; i++) {
         for (j = 0; j < this._map[i].length; j++) {
-            $map.append(this._map[i][j] + ' ');
+            $map.append(this._map[j][i] + ' ');
         }
         
         $map.append('<br />');
