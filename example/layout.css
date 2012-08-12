@@ -1,8 +1,8 @@
 body { font-family: Courier New; font-size: 11px; margin: 0px; padding: 0px; }
 
-#playground { background: green; border: 1px solid #000; height: 512px; width: 512px; }
+#playground { background: #7f006e; border: 1px solid #000; height: 512px; width: 512px; }
 
-#actor1 { z-index: 9999; }
+#actor1 { }
 #actor2 { }
 #actor3 { }
 #actor4 { }

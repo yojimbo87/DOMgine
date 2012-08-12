@@ -26,15 +26,15 @@ function Walker(options) {
         'width': this._options.width + 'px'
     });
     
-    this._obstacles = {
-        n: {},
-        s: {},
-        w: {},
-        e: {},
-        nCount: 0,
-        sCount: 0,
-        wCount: 0,
-        eCount: 0
+    this._zIndexNeighbors = {
+        nw: {},
+        ne: {},
+        sw: {},
+        se: {},
+        nwCount: 0,
+        neCount: 0,
+        swCount: 0,
+        seCount: 0
     };
     
     this._path = [];
@@ -164,9 +164,9 @@ Walker.prototype._animationCycle = function (iteration, callback) {
                 position = self._element.position(),
                 stepCount++;
 
-                //if (self._options.mapMovement === true) {
-                //    playground.updateEntityPosition(self._element.attr('id'));
-                //}
+                if (self._options.mapMovement === true) {
+                    playground.updateEntityPosition(self._element.attr('id'));
+                }
                 
                 // change position within sprite after certain amount of steps
                 if (stepCount % 18 === 0) {
@@ -195,8 +195,23 @@ Walker.prototype._animationCycle = function (iteration, callback) {
     );
 };
 
-Walker.prototype._scanObstacles = function () {
-    var offset = this._element.offset(),
+Walker.prototype._zIndexNeighbors = function () {
+    var neighborPosition = { left: 0, top: 0 };
+    
+    switch (this._current.direction) {
+        case 'nw':
+            
+            break;
+        case 'ne':
+            break;
+        case 'sw':
+            break;
+        case 'se':
+            break;
+        default:
+            break;
+    }
+    /*var offset = this._element.offset(),
         obstacles = this._obstacles,
         x = offset.left, 
         y = offset.top,
@@ -282,5 +297,5 @@ Walker.prototype._scanObstacles = function () {
         s += item + '<br />';
     }
     
-    $("#debug").html(s);
+    $("#debug").html(s);*/
 };
