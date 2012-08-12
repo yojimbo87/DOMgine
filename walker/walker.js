@@ -113,8 +113,8 @@ Walker.prototype.move = function (left, top) {
                     
                     // change position within sprite after certain amount of steps
                     if (stepCount % 18 === 0) {
-                        self._current.x = x;
-                        self._current.y = y;
+                        self._current.x = x;//Math.floor(position.left / this._options.width);
+                        self._current.y = y;//Math.floor(position.top / this._options.height);
                     
                         // set appropriate position from sprite
                         self._element.css(
@@ -195,59 +195,7 @@ Walker.prototype._getDirection = function (x, y) {
         direction.cardinality = 'se';
         direction.row = 4;
     }
-    
-    /*var direction = { 
-            cardinality: 'w',
-            row: 1,
-            duration: 600
-        },
-        diffX = (x * this._options.width) - (this._current.x * this._options.width),
-        diffY = (y * this._options.height) - (this._current.y * this._options.height),
-        posDiffX = diffX,
-        posDiffY = diffY;
-    
-    if (posDiffX < 0) {
-        posDiffX = posDiffX * (-1);
-    }
-    
-    if (posDiffY < 0) {
-        posDiffY = posDiffY * (-1);
-    }
-    
-    // compute duration
-    if (posDiffX > posDiffY) {
-        direction.duration = (posDiffX / this._options.height) * 600;
-    } else {
-        direction.duration = (posDiffY / this._options.height) * 600;
-    }
 
-    // compute sprite row number and its cardinal direction
-    if ((diffX < 0) && (diffY >= -10) && (diffY <= 22)) {
-        direction.cardinality = 'w';
-        direction.row = 1;
-    } else if ((diffX >= -10) && (diffX <= 22) && (diffY < 0)) {
-        direction.cardinality = 'n';
-        direction.row = 3;
-    } else if ((diffX > 0) && (diffY >= -10) && (diffY <= 22)) {
-        direction.cardinality = 'e';
-        direction.row = 2;
-    } else if ((diffX >= -0) && (diffX <= 22) && (diffY > 0)) {
-        direction.cardinality = 's';
-        direction.row = 0;
-    } else if ((diffX < 0) && (diffY < 0)) {
-        direction.cardinality = 'nw';
-        direction.row = 6;
-    } else if ((diffX > 0) && (diffY < 0)) {
-        direction.cardinality = 'ne';
-        direction.row = 7;
-    } else if ((diffX < 0) && (diffY > 0)) {
-        direction.cardinality = 'sw';
-        direction.row = 5;
-    } else if ((diffX > 0) && (diffY > 0)) {
-        direction.cardinality = 'se';
-        direction.row = 4;
-    }*/
-    
     return direction;
 };
 
