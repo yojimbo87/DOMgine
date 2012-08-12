@@ -10,8 +10,8 @@ $(document).ready(function() {
         id: 'actor1',
         sprite: '../sprites/lemming.png',
         start: {
-            x: 32,
-            y: 32
+            x: 1,
+            y: 1
         },
         mapMovement: true
     });
@@ -20,8 +20,8 @@ $(document).ready(function() {
         id: 'actor2',
         sprite: '../sprites/lemming.png',
         start: {
-            x: 128,
-            y: 128
+            x: 4,
+            y: 4
         }
     });
     
@@ -29,8 +29,8 @@ $(document).ready(function() {
         id: 'actor3',
         sprite: '../sprites/lemming.png',
         start: {
-            x: 192,
-            y: 128
+            x: 6,
+            y: 4
         }
     });
     
@@ -38,8 +38,8 @@ $(document).ready(function() {
         id: 'actor4',
         sprite: '../sprites/lemming.png',
         start: {
-            x: 256,
-            y: 128
+            x: 8,
+            y: 4
         }
     });
     

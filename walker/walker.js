@@ -20,9 +20,9 @@ function Walker(options) {
     this._element.css({
         'backgroundImage': 'url("' + this._options.sprite + '")',
         'height': this._options.height + 'px',
-        'left': this._current.x + 'px',
+        'left': (this._current.x * this._options.width) + 'px',
         'position': 'absolute',
-        'top': this._current.y + 'px',
+        'top': (this._current.y * this._options.height) + 'px',
         'width': this._options.width + 'px'
     });
     
@@ -42,8 +42,8 @@ function Walker(options) {
 
 Walker.prototype.move = function (left, top) {
     var self = this,
-        x = Math.floor(top / this._options.width),
-        y = Math.floor(left / this._options.height),
+        x = Math.floor(left / this._options.width),
+        y = Math.floor(top / this._options.height),
         stepCount = 0,
         direction,
         position,
@@ -81,8 +81,8 @@ Walker.prototype.move = function (left, top) {
         
         this._element.animate(
             {
-                left: y * this._options.width,
-                top: x * this._options.height
+                left: x * this._options.width,
+                top: y * this._options.height
             }, 
             {
                 duration: direction.duration, 
@@ -91,10 +91,10 @@ Walker.prototype.move = function (left, top) {
                     position = self._element.position(),
                     stepCount++;
 
-                    stepDirection = self._getDirection(
+                    /*stepDirection = self._getDirection(
                         position.left,
                         position.top
-                    );
+                    );*/
                     
                     if (self._options.mapMovement === true) {
                         playground.updateEntityPosition(self._element.attr('id'));
@@ -113,8 +113,8 @@ Walker.prototype.move = function (left, top) {
                     
                     // change position within sprite after certain amount of steps
                     if (stepCount % 18 === 0) {
-                        self._current.x = position.left;
-                        self._current.y = position.top;
+                        self._current.x = x;
+                        self._current.y = y;
                     
                         // set appropriate position from sprite
                         self._element.css(
@@ -148,8 +148,61 @@ Walker.prototype._getDirection = function (x, y) {
             row: 1,
             duration: 600
         },
-        diffX = x - this._current.x,
-        diffY = y - this._current.y,
+        xDiff = x - this._current.x,
+        yDiff = y - this._current.y,
+        xDur = xDiff,
+        yDur = yDiff;
+    
+    // x and y can't have negative values when computing duration
+    if (xDur < 0) {
+        xDur = xDur * (-1);
+    }
+    
+    if (yDur < 0) {
+        yDur = yDur * (-1);
+    }
+    
+    // compute duration
+    if (xDur > yDur) {
+        direction.duration = xDur * 600;
+    } else {
+        direction.duration = yDur * 600;
+    }
+    
+    // compute sprite row number and its cardinal direction
+    if ((xDiff < 0) && (yDiff === 0)) {
+        direction.cardinality = 'w';
+        direction.row = 1;
+    } else if ((xDiff === 0) && (yDiff < 0)) {
+        direction.cardinality = 'n';
+        direction.row = 3;
+    } else if ((xDiff > 0) && (yDiff === 0)) {
+        direction.cardinality = 'e';
+        direction.row = 2;
+    } else if ((xDiff === 0) && (yDiff > 0)) {
+        direction.cardinality = 's';
+        direction.row = 0;
+    } else if ((xDiff < 0) && (yDiff < 0)) {
+        direction.cardinality = 'nw';
+        direction.row = 6;
+    } else if ((xDiff > 0) && (yDiff < 0)) {
+        direction.cardinality = 'ne';
+        direction.row = 7;
+    } else if ((xDiff < 0) && (yDiff > 0)) {
+        direction.cardinality = 'sw';
+        direction.row = 5;
+    } else if ((xDiff > 0) && (yDiff > 0)) {
+        direction.cardinality = 'se';
+        direction.row = 4;
+    }
+    
+    /*var direction = { 
+            cardinality: 'w',
+            row: 1,
+            duration: 600
+        },
+        diffX = (x * this._options.width) - (this._current.x * this._options.width),
+        diffY = (y * this._options.height) - (this._current.y * this._options.height),
         posDiffX = diffX,
         posDiffY = diffY;
     
@@ -193,7 +246,7 @@ Walker.prototype._getDirection = function (x, y) {
     } else if ((diffX > 0) && (diffY > 0)) {
         direction.cardinality = 'se';
         direction.row = 4;
-    }
+    }*/
     
     return direction;
 };
