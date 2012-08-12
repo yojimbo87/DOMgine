@@ -45,9 +45,7 @@ Walker.prototype.move = function (left, top) {
         x = Math.floor(left / this._options.width),
         y = Math.floor(top / this._options.height),
         iteration = 0;
-
-    $('#debug').append('---<br />');
-        
+  
     // stop current animation
     this._element.stop(true, false);
         
@@ -56,8 +54,6 @@ Walker.prototype.move = function (left, top) {
         { x: x, y: y }
     );
        
-    $('#map').append(JSON.stringify(this._path) + '<br />');
-
     if (this._path.length > 0) {
         (function animate(iteration) {
             self._animationCycle(iteration, function () {
@@ -140,8 +136,6 @@ Walker.prototype._animationCycle = function (iteration, callback) {
 
     this._current.x = this._path[iteration][0];
     this._current.y = this._path[iteration][1];
-    
-    $('#debug').append(this._current.x  + ' ' + this._current.y + '<br />');
     
     if ((iteration + 1) < this._path.length) {
         nextX = this._path[iteration + 1][0];
@@ -289,33 +283,4 @@ Walker.prototype._scanObstacles = function () {
     }
     
     $("#debug").html(s);
-};
-
-Walker.prototype._isDirectionBlocked = function (direction) {
-    var result = false,
-        i, len, obstaclesCount;
-    
-    this._obstacles = {
-        n: {},
-        s: {},
-        w: {},
-        e: {},
-        nCount: 0,
-        sCount: 0,
-        wCount: 0,
-        eCount: 0
-    };
-    
-    this._scanObstacles();
-    
-    for (i = 0, len = direction.cardinality.length; i < len; i++) {
-        obstaclesCount = this._obstacles['' + direction.cardinality[i] + 'Count'];
-            
-        if (obstaclesCount > 0) {
-            result = true;
-            break;
-        }
-    }
-    
-    return result;
 };
