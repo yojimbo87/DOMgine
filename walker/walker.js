@@ -27,6 +27,8 @@ function Walker(options) {
     });
     
     this._path = [];
+    
+    this._createAnimation();
 };
 
 Walker.prototype.move = function (left, top) {
@@ -114,6 +116,63 @@ Walker.prototype.destroy = function () {
             complete: function() {
                 //self._element.css('background', 'transparent');
                 self._element.remove();
+            }
+        }
+    );
+};
+
+Walker.prototype._createAnimation = function() {
+    var self = this,
+        stepCount = 0;
+        
+    // stop current animation
+    this._element.stop(true, false);
+        
+    this._current.column = 0;
+    this._current.row = 9;
+
+    // set appropriate position from sprite
+    this._element.css(
+        'backgroundPosition',
+        (this._current.column * this._options.width) + 'px ' +
+        '-' + (this._current.row * this._options.height) + 'px'
+    );
+    
+    this._element.animate(
+        {
+            left: this._current.x * this._options.width,
+            top: this._current.y * this._options.height
+        }, 
+        {
+            duration: 800, 
+            easing: 'linear',
+            step: function() {
+                stepCount++;
+                
+                // change position within sprite after certain amount of steps
+                if (stepCount % 15 === 0) {
+                    // set appropriate position from sprite
+                    self._element.css(
+                        'backgroundPosition',
+                        '-' + (self._current.column * self._options.width) + 'px ' +
+                        '-' + (self._current.row * self._options.height) + 'px'
+                    );
+                    
+                    $('#map').append(self._current.column + ' ' + self._current.row + '<br />');
+                    
+                    self._current.column++;
+                }
+            },
+            complete: function() {
+                self._current.column = 0;
+                self._current.row = 0;
+
+                // set appropriate position from sprite
+                self._element.css(
+                    'backgroundPosition',
+                    (self._current.column * self._options.width) + 'px ' +
+                    '-' + (self._current.row * self._options.height) + 'px'
+                );
             }
         }
     );
