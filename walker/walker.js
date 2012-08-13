@@ -4,8 +4,8 @@ function Walker(options) {
         column: options._currentColumn || 0,
         row: options._currentRow || 0,
         direction: '',
-        x: options.start.x || 0,
-        y: options.start.y || 0
+        x: Math.floor(options.start.x) || 0,
+        y: Math.floor(options.start.y) || 0
     };
     
     this._options = {
