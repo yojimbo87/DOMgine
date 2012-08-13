@@ -35,28 +35,37 @@ Walker.prototype.move = function (left, top) {
         y = Math.floor(top / this._options.height),
         iteration = 0;
   
-    // stop current animation
-    this._element.stop(true, false);
-        
-    this._path = playground.findPath(
-        { x: this._current.x, y: this._current.y },
-        { x: x, y: y }
-    );
-       
-    if (this._path.length > 0) {
-        (function animate(iteration) {
-            self._animationCycle(iteration, function () {
-                iteration++;
+    if ((this._current.x !== x) || (this._current.y !== y)) {
+        // stop current animation
+        this._element.stop(true, false);
             
-                if (iteration < self._path.length) {
-                    animate(iteration);
-                }
-            });
-        })(iteration);
-    } else {
-        // show first position in current sprite row
-        this._element.column = 0;
-        this._element.css('backgroundPosition', '0px -' + (this._current.row * this._options.height) + 'px');
+        this._path = playground.findPath(
+            { x: this._current.x, y: this._current.y },
+            { x: x, y: y }
+        );
+           
+        if (this._path.length > 0) {
+            (function animate(iteration) {
+                self._animationCycle(iteration, function () {
+                    iteration++;
+                
+                    if (iteration < self._path.length) {
+                        animate(iteration);
+                    } else {
+                        // show first position in current sprite row
+                        self._current.column = 0;
+                        self._element.css(
+                            'backgroundPosition', 
+                            '0px -' + (self._current.row * self._options.height) + 'px'
+                        );
+                    }
+                });
+            })(iteration);
+        } else {
+            // show first position in current sprite row
+            this._current.column = 0;
+            this._element.css('backgroundPosition', '0px -' + (this._current.row * this._options.height) + 'px');
+        }
     }
 };
 
@@ -70,7 +79,7 @@ Walker.prototype.destroy = function (callback) {
     // set appropriate position from sprite
     self._element.css(
         'backgroundPosition',
-        '-' + (self._current.column * self._options.width) + 'px ' +
+        (self._current.column * self._options.width) + 'px ' +
         '-' + (self._current.row * self._options.height) + 'px'
     );
     
@@ -90,21 +99,15 @@ Walker.prototype.destroy = function (callback) {
                     // set appropriate position from sprite
                     self._element.css(
                         'backgroundPosition',
-                        '-' + (self._current.column * self._options.width) + 'px ' +
+                        (self._current.column * self._options.width) + 'px ' +
                         '-' + (self._current.row * self._options.height) + 'px'
                     );
-                    self._current.column++;
                     
-                    $('#map').append(self._current.column + ' ' + self._current.row + '<br />');
+                    self._current.column++;
                 }
             },
             complete: function() {
-                // show first position in current sprite row
-                self._element.css(
-                    'background',
-                    'transparent'
-                );
-                $('#map').append((7 * self._options.width) + ' ' + (self._current.row * self._options.height) + '<br />');
+                self._element.css('background', 'transparent');
                 
                 callback();
             }
@@ -115,29 +118,10 @@ Walker.prototype.destroy = function (callback) {
 Walker.prototype._getDirection = function (x, y) {
     var direction = { 
             cardinality: 'w',
-            row: 1,
-            duration: 800
+            row: 1
         },
         xDiff = x - this._current.x,
-        yDiff = y - this._current.y,
-        xDur = xDiff,
-        yDur = yDiff;
-    
-    // x and y can't have negative values when computing duration
-    if (xDur < 0) {
-        xDur = xDur * (-1);
-    }
-    
-    if (yDur < 0) {
-        yDur = yDur * (-1);
-    }
-    
-    // compute duration
-    if (xDur > yDur) {
-        direction.duration = xDur * 800;
-    } else {
-        direction.duration = yDur * 800;
-    }
+        yDiff = y - this._current.y;
     
     // compute sprite row number and its cardinal direction
     if ((xDiff < 0) && (yDiff === 0)) {
@@ -178,64 +162,64 @@ Walker.prototype._animationCycle = function (iteration, callback) {
     this._current.x = this._path[iteration][0];
     this._current.y = this._path[iteration][1];
     
+    // animate only if walker can move to next location
     if ((iteration + 1) < this._path.length) {
         nextX = this._path[iteration + 1][0];
         nextY = this._path[iteration + 1][1];
-    } else {
-        nextX = this._current.x;
-        nextY = this._current.y;
-    }
-    
-    direction = this._getDirection(nextX, nextY);
-    
-    if ((iteration + 1) < this._path.length) {
+        
+        direction = this._getDirection(nextX, nextY);
+        
         this._current.direction = direction.cardinality;
         this._current.row = direction.row;
-    }
-    
-    this._element.animate(
-        {
-            left: nextX * this._options.width,
-            top: nextY * this._options.height
-        }, 
-        {
-            duration: direction.duration, 
-            easing: 'linear',
-            step: function() {
-                position = self._element.position(),
-                stepCount++;
+        
+        this._element.animate(
+            {
+                left: nextX * this._options.width,
+                top: nextY * this._options.height
+            }, 
+            {
+                duration: 800, 
+                easing: 'linear',
+                step: function(now, fx) {
+                    position = self._element.position(),
+                    stepCount++;
 
-                if (self._options.mapMovement === true) {
-                    playground.updateEntityPosition(self._element.attr('id'));
-                }
-                
-                // change position within sprite after certain amount of steps
-                if (stepCount % 16 === 0) {
-                    // set appropriate position from sprite
-                    self._element.css(
-                        'backgroundPosition',
-                        '-' + (self._current.column * self._options.width) + 'px ' +
-                        '-' + (self._current.row * self._options.height) + 'px'
-                    );
-                    self._current.column++;
+                    /*if (self._options.mapMovement === true) {
+                        playground.updateEntityPosition(self._element.attr('id'));
+                    }*/
                     
-                    // go to beginning position within sprite when the end column was reached
-                    if(self._current.column === self._options.columnsCount) {
-                        self._current.column = 0;
+                    // change position within sprite after certain amount of steps
+                    if (stepCount % 16 === 0) {
+                        // set appropriate position from sprite
+                        self._element.css(
+                            'backgroundPosition',
+                            (self._current.column * self._options.width) + 'px ' +
+                            '-' + (self._current.row * self._options.height) + 'px'
+                        );
+                        self._current.column++;
+                        
+                        // go to beginning position within sprite when the end column was reached
+                        if(self._current.column === self._options.columnsCount) {
+                            self._current.column = 0;
+                        }
+
+                        $('#map').append(self._current.column + ' ' + self._current.row + ' now: ' + now + '<br />');
                     }
+                },
+                complete: function() {
+                    // show first position in current sprite row
+                    //self._element.column = 0;
+                    //self._element.css('backgroundPosition', '0px -' + (self._current.row * self._options.height) + 'px');
+                    
+                    $('#map').append((7 * self._options.width) + ' ' + (self._current.row * self._options.height) + '<br />');
 
-                    $('#map').append(self._current.column + ' ' + self._current.row + '<br />');
+                    $('#map').append('steps: ' + stepCount + '<br />');
+                    
+                    callback();
                 }
-            },
-            complete: function() {
-                // show first position in current sprite row
-                self._element.column = 0;
-                self._element.css('backgroundPosition', '0px -' + (self._current.row * self._options.height) + 'px');
-                
-                $('#map').append((7 * self._options.width) + ' ' + (self._current.row * self._options.height) + '<br />');
-
-                callback();
             }
-        }
-    );
+        );
+    } else {
+        callback();
+    }
 };
