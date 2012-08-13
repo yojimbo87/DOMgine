@@ -46,8 +46,8 @@ Playground.prototype._registerElements = function () {
     this._element.children().each(function () {
         var $el = $(this),
             position = $el.position(),
-            y = position.left / self._options.tile.width,
-            x = position.top / self._options.tile.height;
+            y = Math.floor(position.left / self._options.tile.width),
+            x = Math.floor(position.top / self._options.tile.height);
     
         self._entities[this.id] = {
             element: $el,
