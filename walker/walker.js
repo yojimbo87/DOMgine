@@ -60,6 +60,58 @@ Walker.prototype.move = function (left, top) {
     }
 };
 
+Walker.prototype.destroy = function (callback) {
+    var self = this,
+        stepCount = 0;
+        
+    this._current.column = 0;
+    this._current.row = 8;
+
+    // set appropriate position from sprite
+    self._element.css(
+        'backgroundPosition',
+        '-' + (self._current.column * self._options.width) + 'px ' +
+        '-' + (self._current.row * self._options.height) + 'px'
+    );
+    
+    this._element.animate(
+        {
+            left: this._current.x * this._options.width,
+            top: this._current.y * this._options.height
+        }, 
+        {
+            duration: 800, 
+            easing: 'linear',
+            step: function() {
+                stepCount++;
+                
+                // change position within sprite after certain amount of steps
+                if (stepCount % 16 === 0) {
+                    // set appropriate position from sprite
+                    self._element.css(
+                        'backgroundPosition',
+                        '-' + (self._current.column * self._options.width) + 'px ' +
+                        '-' + (self._current.row * self._options.height) + 'px'
+                    );
+                    self._current.column++;
+                    
+                    $('#map').append(self._current.column + ' ' + self._current.row + '<br />');
+                }
+            },
+            complete: function() {
+                // show first position in current sprite row
+                self._element.css(
+                    'background',
+                    'transparent'
+                );
+                $('#map').append((7 * self._options.width) + ' ' + (self._current.row * self._options.height) + '<br />');
+                
+                callback();
+            }
+        }
+    );
+};
+
 Walker.prototype._getDirection = function (x, y) {
     var direction = { 
             cardinality: 'w',
@@ -158,11 +210,11 @@ Walker.prototype._animationCycle = function (iteration, callback) {
                 }
                 
                 // change position within sprite after certain amount of steps
-                if (stepCount % 18 === 0) {
+                if (stepCount % 16 === 0) {
                     // set appropriate position from sprite
                     self._element.css(
                         'backgroundPosition',
-                        (self._current.column * self._options.width) + 'px ' +
+                        '-' + (self._current.column * self._options.width) + 'px ' +
                         '-' + (self._current.row * self._options.height) + 'px'
                     );
                     self._current.column++;
@@ -171,6 +223,8 @@ Walker.prototype._animationCycle = function (iteration, callback) {
                     if(self._current.column === self._options.columnsCount) {
                         self._current.column = 0;
                     }
+
+                    $('#map').append(self._current.column + ' ' + self._current.row + '<br />');
                 }
             },
             complete: function() {
@@ -178,6 +232,8 @@ Walker.prototype._animationCycle = function (iteration, callback) {
                 self._element.column = 0;
                 self._element.css('backgroundPosition', '0px -' + (self._current.row * self._options.height) + 'px');
                 
+                $('#map').append((7 * self._options.width) + ' ' + (self._current.row * self._options.height) + '<br />');
+
                 callback();
             }
         }

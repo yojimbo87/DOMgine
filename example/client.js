@@ -51,4 +51,10 @@ $(document).ready(function() {
         
         //playground.printMap();
     });
+    
+    setTimeout(function () {
+        actor4.destroy(function () {
+
+        });
+    }, 2000);
 });
