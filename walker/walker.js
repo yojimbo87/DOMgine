@@ -158,8 +158,6 @@ Walker.prototype._createAnimation = function() {
                         '-' + (self._current.row * self._options.height) + 'px'
                     );
                     
-                    $('#map').append(self._current.column + ' ' + self._current.row + '<br />');
-                    
                     self._current.column++;
                 }
             },
