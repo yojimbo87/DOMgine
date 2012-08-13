@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    playground = new Playground({
+    window.playground = new Playground({
         id: 'playground',
         map: {},
         tile: {}
