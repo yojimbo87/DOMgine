@@ -53,8 +53,6 @@ $(document).ready(function() {
     });
     
     setTimeout(function () {
-        actor4.destroy(function () {
-
-        });
+        actor4.destroy();
     }, 2000);
 });

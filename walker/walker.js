@@ -69,18 +69,21 @@ Walker.prototype.move = function (left, top) {
     }
 };
 
-Walker.prototype.destroy = function (callback) {
+Walker.prototype.destroy = function () {
     var self = this,
         stepCount = 0;
+        
+    // stop current animation
+    this._element.stop(true, false);
         
     this._current.column = 0;
     this._current.row = 8;
 
     // set appropriate position from sprite
-    self._element.css(
+    this._element.css(
         'backgroundPosition',
-        (self._current.column * self._options.width) + 'px ' +
-        '-' + (self._current.row * self._options.height) + 'px'
+        (this._current.column * this._options.width) + 'px ' +
+        '-' + (this._current.row * this._options.height) + 'px'
     );
     
     this._element.animate(
@@ -95,21 +98,22 @@ Walker.prototype.destroy = function (callback) {
                 stepCount++;
                 
                 // change position within sprite after certain amount of steps
-                if (stepCount % 16 === 0) {
+                if (stepCount % 15 === 0) {
                     // set appropriate position from sprite
                     self._element.css(
                         'backgroundPosition',
-                        (self._current.column * self._options.width) + 'px ' +
+                        '-' + (self._current.column * self._options.width) + 'px ' +
                         '-' + (self._current.row * self._options.height) + 'px'
                     );
+                    
+                    $('#map').append(self._current.column + ' ' + self._current.row + '<br />');
                     
                     self._current.column++;
                 }
             },
             complete: function() {
-                self._element.css('background', 'transparent');
-                
-                callback();
+                //self._element.css('background', 'transparent');
+                self._element.remove();
             }
         }
     );
@@ -156,6 +160,7 @@ Walker.prototype._getDirection = function (x, y) {
 Walker.prototype._animationCycle = function (iteration, callback) {
     var self = this,
         stepCount = 0,
+        nextX, nextY,
         direction,
         position;
 
@@ -180,7 +185,7 @@ Walker.prototype._animationCycle = function (iteration, callback) {
             {
                 duration: 800, 
                 easing: 'linear',
-                step: function(now, fx) {
+                step: function() {
                     position = self._element.position(),
                     stepCount++;
 
@@ -202,19 +207,9 @@ Walker.prototype._animationCycle = function (iteration, callback) {
                         if(self._current.column === self._options.columnsCount) {
                             self._current.column = 0;
                         }
-
-                        $('#map').append(self._current.column + ' ' + self._current.row + ' now: ' + now + '<br />');
                     }
                 },
                 complete: function() {
-                    // show first position in current sprite row
-                    //self._element.column = 0;
-                    //self._element.css('backgroundPosition', '0px -' + (self._current.row * self._options.height) + 'px');
-                    
-                    $('#map').append((7 * self._options.width) + ' ' + (self._current.row * self._options.height) + '<br />');
-
-                    $('#map').append('steps: ' + stepCount + '<br />');
-                    
                     callback();
                 }
             }
