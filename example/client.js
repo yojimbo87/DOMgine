@@ -8,7 +8,7 @@ $(document).ready(function() {
     
     var actor1 = new Walker({
         elementID: 'actor1',
-        sprite: '../sprites/lemming.png',
+        sprite: '../sprites/lemming-joe.png',
         start: {
             x: 1,
             y: 1
