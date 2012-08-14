@@ -253,7 +253,6 @@ Walker.prototype._animationCycle = function (iteration, callback) {
             this._current.x,
             this._current.y
         );
-        this._options.playground.printMap();
     }
     
     // animate only if walker can move to next location
