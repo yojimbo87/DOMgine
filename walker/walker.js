@@ -21,6 +21,12 @@ function Walker(options) {
         $('#' + this._options.playground._options.elementID).append(
            '<div id="' + this._options.elementID + '"></div>'
         );
+        
+        this._options.playground.addEntity(
+            this._options.elementID,
+            this._current.x,
+            this._current.y
+        );
     }
     
     this._element = $('#' + this._options.elementID);
@@ -230,6 +236,15 @@ Walker.prototype._animationCycle = function (iteration, callback) {
     this._current.x = this._path[iteration][0];
     this._current.y = this._path[iteration][1];
     
+    if (this._options.playground !== false) {
+        this._options.playground.updateEntityPosition(
+            this._options.elementID,
+            this._current.x,
+            this._current.y
+        );
+        this._options.playground.printMap();
+    }
+    
     // animate only if walker can move to next location
     if ((iteration + 1) < this._path.length) {
         nextX = this._path[iteration + 1][0];
@@ -251,10 +266,6 @@ Walker.prototype._animationCycle = function (iteration, callback) {
                 step: function() {
                     position = self._element.position(),
                     stepCount++;
-
-                    /*if (self._options.playground !== false) {
-                        self._options.playground.updateEntityPosition(self._element.attr('id'));
-                    }*/
                     
                     // change position within sprite after certain amount of steps
                     if (stepCount % 16 === 0) {

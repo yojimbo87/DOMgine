@@ -21,9 +21,11 @@ function Playground(options) {
     
     this._map = [];
     this._entities = {};
+    
+    this._initMap();
 };
 
-Playground.prototype.init = function () {
+Playground.prototype._initMap = function () {
     var i, ilen,
         j, jlen;
 
@@ -37,42 +39,30 @@ Playground.prototype.init = function () {
             this._map[i][j] = 0;
         }
     }
-    
-    this._registerElements();
 };
 
-Playground.prototype._registerElements = function () {
-    var self = this;
+Playground.prototype.addEntity = function (entityID, x, y) {
+    var entity = this._entities[entityID];
     
-    this._element.children().each(function () {
-        var $el = $(this),
-            position = $el.position(),
-            y = Math.floor(position.left / self._options.tile.width),
-            x = Math.floor(position.top / self._options.tile.height);
-    
-        self._entities[this.id] = {
-            element: $el,
+    if (entity === undefined) {
+        this._entities[entityID] = {
+            id: entityID,
             x: x,
             y: y
         };
         
-        self._map[x][y] = 1;
-    });
+        this._map[x][y] = 1;
+    }
 };
 
-Playground.prototype.updateEntityPosition = function (elementID) {
-    var entity = this._entities[elementID],
-        position, x, y;
+Playground.prototype.updateEntityPosition = function (elementID, x, y) {
+    var entity = this._entities[elementID];
         
     if (entity) {
-        position = entity.element.position(),
-        x = Math.floor(position.left / this._options.tile.width),
-        y = Math.floor(position.top / this._options.tile.height);
-        
-        this._map[entity.x][entity.y] = 0;
+        this._map[entity.y][entity.x] = 0;
         entity.x = x;
         entity.y = y;
-        this._map[x][y] = 1;
+        this._map[y][x] = 1;
     }
 };
 
@@ -94,13 +84,13 @@ Playground.prototype.findPath = function (start, end) {
 
 Playground.prototype.printMap = function () {
     var $map = $('#map'),
-        i, j;
+        i, ilen, j, jlen;
     
     $map.html('');
     
-    for (i = 0; i < this._map.length; i++) {
-        for (j = 0; j < this._map[i].length; j++) {
-            $map.append(this._map[j][i] + ' ');
+    for (i = 0, ilen = this._map.length; i < ilen; i++) {
+        for (j = 0, jlen = this._map[i].length; j < jlen; j++) {
+            $map.append(this._map[i][j] + ' ');
         }
         
         $map.append('<br />');
