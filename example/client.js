@@ -1,19 +1,19 @@
 $(document).ready(function() {
 
-    window.playground = new Playground({
-        id: 'playground',
+    var playground = new Playground({
+        elementID: 'playground',
         map: {},
         tile: {}
     });
     
     var actor1 = new Walker({
-        id: 'actor1',
+        elementID: 'actor1',
         sprite: '../sprites/lemming.png',
         start: {
             x: 1,
             y: 1
         },
-        mapMovement: true
+        playground: playground
     });
     
     /*var actor2 = new Walker({

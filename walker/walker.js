@@ -1,5 +1,4 @@
 function Walker(options) {
-    this._element = $('#' + options.id);
     this._current = {
         column: options._currentColumn || 0,
         row: options._currentRow || 0,
@@ -9,13 +8,22 @@ function Walker(options) {
     };
     
     this._options = {
+        elementID: options.elementID || '',
         sprite: options.sprite || '',
         columnsCount: options.columnsCount || 8,
         rowsCount: options.rowsCount || 8,
         height: options.height || 32,
         width: options.width || 32,
-        mapMovement: options.mapMovement || false
+        playground: options.playground || false
     };
+    
+    if (this._options.playground !== false) {
+        $('#' + this._options.playground._options.elementID).append(
+           '<div id="' + this._options.elementID + '"></div>'
+        );
+    }
+    
+    this._element = $('#' + this._options.elementID);
     
     this._element.css({
         'backgroundImage': 'url("' + this._options.sprite + '")',
@@ -41,7 +49,7 @@ Walker.prototype.move = function (left, top) {
         // stop current animation
         this._element.stop(true, false);
             
-        this._path = playground.findPath(
+        this._path = this._options.playground.findPath(
             { x: this._current.x, y: this._current.y },
             { x: x, y: y }
         );
@@ -246,8 +254,8 @@ Walker.prototype._animationCycle = function (iteration, callback) {
                     position = self._element.position(),
                     stepCount++;
 
-                    /*if (self._options.mapMovement === true) {
-                        playground.updateEntityPosition(self._element.attr('id'));
+                    /*if (self._options.playground !== false) {
+                        self._options.playground.updateEntityPosition(self._element.attr('id'));
                     }*/
                     
                     // change position within sprite after certain amount of steps

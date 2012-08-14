@@ -1,7 +1,6 @@
 function Playground(options) {
-    this._element = $('#' + options.id);
-
     this._options = {
+        elementID: options.id || 'playground',
         map: {
             width: options.map.width || 512,
             height: options.map.height || 512
@@ -11,6 +10,8 @@ function Playground(options) {
             height: options.tile.height || 32
         }
     };
+    
+    this._element = $('#' + this._options.id);
     
     this._mapScale = {
         width: 0,
