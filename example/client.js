@@ -8,6 +8,7 @@ $(document).ready(function() {
     
     var actor1 = new Walker({
         elementID: 'actor1',
+        cssClasses: 'human',
         sprite: '../sprites/lemming-joe.png',
         start: {
             x: 1,
@@ -18,6 +19,7 @@ $(document).ready(function() {
     
     var actor2 = new Walker({
         elementID: 'actor2',
+        cssClasses: 'human',
         sprite: '../sprites/lemming-johny.png',
         start: {
             x: 4,
@@ -28,6 +30,7 @@ $(document).ready(function() {
     
     var actor3 = new Walker({
         elementID: 'actor3',
+        cssClasses: 'human',
         sprite: '../sprites/lemming-johny.png',
         start: {
             x: 6,
@@ -38,6 +41,7 @@ $(document).ready(function() {
     
     var actor4 = new Walker({
         elementID: 'actor4',
+        cssClasses: 'human',
         sprite: '../sprites/lemming-johny.png',
         start: {
             x: 8,

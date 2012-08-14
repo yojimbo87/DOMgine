@@ -13,6 +13,7 @@ function Walker(options) {
     
     this._options = {
         elementID: options.elementID || '',
+        cssClasses: options.cssClasses || '',
         sprite: options.sprite || '',
         columnsCount: options.columnsCount || 8,
         rowsCount: options.rowsCount || 8,
@@ -21,6 +22,8 @@ function Walker(options) {
         playground: options.playground || false
     };
     
+    // if playground is present, append DOM element manually and register
+    // entity to track movement changes
     if (this._options.playground !== false) {
         $('#' + this._options.playground._options.elementID).append(
            '<div id="' + this._options.elementID + '"></div>'
@@ -33,8 +36,14 @@ function Walker(options) {
         );
     }
     
+    // get jquery element object and add css classes if specified
     this._element = $('#' + this._options.elementID);
     
+    if (this._options.cssClasses !== '') {
+        this._element.addClass(this._options.cssClasses);
+    }
+    
+    // set initial css attributes
     this._element.css({
         'backgroundImage': 'url("' + this._options.sprite + '")',
         'height': this._options.height + 'px',
