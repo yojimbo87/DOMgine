@@ -16,6 +16,8 @@ $(document).ready(function() {
         playground: playground
     });
     
+    playground.printMap();
+    
     /*var actor2 = new Walker({
         id: 'actor2',
         sprite: '../sprites/lemming.png',
@@ -48,6 +50,8 @@ $(document).ready(function() {
     });
     
     setTimeout(function () {
-        //actor4.destroy();
-    }, 2000);
+        actor1.destroy(function () {
+            playground.printMap();
+        });
+    }, 5000);
 });

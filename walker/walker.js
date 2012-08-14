@@ -4,7 +4,11 @@ function Walker(options) {
         row: options._currentRow || 0,
         direction: '',
         x: Math.floor(options.start.x) || 0,
-        y: Math.floor(options.start.y) || 0
+        y: Math.floor(options.start.y) || 0,
+        // flag to determine if this object is in destroy process
+        // e.g. delete animation is in progress and object still exists
+        // so no other action should be executed
+        isDestroying: false
     };
     
     this._options = {
@@ -51,7 +55,7 @@ Walker.prototype.move = function (left, top) {
         y = Math.floor(top / this._options.height),
         iteration = 0;
   
-    if ((this._current.x !== x) || (this._current.y !== y)) {
+    if ((this._current.x !== x) || (this._current.y !== y) && (!this._current.isDestroying)) {
         // stop current animation
         this._element.stop(true, false);
             
@@ -85,9 +89,11 @@ Walker.prototype.move = function (left, top) {
     }
 };
 
-Walker.prototype.destroy = function () {
+Walker.prototype.destroy = function (callback) {
     var self = this,
         stepCount = 0;
+        
+    this._current.isDestroying = true;
         
     // stop current animation
     this._element.stop(true, false);
@@ -126,8 +132,13 @@ Walker.prototype.destroy = function () {
                 }
             },
             complete: function() {
-                //self._element.css('background', 'transparent');
                 self._element.remove();
+                
+                if (self._options.playground !== false) {
+                    self._options.playground.removeEntity(self._options.elementID);
+                }
+                
+                callback();
             }
         }
     );

@@ -51,7 +51,17 @@ Playground.prototype.addEntity = function (entityID, x, y) {
             y: y
         };
         
-        this._map[x][y] = 1;
+        this._map[y][x] = 1;
+    }
+};
+
+Playground.prototype.removeEntity = function (entityID) {
+    var entity = this._entities[entityID];
+    
+    if (entity) {
+        this._map[entity.y][entity.x] = 0;
+        
+        delete this._entities[entityID];
     }
 };
 
