@@ -1,8 +1,16 @@
-body { font-family: Courier New; font-size: 11px; margin: 0px; padding: 0px; }
+body {
+    font-family: Courier New; 
+    font-size: 11px; 
+    margin: 0px; 
+    padding: 0px;
+}
 
-#playground { background: #000; border: 1px solid #000; height: 512px; width: 512px; }
+#playground { 
+    background: #000; 
+    border: 1px solid #000;
+    cursor: url('../sprites/arrow.cur'), default;
+    height: 512px; 
+    width: 512px; 
+}
 
-#actor1 { }
-#actor2 { }
-#actor3 { }
-#actor4 { }
+.human { cursor: url('../sprites/hand.cur'), pointer; }
