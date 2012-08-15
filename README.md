@@ -3,8 +3,32 @@ Walker is a library which allows you to create lemmings style animated character
 Usage
 ===
 
-See it in action [here](http://yojimbo87.github.com/walker/).
+Below is an example usage of walker. You can also see it in action [here](http://yojimbo87.github.com/walker/).
 
+First include some js files:
+
+    <script src="http://code.jquery.com/jquery-1.8.0.min.js" type="text/javascript"></script>
+    <script src="walker/pathfinding-browser.js" type="text/javascript"></script>
+    <script src="walker/playground.js" type="text/javascript"></script>
+    <script src="walker/walker.js" type="text/javascript"></script>
+
+Then add a bit of HTML to body:
+
+    <div id="playground"></div>
+    
+Style at your will:
+
+    #playground { 
+        background: #000;
+        cursor: url('sprites/arrow.cur'), default;
+        height: 512px; 
+        width: 512px; 
+    }
+
+    .human { cursor: url('sprites/hand.cur'), pointer; }
+
+And let it do its magic:
+    
     $(document).ready(function() {
         // create playground for walker entities
         var playground = new Playground({
