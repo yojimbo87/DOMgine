@@ -1,5 +1,51 @@
 Walker is a library which allows you to create lemmings style animated character(s) that are able to navigate within specific area.
 
+Example
+===
+
+See it in action [here](http://jquery.com/).
+
+    $(document).ready(function() {
+        var playground = new Playground({
+            elementID: 'playground'
+        });
+        
+        var actor1 = new Walker({
+            elementID: 'actor1',
+            cssClasses: 'human',
+            sprite: '../sprites/lemming-joe.png',
+            start: {
+                x: 2,
+                y: 2
+            },
+            playground: playground
+        });
+        
+        var actor2 = new Walker({
+            elementID: 'actor2',
+            cssClasses: 'human',
+            sprite: '../sprites/lemming-johny.png',
+            start: {
+                x: 4,
+                y: 4
+            },
+            playground: playground
+        });
+        
+        $('#playground').click(function(e) {
+            actor1.move(
+                e.pageX - this.offsetLeft, 
+                e.pageY - this.offsetTop
+            );
+        });
+    });
+
+Dependencies
+===
+
+- [jQuery](http://jquery.com/)
+- [Pathfinding.js](https://github.com/qiao/PathFinding.js)
+    
 Public API
 ===
 
@@ -83,4 +129,4 @@ Checks if there aren't neighbor entities one tile position up and down within sp
 - `start` - object with `x` and `y` coordinates which represents starting position
 - `end` - object with `x` and `y` coordinates which represents ending position
 
-Computes path with A* algorithm to avoid obstacles on map. Returns `array` which consists set of arrays where each holds two elements representing x and y coordinate within map.
+Computes path with A* algorithm to avoid obstacles on playground map. Returns `array` which consists of set of arrays where each holds two elements representing x and y coordinates within map.

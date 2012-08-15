@@ -4,8 +4,6 @@ $(document).ready(function() {
         elementID: 'playground'
     });
     
-    var walkers = {};
-    
     var actor1 = new Walker({
         elementID: 'actor1',
         cssClasses: 'human',
@@ -28,7 +26,7 @@ $(document).ready(function() {
         playground: playground
     });
     
-    var actor3 = new Walker({
+    /*var actor3 = new Walker({
         elementID: 'actor3',
         cssClasses: 'human',
         sprite: '../sprites/lemming-johny.png',
@@ -48,7 +46,7 @@ $(document).ready(function() {
             y: 4
         },
         playground: playground
-    });
+    });*/
     
     $('#playground').click(function(e) {
         actor1.move(
@@ -57,7 +55,9 @@ $(document).ready(function() {
         );
     });
 
-    /*for (var i = 0; i < 60; i++) {
+    /*var walkers = {};
+    
+    for (var i = 0; i < 60; i++) {
         walkers['walker' + i] = new Walker({
             elementID: 'walker' + i,
             cssClasses: 'human',
