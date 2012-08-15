@@ -118,6 +118,7 @@ Walker.prototype.step = function (direction) {
     if (!this._current.isStepping) {
         this._current.isStepping = true;
         
+        // get row number and next coordinates based on direction
         if (direction === 'w') {
             row = 1;
             nextX--;

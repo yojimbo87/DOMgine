@@ -131,33 +131,6 @@ Playground.prototype.onKeyboardNavigation = function (callback) {
         interval = null;
 
     $(window).keydown(function (event) {
-        /*var direction = '';
-        
-        if (!keys[event.which]) {
-            keys[event.which] = true;
-        
-            // check if north or south
-            if (keys[119] || keys[87]) {
-                direction = 'n';
-            } else if (keys[115] || keys[83]) {
-                direction = 's';
-            }
-            
-            // concat west or east
-            if (keys[97] || keys[65]) {
-                direction += 'w';
-            } else if (keys[100] || keys[68]) {
-                direction += 'e';
-            }
-        
-            if (direction !== '') {
-                callback(direction);
-                
-                keys[event.which] = setInterval(function foo () {
-                    callback(direction);
-                }, 1000 / 50);
-            }
-        }*/
         if (!keys[event.which]) {
             keys[event.which] = true;
             keysCount++;
