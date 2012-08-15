@@ -47,14 +47,6 @@ And let it do its magic:
             playground: playground
         });
         
-        // register mouse click event within playground and move main walker
-        $('#playground').click(function(e) {
-            actor1.move(
-                e.pageX - this.offsetLeft, 
-                e.pageY - this.offsetTop
-            );
-        });
-        
         // create static walker
         var actor2 = new Walker({
             elementID: 'actor2',
@@ -65,6 +57,11 @@ And let it do its magic:
                 y: 4
             },
             playground: playground
+        });
+        
+        // navigate main walker to destination
+        playground.mouseClick(function (left, top) {
+            actor1.move(left, top);
         });
     });
 
@@ -158,3 +155,11 @@ Checks if there aren't neighbor entities one tile position up and down within sp
 - `end` - object with `x` and `y` coordinates which represents ending position
 
 Computes path with A* algorithm to avoid obstacles on playground map. Returns `array` which consists of set of arrays where each holds two elements representing x and y coordinates within map.
+
+    playground.mouseClick(callback);
+    
+- `callback(left, top)` - callback invoked when mouse within playground element was clicked
+  - `left` - number of pixels from left corner of playground element (x coordinate)
+  - `top` - number of pixels from top corner of playground element (y coordinate)
+  
+Invoked callback when mouse click event is fired within playground element. Callback arguments are recalculated to position within playground. Returns `void`.
