@@ -10,14 +10,10 @@ function Playground(options) {
         tileHeight: options.tileHeight || 16
     };
     
-    this._element = $('#' + this._options.id);
-    
-    this._mapScale = {
-        width: 0,
-        height: 0
-    };
+    this._element = $('#' + this._options.elementID);
+    this._mapScaleWidth = 0;
+    this._mapScaleWidtHeight = 0;
     this._finder = new PF.AStarFinder({ allowDiagonal: true });
-    
     this._map = [];
     this._entities = {};
     
@@ -106,6 +102,15 @@ Playground.prototype.findPath = function (start, end) {
         end.y, 
         grid
     );
+};
+
+Playground.prototype.mouseClick = function (callback) {
+    this._element.on('click', function (event) {
+        callback(
+            event.pageX - this.offsetLeft,
+            event.pageY - this.offsetTop
+        );
+    });
 };
 
 Playground.prototype.printMap = function () {

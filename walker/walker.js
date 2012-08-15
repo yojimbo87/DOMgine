@@ -38,6 +38,9 @@ function Walker(options) {
         );
     }
     
+    // expose element id
+    this.id = this._options.elementID;
+    
     // get jquery element object and add css classes if specified
     this._element = $('#' + this._options.elementID);
     

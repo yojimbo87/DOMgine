@@ -26,6 +26,10 @@ $(document).ready(function() {
         playground: playground
     });
     
+    playground.mouseClick(function (left, top) {
+        actor1.move(left, top);
+    });
+    
     /*var actor3 = new Walker({
         elementID: 'actor3',
         cssClasses: 'human',
@@ -48,12 +52,12 @@ $(document).ready(function() {
         playground: playground
     });*/
     
-    $('#playground').click(function(e) {
+    /*$('#playground').click(function(e) {
         actor1.move(
             e.pageX - this.offsetLeft, 
             e.pageY - this.offsetTop
         );
-    });
+    });*/
 
     /*var walkers = {};
     
