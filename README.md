@@ -23,6 +23,7 @@ Constructor for standalone walker entity which performs create animation upon cr
 - tileHeight - number of pixels representing height of single tile used for determining location (16 by default)
 - playground - reference to playground object which is responsible for map and pathfinding
 
+
     walker.move(left, top)
 
 Initiates movement between current and destination point. When playground option is set, movement is calculated within map.
