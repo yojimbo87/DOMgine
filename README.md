@@ -91,7 +91,7 @@ Walker class
   - `tileHeight` - number of pixels representing height of single tile used for determining location (16 by default)
   - `playground` - reference to playground object which is responsible for map and pathfinding (false by default)
 
-Constructor for standalone walker entity which performs create animation upon creation.
+Constructor for standalone walker entity which performs create animation upon creation. If playground reference is passed within options object, entity adds and removes itself, updates each movement cycle on map and uses pathfinding and z-index status information given by playground object.
 
     walker.move(left, top);
 
