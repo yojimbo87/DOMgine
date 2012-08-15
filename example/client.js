@@ -26,8 +26,16 @@ $(document).ready(function() {
         playground: playground
     });
     
-    playground.mouseClick(function (left, top) {
+    playground.onMouseNavigation(function (left, top) {
         actor1.move(left, top);
+    });
+    
+    var map = $('#map');
+    var count = 1;
+    playground.onKeyboardNavigation(function (direction) {
+        count++;
+        map.html(direction + ' ' + count);
+        actor2.step(direction);
     });
     
     /*var actor3 = new Walker({

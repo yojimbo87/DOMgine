@@ -88,6 +88,18 @@ Playground.prototype.zIndexStatus = function (x, y) {
     return zIndexChange;
 };
 
+Playground.prototype.checkPosition = function (x, y) {
+    if ((x >= 0) && 
+        (x < this._mapScaleWidth) &&
+        (y >= 0) &&
+        (y < this._mapScaleHeight) &&
+        (this._map[y][x] === 0)) {
+        return true;
+    } else {
+        return false;
+    }
+};
+
 Playground.prototype.findPath = function (start, end) {
     var grid = new PF.Grid(
             this._mapScaleWidth,
@@ -104,12 +116,86 @@ Playground.prototype.findPath = function (start, end) {
     );
 };
 
-Playground.prototype.mouseClick = function (callback) {
+Playground.prototype.onMouseNavigation = function (callback) {
     this._element.on('click', function (event) {
         callback(
             event.pageX - this.offsetLeft,
             event.pageY - this.offsetTop
         );
+    });
+};
+
+Playground.prototype.onKeyboardNavigation = function (callback) {
+    var keys = {},
+        keysCount = 0,
+        interval = null;
+
+    $(window).keydown(function (event) {
+        /*var direction = '';
+        
+        if (!keys[event.which]) {
+            keys[event.which] = true;
+        
+            // check if north or south
+            if (keys[119] || keys[87]) {
+                direction = 'n';
+            } else if (keys[115] || keys[83]) {
+                direction = 's';
+            }
+            
+            // concat west or east
+            if (keys[97] || keys[65]) {
+                direction += 'w';
+            } else if (keys[100] || keys[68]) {
+                direction += 'e';
+            }
+        
+            if (direction !== '') {
+                callback(direction);
+                
+                keys[event.which] = setInterval(function foo () {
+                    callback(direction);
+                }, 1000 / 50);
+            }
+        }*/
+        if (!keys[event.which]) {
+            keys[event.which] = true;
+            keysCount++;
+        }
+        
+        if (interval === null) {
+            interval = setInterval(function () {
+                var direction = '';
+                
+                // check if north or south
+                if (keys[119] || keys[87]) {
+                    direction = 'n';
+                } else if (keys[115] || keys[83]) {
+                    direction = 's';
+                }
+                
+                // concat west or east
+                if (keys[97] || keys[65]) {
+                    direction += 'w';
+                } else if (keys[100] || keys[68]) {
+                    direction += 'e';
+                }
+            
+                callback(direction);
+            }, 1000 / 50);
+        }
+    });
+    
+    $(window).keyup(function (event) {
+        if (keys[event.which]) {
+            delete keys[event.which];
+            keysCount--;
+        }
+        
+        if (keysCount === 0) {
+            clearInterval(interval);
+            interval = null;
+        }
     });
 };
 

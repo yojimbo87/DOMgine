@@ -8,7 +8,11 @@ function Walker(options) {
         // flag to determine if this object is in destroy process
         // e.g. delete animation is in progress and object still exists
         // so no other action should be executed
-        isDestroying: false
+        isDestroying: false,
+        // flag to determine if entity is currently performing
+        // step action, e.g. in this situation it shouldn't listen to
+        // invoked keyboard navigation changes in order to finish move
+        isStepping: false
     };
     
     this._options = {
@@ -99,6 +103,110 @@ Walker.prototype.move = function (left, top) {
             // show first position in current sprite row
             this._current.column = 0;
             this._element.css('backgroundPosition', '0px -' + (this._current.row * this._options.height) + 'px');
+        }
+    }
+};
+
+Walker.prototype.step = function (direction) {
+    var self = this,
+        zIndexChange = 0,
+        stepCount = 0,
+        row = 0,
+        nextX = this._current.x, 
+        nextY = this._current.y;
+
+    if (!this._current.isStepping) {
+        this._current.isStepping = true;
+        
+        if (direction === 'w') {
+            row = 1;
+            nextX--;
+        } else if (direction === 'n') {
+            row = 3;
+            nextY--;
+        } else if (direction === 'e') {
+            row = 2;
+            nextX++;
+        } else if (direction === 's') {
+            row = 0;
+            nextY++;
+        } else if (direction === 'nw') {
+            row = 6;
+            nextX--;
+            nextY--;
+        } else if (direction === 'ne') {
+            row = 7;
+            nextX++;
+            nextY--;
+        } else if (direction === 'sw') {
+            row = 5;
+            nextX--;
+            nextY++;
+        } else if (direction === 'se') {
+            row = 4;
+            nextX++;
+            nextY++;
+        }
+        
+        if ((this._current.x !== nextX) || (this._current.y !== nextY) && (!this._current.isDestroying)) {        
+            if (this._options.playground.checkPosition(nextX, nextY)) {
+                this._current.x = nextX;
+                this._current.y = nextY;
+            
+                if (this._options.playground !== false) {
+                    // change z-index to correctly show overlay between multiple entities
+                    zIndexChange = this._options.playground.zIndexStatus(nextX, nextY);
+                    
+                    if (zIndexChange === 1) {
+                        this._element.css('zIndex', 9999);
+                    } else if (zIndexChange === -1) {
+                        this._element.css('zIndex', 0);
+                    }
+                }
+                
+                this._current.direction = direction;
+                this._current.row = row;
+                
+                this._element.animate(
+                    {
+                        left: nextX * this._options.tileWidth,
+                        top: nextY * this._options.tileHeight - this._options.tileHeight
+                    }, 
+                    {
+                        duration: 300, 
+                        easing: 'linear',
+                        step: function() {
+                            position = self._element.position(),
+                            stepCount++;
+                            
+                            // change position within sprite after certain amount of steps
+                            if (stepCount % 16 === 0) {
+                                // set appropriate position from sprite
+                                self._element.css(
+                                    'backgroundPosition',
+                                    (self._current.column * self._options.width) + 'px ' +
+                                    '-' + (self._current.row * self._options.height) + 'px'
+                                );
+                                self._current.column++;
+                                
+                                // go to beginning position within sprite when the end column was reached
+                                if(self._current.column === self._options.columnsCount) {
+                                    self._current.column = 0;
+                                }
+                            }
+                        },
+                        complete: function() {
+                            self._current.isStepping = false;
+                        }
+                    }
+                );
+            } else {
+                // stop current animation
+                this._element.stop(true, false);
+                // show first position in current sprite row
+                this._current.column = 0;
+                this._element.css('backgroundPosition', '0px -' + (this._current.row * this._options.height) + 'px');
+            }
         }
     }
 };
