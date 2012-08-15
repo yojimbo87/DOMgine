@@ -19,6 +19,8 @@ function Walker(options) {
         rowsCount: options.rowsCount || 8,
         height: options.height || 32,
         width: options.width || 32,
+        tileWidth: options.tileWidth || 16,
+        tileHeight: options.tileHeight || 16,
         playground: options.playground || false
     };
     
@@ -47,9 +49,9 @@ function Walker(options) {
     this._element.css({
         'backgroundImage': 'url("' + this._options.sprite + '")',
         'height': this._options.height + 'px',
-        'left': (this._current.x * this._options.width) + 'px',
+        'left': (this._current.x * this._options.tileWidth) + 'px',
         'position': 'absolute',
-        'top': (this._current.y * this._options.height) + 'px',
+        'top': (this._current.y * this._options.tileHeight - this._options.tileHeight) + 'px',
         'width': this._options.width + 'px'
     });
     
@@ -60,8 +62,8 @@ function Walker(options) {
 
 Walker.prototype.move = function (left, top) {
     var self = this,
-        x = Math.floor(left / this._options.width),
-        y = Math.floor(top / this._options.height),
+        x = Math.floor(left / this._options.tileWidth),
+        y = Math.floor(top / this._options.tileHeight),
         iteration = 0;
   
     if ((this._current.x !== x) || (this._current.y !== y) && (!this._current.isDestroying)) {
@@ -119,8 +121,8 @@ Walker.prototype.destroy = function (callback) {
     
     this._element.animate(
         {
-            left: this._current.x * this._options.width,
-            top: this._current.y * this._options.height
+            left: this._current.x * this._options.tileWidth,
+            top: this._current.y * this._options.tileHeight - this._options.tileHeight
         }, 
         {
             duration: 800, 
@@ -163,7 +165,7 @@ Walker.prototype._createAnimation = function() {
     this._current.column = 0;
     this._current.row = 9;
 
-    // set appropriate position from sprite
+    // set appropriate sprite position
     this._element.css(
         'backgroundPosition',
         (this._current.column * this._options.width) + 'px ' +
@@ -172,8 +174,8 @@ Walker.prototype._createAnimation = function() {
     
     this._element.animate(
         {
-            left: this._current.x * this._options.width,
-            top: this._current.y * this._options.height
+            left: this._current.x * this._options.tileWidth,
+            top: this._current.y * this._options.tileHeight - this._options.tileHeight
         }, 
         {
             duration: 800, 
@@ -276,11 +278,11 @@ Walker.prototype._animationCycle = function (iteration, callback) {
         
         this._element.animate(
             {
-                left: nextX * this._options.width,
-                top: nextY * this._options.height
+                left: nextX * this._options.tileWidth,
+                top: nextY * this._options.tileHeight - this._options.tileHeight
             }, 
             {
-                duration: 800, 
+                duration: 400, 
                 easing: 'linear',
                 step: function() {
                     position = self._element.position(),

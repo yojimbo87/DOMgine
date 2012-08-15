@@ -6,13 +6,15 @@ $(document).ready(function() {
         tile: {}
     });
     
+    var walkers = {};
+    
     var actor1 = new Walker({
         elementID: 'actor1',
         cssClasses: 'human',
         sprite: '../sprites/lemming-joe.png',
         start: {
-            x: 1,
-            y: 1
+            x: 2,
+            y: 2
         },
         playground: playground
     });
@@ -57,9 +59,28 @@ $(document).ready(function() {
         );
     });
     
-    setTimeout(function () {
-        actor4.destroy(function () {
-            
+    playground.printMap();
+    
+    /*for (var i = 0; i < 60; i++) {
+        walkers['walker' + i] = new Walker({
+            elementID: 'walker' + i,
+            cssClasses: 'human',
+            sprite: '../sprites/lemming-johny.png',
+            start: {
+                x: Math.floor(Math.random()*16),
+                y: Math.floor(Math.random()*16)
+            },
+            playground: playground
         });
-    }, 5000);
+    }
+    
+    setInterval(function () {
+        for (var i = 0; i < 30; i++) {
+            var index = Math.floor(Math.random()*60);
+            walkers['walker' + index].move(
+                Math.floor(Math.random()*512),
+                Math.floor(Math.random()*512)
+            );
+        }
+    }, 5000);*/
 });

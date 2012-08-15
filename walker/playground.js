@@ -6,8 +6,8 @@ function Playground(options) {
             height: options.map.height || 512
         },
         tile: {
-            width: options.tile.width || 32,
-            height: options.tile.height || 32
+            width: options.tile.width || 16,
+            height: options.tile.height || 16
         }
     };
     
