@@ -1,15 +1,17 @@
 Walker is a library which allows you to create lemmings style animated character(s) that are able to navigate within specific area.
 
-Example
+Usage
 ===
 
 See it in action [here](http://yojimbo87.github.com/walker/).
 
     $(document).ready(function() {
+        // create playground for walker entities
         var playground = new Playground({
             elementID: 'playground'
         });
         
+        // create main walker which will move around
         var actor1 = new Walker({
             elementID: 'actor1',
             cssClasses: 'human',
@@ -21,6 +23,15 @@ See it in action [here](http://yojimbo87.github.com/walker/).
             playground: playground
         });
         
+        // register mouse click event within playground and move main walker
+        $('#playground').click(function(e) {
+            actor1.move(
+                e.pageX - this.offsetLeft, 
+                e.pageY - this.offsetTop
+            );
+        });
+        
+        // create static walker
         var actor2 = new Walker({
             elementID: 'actor2',
             cssClasses: 'human',
@@ -30,13 +41,6 @@ See it in action [here](http://yojimbo87.github.com/walker/).
                 y: 4
             },
             playground: playground
-        });
-        
-        $('#playground').click(function(e) {
-            actor1.move(
-                e.pageX - this.offsetLeft, 
-                e.pageY - this.offsetTop
-            );
         });
     });
 
