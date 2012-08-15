@@ -252,6 +252,7 @@ Walker.prototype._animationCycle = function (iteration, callback) {
     var self = this,
         stepCount = 0,
         nextX, nextY,
+        zIndexChange,
         direction,
         position;
 
@@ -270,6 +271,17 @@ Walker.prototype._animationCycle = function (iteration, callback) {
     if ((iteration + 1) < this._path.length) {
         nextX = this._path[iteration + 1][0];
         nextY = this._path[iteration + 1][1];
+        
+        if (this._options.playground !== false) {
+            // change z-index to correctly show overlay between multiple entities
+            zIndexChange = this._options.playground.zIndexStatus(nextX, nextY);
+            
+            if (zIndexChange === 1) {
+                this._element.css('zIndex', 9999);
+            } else if (zIndexChange === -1) {
+                this._element.css('zIndex', 0);
+            }
+        }
         
         direction = this._getDirection(nextX, nextY);
         

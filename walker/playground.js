@@ -76,6 +76,24 @@ Playground.prototype.updateEntityPosition = function (elementID, x, y) {
     }
 };
 
+// returns integer which indicates if z-index css property should be 
+// incemented or decremented to properly show overlay
+// +1 - set z-index to high value
+// 0 - no change
+// -1 - set z-index to low value
+Playground.prototype.zIndexStatus = function (x, y) {
+    var zIndexChange = 0;
+    
+    if (((y - 1) >= 0) && (this._map[y - 1][x] === 1)) {
+        zIndexChange = 1;
+    } else if (((y + 1) < this._mapScale.height) && 
+        (this._map[y + 1][x] === 1)) {
+        zIndexChange = -1;
+    }
+    
+    return zIndexChange;
+};
+
 Playground.prototype.findPath = function (start, end) {
     var grid = new PF.Grid(
             this._mapScale.width,

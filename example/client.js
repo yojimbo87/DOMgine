@@ -58,9 +58,7 @@ $(document).ready(function() {
             e.pageY - this.offsetTop
         );
     });
-    
-    playground.printMap();
-    
+
     /*for (var i = 0; i < 60; i++) {
         walkers['walker' + i] = new Walker({
             elementID: 'walker' + i,
