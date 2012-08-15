@@ -1,5 +1,4 @@
 $(document).ready(function() {
-
     var playground = new Playground({
         elementID: 'playground'
     });
@@ -7,7 +6,7 @@ $(document).ready(function() {
     var actor1 = new Walker({
         elementID: 'actor1',
         cssClasses: 'human',
-        sprite: '../sprites/lemming-joe.png',
+        sprite: 'sprites/lemming-joe.png',
         start: {
             x: 2,
             y: 2
@@ -18,7 +17,7 @@ $(document).ready(function() {
     var actor2 = new Walker({
         elementID: 'actor2',
         cssClasses: 'human',
-        sprite: '../sprites/lemming-johny.png',
+        sprite: 'sprites/lemming-johny.png',
         start: {
             x: 4,
             y: 4
@@ -29,7 +28,7 @@ $(document).ready(function() {
     /*var actor3 = new Walker({
         elementID: 'actor3',
         cssClasses: 'human',
-        sprite: '../sprites/lemming-johny.png',
+        sprite: 'sprites/lemming-johny.png',
         start: {
             x: 6,
             y: 4
@@ -40,7 +39,7 @@ $(document).ready(function() {
     var actor4 = new Walker({
         elementID: 'actor4',
         cssClasses: 'human',
-        sprite: '../sprites/lemming-johny.png',
+        sprite: 'sprites/lemming-johny.png',
         start: {
             x: 8,
             y: 4
@@ -61,7 +60,7 @@ $(document).ready(function() {
         walkers['walker' + i] = new Walker({
             elementID: 'walker' + i,
             cssClasses: 'human',
-            sprite: '../sprites/lemming-johny.png',
+            sprite: 'sprites/lemming-johny.png',
             start: {
                 x: Math.floor(Math.random()*16),
                 y: Math.floor(Math.random()*16)
