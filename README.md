@@ -3,7 +3,7 @@ Walker is a library which allows you to create lemmings style animated character
 Example
 ===
 
-See it in action [here](http://jquery.com/).
+See it in action [here](http://yojimbo87.github.com/walker/).
 
     $(document).ready(function() {
         var playground = new Playground({
