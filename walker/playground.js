@@ -1,4 +1,7 @@
 function Playground(options) {
+    options.map = options.map || {};
+    options.tile = options.tile || {};
+
     this._options = {
         elementID: options.id || 'playground',
         map: {

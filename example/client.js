@@ -1,9 +1,7 @@
 $(document).ready(function() {
 
     var playground = new Playground({
-        elementID: 'playground',
-        map: {},
-        tile: {}
+        elementID: 'playground'
     });
     
     var walkers = {};
