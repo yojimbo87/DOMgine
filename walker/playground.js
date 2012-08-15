@@ -4,14 +4,10 @@ function Playground(options) {
 
     this._options = {
         elementID: options.id || 'playground',
-        map: {
-            width: options.map.width || 512,
-            height: options.map.height || 512
-        },
-        tile: {
-            width: options.tile.width || 16,
-            height: options.tile.height || 16
-        }
+        mapWidth: options.mapWidth || 512,
+        mapHeight: options.mapHeight || 512,
+        tileWidth: options.tileWidth || 16,
+        tileHeight: options.tileHeight || 16
     };
     
     this._element = $('#' + this._options.id);
@@ -32,13 +28,13 @@ Playground.prototype._initMap = function () {
     var i, ilen,
         j, jlen;
 
-    this._mapScale.width = this._options.map.width / this._options.tile.width;
-    this._mapScale.height = this._options.map.height / this._options.tile.height;
+    this._mapScaleWidth = this._options.mapWidth / this._options.tileWidth;
+    this._mapScaleHeight = this._options.mapHeight / this._options.tileHeight;
     
-    for (i = 0, ilen = this._mapScale.width; i < ilen; i++) {
+    for (i = 0, ilen = this._mapScaleWidth; i < ilen; i++) {
         this._map[i] = [];
     
-        for (j = 0, jlen = this._mapScale.height; j < jlen; j++) {
+        for (j = 0, jlen = this._mapScaleHeight; j < jlen; j++) {
             this._map[i][j] = 0;
         }
     }
@@ -68,8 +64,8 @@ Playground.prototype.removeEntity = function (entityID) {
     }
 };
 
-Playground.prototype.updateEntityPosition = function (elementID, x, y) {
-    var entity = this._entities[elementID];
+Playground.prototype.updateEntityPosition = function (entityID, x, y) {
+    var entity = this._entities[entityID];
         
     if (entity) {
         this._map[entity.y][entity.x] = 0;
@@ -89,8 +85,7 @@ Playground.prototype.zIndexStatus = function (x, y) {
     
     if (((y - 1) >= 0) && (this._map[y - 1][x] === 1)) {
         zIndexChange = 1;
-    } else if (((y + 1) < this._mapScale.height) && 
-        (this._map[y + 1][x] === 1)) {
+    } else if (((y + 1) < this._mapScaleHeight) && (this._map[y + 1][x] === 1)) {
         zIndexChange = -1;
     }
     
@@ -99,8 +94,8 @@ Playground.prototype.zIndexStatus = function (x, y) {
 
 Playground.prototype.findPath = function (start, end) {
     var grid = new PF.Grid(
-            this._mapScale.width,
-            this._mapScale.height, 
+            this._mapScaleWidth,
+            this._mapScaleHeight, 
             this._map
         );
     
