@@ -39,7 +39,7 @@ And let it do its magic:
         var actor1 = new Walker({
             elementID: 'actor1',
             cssClasses: 'human',
-            sprite: '../sprites/lemming-joe.png',
+            sprite: 'sprites/lemming-joe.png',
             start: {
                 x: 2,
                 y: 2
@@ -59,7 +59,7 @@ And let it do its magic:
         var actor2 = new Walker({
             elementID: 'actor2',
             cssClasses: 'human',
-            sprite: '../sprites/lemming-johny.png',
+            sprite: 'sprites/lemming-johny.png',
             start: {
                 x: 4,
                 y: 4
