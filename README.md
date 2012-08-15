@@ -60,7 +60,7 @@ And let it do its magic:
         });
         
         // navigate main walker to destination
-        playground.mouseClick(function (left, top) {
+        playground.onMouseNavigation(function (left, top) {
             actor1.move(left, top);
         });
     });
@@ -156,10 +156,17 @@ Checks if there aren't neighbor entities one tile position up and down within sp
 
 Computes path with A* algorithm to avoid obstacles on playground map. Returns `array` which consists of set of arrays where each holds two elements representing x and y coordinates within map.
 
-    playground.mouseClick(callback);
+    playground.onMouseNavigation(callback);
     
-- `callback(left, top)` - callback invoked when mouse within playground element was clicked
+- `callback(left, top)` - callback invoked when left mouse button within playground element is clicked
   - `left` - number of pixels from left corner of playground element (x coordinate)
   - `top` - number of pixels from top corner of playground element (y coordinate)
   
-Invoked callback when mouse click event is fired within playground element. Callback arguments are recalculated to position within playground. Returns `void`.
+Invokes callback when left mouse button click event is fired within playground element. Callback arguments are recalculated to position within playground. Returns `void`.
+
+    playground.onKeyboardNavigation(callback);
+    
+- `callback(direction)` - callback invoked when w, s, a, d characters on keyboard are pressed
+  - `direction` - string which represents direction based on characters pressed (can north `n`, south, `s`, west `w`, east `e`, northwest `nw`, northeast `ne`, southwest `sw` or southeast `se`)
+
+Invokes callback when w, s, a, d characters on keyboards are pressed. Returns `void`.
