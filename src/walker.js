@@ -231,7 +231,9 @@ Walker.prototype.step = function (direction) {
                     }
                 );
             } else {
-                this._current.isStepping = false;
+                if (this._current.lastStepDirection === 0) {
+                    this._current.isStepping = false;
+                }
                 // stop current animation
                 this._element.stop(true, false);
                 // show first position in current sprite row
@@ -248,7 +250,10 @@ Walker.prototype.rotate = function (left, top) {
         Math.floor(top / this._options.tileHeight)
     );
     
-    if (!this._current.isStepping && !this._current.isMoving && !this._current.isDestroying) {
+    if (!this._current.isStepping && 
+        (this._current.lastStepDirection === 0) &&
+        !this._current.isMoving && 
+        !this._current.isDestroying) {
         this._current.column = 0;
         this._current.direction = direction.cardinality;
         this._current.row = direction.row;
