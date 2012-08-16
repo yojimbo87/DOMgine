@@ -63,6 +63,12 @@ And let it do its magic:
         playground.onMouseNavigation(function (left, top) {
             actor1.move(left, top);
         });
+        
+        // rotate both walkers toward mouse direction
+        playground.onMouseMove(function (left, top) {
+            actor1.rotate(left, top);
+            actor2.rotate(left, top);
+        });
     });
 
 Dependencies
@@ -109,6 +115,15 @@ Initiates movement between current and destination point. When playground option
 - `direction` - string based cardinal direction
 
 Moves entity to specified cardinal direction (can be north `n`, south, `s`, west `w`, east `e`, northwest `nw`, northeast `ne`, southwest `sw`, southeast `se` or numeric `0` value when movement should be stopped). Returns `void`.
+
+*****
+
+    walker.rotate(left, top);
+    
+- `left` - number of pixels from left corner (x coordinate)
+- `top` - number of pixels from top corner (y coordinate)
+
+Rotates walker entity towards cardinal direction computed from specified coordinates. Returns `void`.
 
 *****
 
@@ -197,6 +212,16 @@ Computes path with A* algorithm to avoid obstacles on playground map. Returns `a
   
 Invokes callback when left mouse button click event is fired within playground element. Callback arguments are recalculated to position within playground. Returns `void`.
 
+*****
+
+    playground.onMouseMove(callback);
+    
+- `callback(left, top)` - callback invoked when mouse move event is fired within playground element
+  - `left` - number of pixels from left corner of playground element (x coordinate)
+  - `top` - number of pixels from top corner of playground element (y coordinate)
+
+Invokes callback when mouse move event is fired within playground element. Returns `void`.
+  
 *****
 
     playground.onKeyboardNavigation(callback);
