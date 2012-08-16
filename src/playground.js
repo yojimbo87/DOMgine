@@ -125,6 +125,15 @@ Playground.prototype.onMouseNavigation = function (callback) {
     });
 };
 
+Playground.prototype.onMouseMove = function (callback) {
+    this._element.on('mousemove', function (event) {
+        callback(
+            event.pageX - this.offsetLeft,
+            event.pageY - this.offsetTop
+        );
+    });
+};
+
 Playground.prototype.onKeyboardNavigation = function (callback) {
     var keys = {},
         keysCount = 0,

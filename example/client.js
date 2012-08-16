@@ -34,6 +34,11 @@ $(document).ready(function() {
         actor2.step(direction);
     });
     
+    playground.onMouseMove(function (left, top) {
+        actor1.rotate(left, top);
+        actor2.rotate(left, top);
+    });
+    
     /*var actor3 = new Walker({
         elementID: 'actor3',
         cssClasses: 'human',
