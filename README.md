@@ -167,6 +167,6 @@ Invokes callback when left mouse button click event is fired within playground e
     playground.onKeyboardNavigation(callback);
     
 - `callback(direction)` - callback invoked when w, s, a, d characters on keyboard are pressed
-  - `direction` - string which represents direction based on characters pressed (can north `n`, south, `s`, west `w`, east `e`, northwest `nw`, northeast `ne`, southwest `sw` or southeast `se`)
+  - `direction` - string which represents direction based on characters pressed (can be north `n`, south, `s`, west `w`, east `e`, northwest `nw`, northeast `ne`, southwest `sw`, southeast `se` or numeric `0` value when movement stopped)
 
 Invokes callback when w, s, a, d characters on keyboards are pressed. Returns `void`.
