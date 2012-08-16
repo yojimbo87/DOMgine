@@ -7,7 +7,7 @@ $(document).ready(function() {
     var actor1 = new Walker({
         elementID: 'actor1',
         cssClasses: 'human',
-        sprite: '../sprites/lemming-joe.png',
+        sprite: '../assets/sprites/walker-joe.png',
         start: {
             x: 2,
             y: 2
@@ -18,7 +18,7 @@ $(document).ready(function() {
     var actor2 = new Walker({
         elementID: 'actor2',
         cssClasses: 'human',
-        sprite: '../sprites/lemming-johny.png',
+        sprite: '../assets/sprites/walker-johny.png',
         start: {
             x: 4,
             y: 4
@@ -29,12 +29,8 @@ $(document).ready(function() {
     playground.onMouseNavigation(function (left, top) {
         actor1.move(left, top);
     });
-    
-    var map = $('#map');
-    var count = 1;
+
     playground.onKeyboardNavigation(function (direction) {
-        count++;
-        map.html(direction + ' ' + count);
         actor2.step(direction);
     });
     

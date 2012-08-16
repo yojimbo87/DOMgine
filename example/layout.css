@@ -8,9 +8,9 @@ body {
 #playground { 
     background: #000; 
     border: 1px solid #000;
-    cursor: url('../sprites/arrow.cur'), default;
+    cursor: url('../assets/cursors/arrow.cur'), default;
     height: 512px; 
     width: 512px; 
 }
 
-.human { cursor: url('../sprites/hand.cur'), pointer; }
+.human { cursor: url('../assets/cursors/hand.cur'), pointer; }
