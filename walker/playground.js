@@ -137,7 +137,11 @@ Playground.prototype.onKeyboardNavigation = function (callback) {
             97: true, // A
             65: true, // a
             100: true, // D
-            68: true // d
+            68: true, // d
+            37: true, // left arrow
+            38: true, // up arrow
+            39: true, // right arrow
+            40: true // down arrow
         };
 
     $(window).keydown(function (event) {
@@ -154,16 +158,16 @@ Playground.prototype.onKeyboardNavigation = function (callback) {
                     var direction = '';
                     
                     // check if north or south
-                    if (keys[119] || keys[87]) {
+                    if (keys[119] || keys[87] || keys[38]) {
                         direction = 'n';
-                    } else if (keys[115] || keys[83]) {
+                    } else if (keys[115] || keys[83] || keys[40]) {
                         direction = 's';
                     }
                     
                     // concat west or east
-                    if (keys[97] || keys[65]) {
+                    if (keys[97] || keys[65] || keys[37]) {
                         direction += 'w';
-                    } else if (keys[100] || keys[68]) {
+                    } else if (keys[100] || keys[68] || keys[39]) {
                         direction += 'e';
                     }
                 
