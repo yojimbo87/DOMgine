@@ -142,12 +142,25 @@ Removes entity from playground map. Returns `void`.
 
 Updates current position of specified entity within playground map. Returns `void`.
 
+*****
+
     playground.zIndexStatus(x, y);
     
 - `x` - current x map coordinate of entity
 - `y` - current y map coordinate of entity
 
 Checks if there aren't neighbor entities one tile position up and down within specified map coordinates to determine z-index overlay changes for entity. Returns `number` which indicates if z-index should be set to high value (+1), stay unchanged (0) or set to low value (-1).
+
+*****
+
+    playground.checkPosition(x, y);
+    
+- `x` - x map coordinate
+- `y` - y map coordinate
+
+Checks if specified position on map isn't occupied. Returns `boolean` indicating if position is or isn't occupied.
+
+*****
 
     playground.findPath(start, end);
     
