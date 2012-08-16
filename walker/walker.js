@@ -12,7 +12,10 @@ function Walker(options) {
         // flag to determine if entity is currently performing
         // step action, e.g. in this situation it shouldn't listen to
         // invoked keyboard navigation changes in order to finish move
-        isStepping: false
+        isStepping: false,
+        // holds value of last step direction to determine if first sprite
+        // column should be rendered to indicate idle movement
+        lastStepDirection: 0
     };
     
     this._options = {
@@ -113,8 +116,10 @@ Walker.prototype.step = function (direction) {
         stepCount = 0,
         row = 0,
         nextX = this._current.x, 
-        nextY = this._current.y;
-
+        nextY = this._current.y;    
+        
+    this._current.lastStepDirection = direction;
+        
     if (!this._current.isStepping) {
         this._current.isStepping = true;
         
@@ -147,6 +152,8 @@ Walker.prototype.step = function (direction) {
             row = 4;
             nextX++;
             nextY++;
+        } else {
+            this._current.isStepping = false;
         }
         
         if ((this._current.x !== nextX) || (this._current.y !== nextY) && (!this._current.isDestroying)) {        
@@ -155,6 +162,12 @@ Walker.prototype.step = function (direction) {
                 this._current.y = nextY;
             
                 if (this._options.playground !== false) {
+                    this._options.playground.updateEntityPosition(
+                        this._options.elementID,
+                        this._current.x,
+                        this._current.y
+                    );
+                
                     // change z-index to correctly show overlay between multiple entities
                     zIndexChange = this._options.playground.zIndexStatus(nextX, nextY);
                     
@@ -174,14 +187,14 @@ Walker.prototype.step = function (direction) {
                         top: nextY * this._options.tileHeight - this._options.tileHeight
                     }, 
                     {
-                        duration: 300, 
+                        duration: 390, 
                         easing: 'linear',
                         step: function() {
                             position = self._element.position(),
                             stepCount++;
                             
                             // change position within sprite after certain amount of steps
-                            if (stepCount % 16 === 0) {
+                            if (stepCount % 15 === 0) {
                                 // set appropriate position from sprite
                                 self._element.css(
                                     'backgroundPosition',
@@ -198,10 +211,20 @@ Walker.prototype.step = function (direction) {
                         },
                         complete: function() {
                             self._current.isStepping = false;
+                            
+                            if (self._current.lastStepDirection === 0) {
+                                // show first position in current sprite row
+                                self._current.column = 0;
+                                self._element.css(
+                                    'backgroundPosition', 
+                                    '0px -' + (self._current.row * self._options.height) + 'px'
+                                );
+                            }
                         }
                     }
                 );
             } else {
+                this._current.isStepping = false;
                 // stop current animation
                 this._element.stop(true, false);
                 // show first position in current sprite row

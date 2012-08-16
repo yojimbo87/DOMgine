@@ -168,6 +168,7 @@ Playground.prototype.onKeyboardNavigation = function (callback) {
         if (keysCount === 0) {
             clearInterval(interval);
             interval = null;
+            callback(0);
         }
     });
 };
