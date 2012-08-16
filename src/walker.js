@@ -231,9 +231,8 @@ Walker.prototype.step = function (direction) {
                     }
                 );
             } else {
-                if (this._current.lastStepDirection === 0) {
-                    this._current.isStepping = false;
-                }
+                this._current.isStepping = false;
+                
                 // stop current animation
                 this._element.stop(true, false);
                 // show first position in current sprite row
