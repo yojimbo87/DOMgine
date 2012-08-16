@@ -93,12 +93,16 @@ Walker class
 
 Constructor for standalone walker entity which performs create animation upon creation. If playground reference is passed within options object, entity adds and removes itself, updates each movement cycle on map and uses pathfinding and z-index status information given by playground object.
 
+*****
+
     walker.move(left, top);
 
 - `left` - number of pixels from left corner (x coordinate)
 - `top` - number of pixels from top corner (y coordinate)
 
 Initiates movement between current and destination point. When playground option is set, movement is calculated within map. Returns `void`.
+
+*****
 
     walker.destroy(callback);
 
@@ -120,6 +124,8 @@ Playground class
   
 Constructor for playground object which is responsible for map functionality and pathfinding.
 
+*****
+
     playground.addEntity(entityID, x, y);
     
 - `entityID` - string ID of entity
@@ -128,11 +134,15 @@ Constructor for playground object which is responsible for map functionality and
 
 Adds entity to playground map to track its' position. Returns `void`.
 
+*****
+
     playground.removeEntity(entityID);
     
 - `entityID` - string ID of entity
 
 Removes entity from playground map. Returns `void`.
+
+*****
 
     playground.updateEntityPosition(entityID, x, y);
     
@@ -169,6 +179,8 @@ Checks if specified position on map isn't occupied. Returns `boolean` indicating
 
 Computes path with A* algorithm to avoid obstacles on playground map. Returns `array` which consists of set of arrays where each holds two elements representing x and y coordinates within map.
 
+*****
+
     playground.onMouseNavigation(callback);
     
 - `callback(left, top)` - callback invoked when left mouse button within playground element is clicked
@@ -176,6 +188,8 @@ Computes path with A* algorithm to avoid obstacles on playground map. Returns `a
   - `top` - number of pixels from top corner of playground element (y coordinate)
   
 Invokes callback when left mouse button click event is fired within playground element. Callback arguments are recalculated to position within playground. Returns `void`.
+
+*****
 
     playground.onKeyboardNavigation(callback);
     
