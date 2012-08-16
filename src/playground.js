@@ -144,7 +144,7 @@ Playground.prototype.onKeyboardNavigation = function (callback) {
             40: true // down arrow
         };
 
-    $(window).keydown(function (event) {
+    $(document).keydown(function (event) {
         var code = event.which;
         
         if (trackedKeys[code]) {
@@ -177,7 +177,7 @@ Playground.prototype.onKeyboardNavigation = function (callback) {
         }
     });
     
-    $(window).keyup(function (event) {
+    $(document).keyup(function (event) {
         var code = event.which;
     
         if (keys[code]) {
