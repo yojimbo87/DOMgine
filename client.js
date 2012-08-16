@@ -25,57 +25,11 @@ $(document).ready(function() {
         playground: playground
     });
     
-    /*var actor3 = new Walker({
-        elementID: 'actor3',
-        cssClasses: 'human',
-        sprite: 'sprites/lemming-johny.png',
-        start: {
-            x: 6,
-            y: 4
-        },
-        playground: playground
-    });
-    
-    var actor4 = new Walker({
-        elementID: 'actor4',
-        cssClasses: 'human',
-        sprite: 'sprites/lemming-johny.png',
-        start: {
-            x: 8,
-            y: 4
-        },
-        playground: playground
-    });*/
-    
-    $('#playground').click(function(e) {
-        actor1.move(
-            e.pageX - this.offsetLeft, 
-            e.pageY - this.offsetTop
-        );
+    playground.onMouseNavigation(function(left, top) {
+        actor1.move(left, top);
     });
 
-    /*var walkers = {};
-    
-    for (var i = 0; i < 60; i++) {
-        walkers['walker' + i] = new Walker({
-            elementID: 'walker' + i,
-            cssClasses: 'human',
-            sprite: 'sprites/lemming-johny.png',
-            start: {
-                x: Math.floor(Math.random()*16),
-                y: Math.floor(Math.random()*16)
-            },
-            playground: playground
-        });
-    }
-    
-    setInterval(function () {
-        for (var i = 0; i < 30; i++) {
-            var index = Math.floor(Math.random()*60);
-            walkers['walker' + index].move(
-                Math.floor(Math.random()*512),
-                Math.floor(Math.random()*512)
-            );
-        }
-    }, 5000);*/
+    playground.onKeyboardNavigation(function (direction) {
+        actor2.step(direction);
+    });
 });

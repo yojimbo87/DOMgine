@@ -6,8 +6,7 @@ body {
 }
 
 #playground { 
-    background: #000; 
-    border: 1px solid #000;
+    background: #000;
     cursor: url('sprites/arrow.cur'), default;
     height: 512px; 
     width: 512px; 

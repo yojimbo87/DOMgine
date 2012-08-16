@@ -10,14 +10,10 @@ function Playground(options) {
         tileHeight: options.tileHeight || 16
     };
     
-    this._element = $('#' + this._options.id);
-    
-    this._mapScale = {
-        width: 0,
-        height: 0
-    };
+    this._element = $('#' + this._options.elementID);
+    this._mapScaleWidth = 0;
+    this._mapScaleWidtHeight = 0;
     this._finder = new PF.AStarFinder({ allowDiagonal: true });
-    
     this._map = [];
     this._entities = {};
     
@@ -92,6 +88,18 @@ Playground.prototype.zIndexStatus = function (x, y) {
     return zIndexChange;
 };
 
+Playground.prototype.checkPosition = function (x, y) {
+    if ((x >= 0) && 
+        (x < this._mapScaleWidth) &&
+        (y >= 0) &&
+        (y < this._mapScaleHeight) &&
+        (this._map[y][x] === 0)) {
+        return true;
+    } else {
+        return false;
+    }
+};
+
 Playground.prototype.findPath = function (start, end) {
     var grid = new PF.Grid(
             this._mapScaleWidth,
@@ -106,6 +114,84 @@ Playground.prototype.findPath = function (start, end) {
         end.y, 
         grid
     );
+};
+
+Playground.prototype.onMouseNavigation = function (callback) {
+    this._element.on('click', function (event) {
+        callback(
+            event.pageX - this.offsetLeft,
+            event.pageY - this.offsetTop
+        );
+    });
+};
+
+Playground.prototype.onKeyboardNavigation = function (callback) {
+    var keys = {},
+        keysCount = 0,
+        interval = null,
+        trackedKeys = {
+            119: true, // W
+            87: true, // w
+            115: true, // S
+            83: true, // s
+            97: true, // A
+            65: true, // a
+            100: true, // D
+            68: true, // d
+            37: true, // left arrow
+            38: true, // up arrow
+            39: true, // right arrow
+            40: true // down arrow
+        };
+
+    $(window).keydown(function (event) {
+        var code = event.which;
+        
+        if (trackedKeys[code]) {
+            if (!keys[code]) {
+                keys[code] = true;
+                keysCount++;
+            }
+            
+            if (interval === null) {
+                interval = setInterval(function () {
+                    var direction = '';
+                    
+                    // check if north or south
+                    if (keys[119] || keys[87] || keys[38]) {
+                        direction = 'n';
+                    } else if (keys[115] || keys[83] || keys[40]) {
+                        direction = 's';
+                    }
+                    
+                    // concat west or east
+                    if (keys[97] || keys[65] || keys[37]) {
+                        direction += 'w';
+                    } else if (keys[100] || keys[68] || keys[39]) {
+                        direction += 'e';
+                    }
+                
+                    callback(direction);
+                }, 1000 / 50);
+            }
+        }
+    });
+    
+    $(window).keyup(function (event) {
+        var code = event.which;
+    
+        if (keys[code]) {
+            delete keys[code];
+            keysCount--;
+        }
+        
+        // need to check if keyboard movement stopped
+        if ((trackedKeys[code]) && (keysCount === 0)) {
+            clearInterval(interval);
+            interval = null;
+            callback(0);
+        }
+    });
 };
 
 Playground.prototype.printMap = function () {
