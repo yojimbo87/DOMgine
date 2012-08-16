@@ -104,6 +104,14 @@ Initiates movement between current and destination point. When playground option
 
 *****
 
+    walker.step(direction);
+    
+- `direction` - string based cardinal direction
+
+Moves entity to specified cardinal direction (can be north `n`, south, `s`, west `w`, east `e`, northwest `nw`, northeast `ne`, southwest `sw`, southeast `se` or numeric `0` value when movement should be stopped). Returns `void`.
+
+*****
+
     walker.destroy(callback);
 
 - `callback` - callback invoked when animation is completed
