@@ -6,7 +6,7 @@ $(document).ready(function() {
     var actor1 = new Walker({
         elementID: 'actor1',
         cssClasses: 'human',
-        sprite: 'sprites/lemming-joe.png',
+        sprite: 'assets/sprites/walker-joe.png',
         start: {
             x: 2,
             y: 2
@@ -17,7 +17,7 @@ $(document).ready(function() {
     var actor2 = new Walker({
         elementID: 'actor2',
         cssClasses: 'human',
-        sprite: 'sprites/lemming-johny.png',
+        sprite: 'assets/sprites/walker-johny.png',
         start: {
             x: 4,
             y: 4
@@ -31,5 +31,10 @@ $(document).ready(function() {
 
     playground.onKeyboardNavigation(function (direction) {
         actor2.step(direction);
+    });
+    
+    playground.onMouseMove(function (left, top) {
+        actor1.rotate(left, top);
+        actor2.rotate(left, top);
     });
 });
