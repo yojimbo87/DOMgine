@@ -128,44 +128,61 @@ Playground.prototype.onMouseNavigation = function (callback) {
 Playground.prototype.onKeyboardNavigation = function (callback) {
     var keys = {},
         keysCount = 0,
-        interval = null;
+        interval = null,
+        trackedKeys = {
+            119: true, // W
+            87: true, // w
+            115: true, // S
+            83: true, // s
+            97: true, // A
+            65: true, // a
+            100: true, // D
+            68: true // d
+        };
 
     $(window).keydown(function (event) {
-        if (!keys[event.which]) {
-            keys[event.which] = true;
-            keysCount++;
-        }
+        var code = event.which;
         
-        if (interval === null) {
-            interval = setInterval(function () {
-                var direction = '';
-                
-                // check if north or south
-                if (keys[119] || keys[87]) {
-                    direction = 'n';
-                } else if (keys[115] || keys[83]) {
-                    direction = 's';
-                }
-                
-                // concat west or east
-                if (keys[97] || keys[65]) {
-                    direction += 'w';
-                } else if (keys[100] || keys[68]) {
-                    direction += 'e';
-                }
+        if (trackedKeys[code]) {
+            if (!keys[code]) {
+                keys[code] = true;
+                keysCount++;
+            }
             
-                callback(direction);
-            }, 1000 / 50);
+            if (interval === null) {
+                interval = setInterval(function () {
+                    var direction = '';
+                    
+                    // check if north or south
+                    if (keys[119] || keys[87]) {
+                        direction = 'n';
+                    } else if (keys[115] || keys[83]) {
+                        direction = 's';
+                    }
+                    
+                    // concat west or east
+                    if (keys[97] || keys[65]) {
+                        direction += 'w';
+                    } else if (keys[100] || keys[68]) {
+                        direction += 'e';
+                    }
+                
+                    callback(direction);
+                }, 1000 / 50);
+            }
         }
     });
     
     $(window).keyup(function (event) {
-        if (keys[event.which]) {
-            delete keys[event.which];
+        var code = event.which;
+    
+        if (keys[code]) {
+            delete keys[code];
             keysCount--;
         }
         
-        if (keysCount === 0) {
+        // need to check if keyboard movement stopped
+        if ((trackedKeys[code]) && (keysCount === 0)) {
             clearInterval(interval);
             interval = null;
             callback(0);
