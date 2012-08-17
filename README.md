@@ -95,7 +95,7 @@ Playground class
     
 **Parameters**
 
-`options` - object which holds following settings:
+`options` - object which holds following settings:  
 - `elementID` - DOM element ID string (empty string by default)
 - `mapWidth` - number of pixels representing width of playground map
 - `mapHeight` - number of pixels representing height of playground map
@@ -141,10 +141,8 @@ Removes entity from playground map and DOM.
    
 **Parameters**
    
-`entityID` - string ID of entity
-
-`x` - current x map coordinate of entity
-
+`entityID` - string ID of entity  
+`x` - current x map coordinate of entity  
 `y` - current y map coordinate of entity
 
 **Returns**
@@ -159,8 +157,7 @@ Updates current position of specified entity within playground map.
     
 **Parameters**
   
-`x` - current x map coordinate of entity
-
+`x` - current x map coordinate of entity  
 `y` - current y map coordinate of entity
 
 **Returns**
@@ -175,8 +172,7 @@ Checks if there aren't neighbor entities one tile position up and down within sp
    
 **Parameters**
      
-`x` - x map coordinate
-
+`x` - x map coordinate  
 `y` - y map coordinate
 
 **Returns**
@@ -191,8 +187,7 @@ Checks if specified position on map isn't occupied.
     
 **Parameters**
    
-`start` - object with `x` and `y` coordinates which represents starting position
-
+`start` - object with `x` and `y` coordinates which represents starting position  
 `end` - object with `x` and `y` coordinates which represents ending position
 
 **Returns**
@@ -207,7 +202,7 @@ Computes path with A* algorithm to avoid obstacles on playground map.
     
 **Parameters**
    
-`callback(left, top)` - callback invoked when left mouse button within playground element is clicked
+`callback(left, top)` - callback invoked when left mouse button within playground element is clicked  
 - `left` - number of pixels from left corner of playground element (x coordinate)
 - `top` - number of pixels from top corner of playground element (y coordinate)
   
@@ -223,7 +218,7 @@ Invokes callback when left mouse button click event is fired within playground e
     
 **Parameters**
    
-`callback(left, top)` - callback invoked when mouse move event is fired within playground element
+`callback(left, top)` - callback invoked when mouse move event is fired within playground element  
 - `left` - number of pixels from left corner of playground element (x coordinate)
 - `top` - number of pixels from top corner of playground element (y coordinate)
 
@@ -239,7 +234,7 @@ Invokes callback when mouse move event is fired within playground element.
 
 **Parameters**
  
-`callback(direction)` - callback invoked when w, s, a, d characters on keyboard are pressed
+`callback(direction)` - callback invoked when w, s, a, d characters on keyboard are pressed  
 - `direction` - string which represents direction based on characters pressed (can be north `n`, south, `s`, west `w`, east `e`, northwest `nw`, northeast `ne`, southwest `sw`, southeast `se` or numeric `0` value when movement stopped)
 
 **Returns**
@@ -255,7 +250,7 @@ Actor class
 
 **Parameters**
  
-`options` - object which holds following settings:
+`options` - object which holds following settings:  
 - `elementID` - DOM element ID string of entity (empty string by default)
 - `cssClasses` - space delimited string of CSS classes assigned to entity (empty string by default)
 - `sprite` - string path to sprite image (empty string by default)
@@ -275,8 +270,7 @@ Constructor for standalone actor entity which performs create animation upon cre
 
 **Parameters**
  
-`left` - number of pixels from left corner (x coordinate)
-
+`left` - number of pixels from left corner (x coordinate)  
 `top` - number of pixels from top corner (y coordinate)
 
 **Returns**
@@ -305,8 +299,7 @@ Moves entity to specified cardinal direction (can be north `n`, south, `s`, west
    
 **Parameters**
        
-`left` - number of pixels from left corner (x coordinate)
-
+`left` - number of pixels from left corner (x coordinate)  
 `top` - number of pixels from top corner (y coordinate)
 
 **Returns**
@@ -321,7 +314,7 @@ Rotates actor entity towards cardinal direction computed from specified coordina
 
 **Parameters**
 
-`callback` - callback invoked when animation is completed
+`callback()` - callback invoked when animation is completed
 
 **Returns**
 
