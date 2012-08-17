@@ -96,9 +96,7 @@ Playground class
 **Parameters**
 
 `options` - object which holds following settings:  
-- `elementID` - DOM element ID string (empty string by default)
-- `mapWidth` - number of pixels representing width of playground map
-- `mapHeight` - number of pixels representing height of playground map
+- `elementID` - DOM element ID string (playground by default)
 - `tileWidth` - number of pixels representing width of single tile used for determining location on map (16 by default)
 - `tileHeight` - number of pixels representing height of single tile used for determining location on map (16 by default)
   
