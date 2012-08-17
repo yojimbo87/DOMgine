@@ -1,13 +1,13 @@
 $(document).ready(function() {
 
-    var playground = new Playground({
+    var playground = new DG.Playground({
         elementID: 'playground'
     });
     
-    var actor1 = new Walker({
+    var actor1 = new DG.Actor({
         elementID: 'actor1',
         cssClasses: 'human',
-        sprite: '../assets/sprites/walker-joe.png',
+        sprite: '../assets/sprites/actor-joe.png',
         start: {
             x: 2,
             y: 2
@@ -15,10 +15,10 @@ $(document).ready(function() {
         playground: playground
     });
     
-    var actor2 = new Walker({
+    var actor2 = new DG.Actor({
         elementID: 'actor2',
         cssClasses: 'human',
-        sprite: '../assets/sprites/walker-johny.png',
+        sprite: '../assets/sprites/actor-johny.png',
         start: {
             x: 4,
             y: 4
@@ -39,10 +39,10 @@ $(document).ready(function() {
         actor2.rotate(left, top);
     });
     
-    /*var actor3 = new Walker({
+    /*var actor3 = new DG.Actor({
         elementID: 'actor3',
         cssClasses: 'human',
-        sprite: '../sprites/lemming-johny.png',
+        sprite: '../assets/sprites/actor-johny.png',
         start: {
             x: 6,
             y: 4
@@ -50,31 +50,24 @@ $(document).ready(function() {
         playground: playground
     });
     
-    var actor4 = new Walker({
+    var actor4 = new DG.Actor({
         elementID: 'actor4',
         cssClasses: 'human',
-        sprite: '../sprites/lemming-johny.png',
+        sprite: '../assets/sprites/actor-johny.png',
         start: {
             x: 8,
             y: 4
         },
         playground: playground
     });*/
-    
-    /*$('#playground').click(function(e) {
-        actor1.move(
-            e.pageX - this.offsetLeft, 
-            e.pageY - this.offsetTop
-        );
-    });*/
 
-    /*var walkers = {};
+    /*var actors = {};
     
     for (var i = 0; i < 60; i++) {
-        walkers['walker' + i] = new Walker({
-            elementID: 'walker' + i,
+        actors['actor' + i] = new DG.Actor({
+            elementID: 'actor' + i,
             cssClasses: 'human',
-            sprite: '../sprites/lemming-johny.png',
+            sprite: '../assets/sprites/actor-johny.png',
             start: {
                 x: Math.floor(Math.random()*16),
                 y: Math.floor(Math.random()*16)
@@ -86,7 +79,7 @@ $(document).ready(function() {
     setInterval(function () {
         for (var i = 0; i < 30; i++) {
             var index = Math.floor(Math.random()*60);
-            walkers['walker' + index].move(
+            actors['actor' + index].move(
                 Math.floor(Math.random()*512),
                 Math.floor(Math.random()*512)
             );

@@ -35,8 +35,8 @@ DG.Actor = function (options) {
         playground: options.playground || false
     };
     
-    // if playground is present, append DOM element manually and register
-    // entity to track movement changes
+    // if playground is present, append DOM element manually 
+    // and register entity within playground
     if (this._options.playground !== false) {
         $('#' + this._options.playground._options.elementID).append(
            '<div id="' + this._options.elementID + '"></div>'
@@ -431,7 +431,7 @@ DG.Actor.prototype._animationCycle = function (iteration, callback) {
         );
     }
     
-    // animate only if walker can move to next location
+    // animate only if entity can move to next location
     if ((iteration + 1) < this._path.length) {
         nextX = this._path[iteration + 1][0];
         nextY = this._path[iteration + 1][1];
