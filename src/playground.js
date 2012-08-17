@@ -114,11 +114,20 @@ DG.Playground.prototype.findPath = function (start, end) {
     );
 };
 
-DG.Playground.prototype.onMouseNavigation = function (callback) {
-    this._element.on('click', function (event) {
+DG.Playground.prototype.onMouseClick = function (callback) {
+    this._element.mousedown(function (event) {
         callback(
             event.pageX - this.offsetLeft,
-            event.pageY - this.offsetTop
+            event.pageY - this.offsetTop,
+            'd'
+        );
+    });
+    
+    this._element.mouseup(function (event) {
+        callback(
+            event.pageX - this.offsetLeft,
+            event.pageY - this.offsetTop,
+            'u'
         );
     });
 };
