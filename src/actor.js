@@ -23,7 +23,7 @@ DG.Actor = function (options) {
     };
     
     this._options = {
-        elementID: options.elementID || '',
+        elementID: options.id || '',
         cssClasses: options.cssClasses || '',
         sprite: options.sprite || '',
         columnsCount: options.columnsCount || 8,
@@ -48,9 +48,6 @@ DG.Actor = function (options) {
             this._current.y
         );
     }
-    
-    // expose element id
-    this.id = this._options.elementID;
     
     // get jquery element object and add css classes if specified
     this._element = $('#' + this._options.elementID);

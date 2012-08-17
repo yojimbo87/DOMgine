@@ -5,7 +5,7 @@ $(document).ready(function() {
     });
     
     var actor1 = new DG.Actor({
-        elementID: 'actor1',
+        id: 'actor1',
         cssClasses: 'human',
         sprite: '../assets/sprites/actor-joe.png',
         start: {
@@ -16,7 +16,7 @@ $(document).ready(function() {
     });
     
     var actor2 = new DG.Actor({
-        elementID: 'actor2',
+        id: 'actor2',
         cssClasses: 'human',
         sprite: '../assets/sprites/actor-johny.png',
         start: {
