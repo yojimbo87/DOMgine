@@ -110,8 +110,7 @@ Constructor for playground object which is responsible for map functionality and
 
 **Parameters**
 
-`entityID` - string ID of entity
-
+`entityID` - string ID of entity  
 `x` - current x map coordinate of entity  
 `y` - current y map coordinate of entity
 
@@ -187,8 +186,12 @@ Checks if specified position on map isn't occupied.
     
 **Parameters**
    
-`start` - object with `x` and `y` coordinates which represents starting position  
-`end` - object with `x` and `y` coordinates which represents ending position
+`start` - object which represents starting position
+- `x` - x map coordinate
+- `y` - y map coordinate
+`end` - object which represents ending position
+- `x` - x map coordinate
+- `y` - y map coordinate
 
 **Returns**
 
