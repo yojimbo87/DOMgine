@@ -1,7 +1,7 @@
 DG.Actor = function (options) {
     this._current = {
-        column: options._currentColumn || 0,
-        row: options._currentRow || 0,
+        column: 0,
+        row: 0,
         direction: '',
         x: Math.floor(options.start.x) || 0,
         y: Math.floor(options.start.y) || 0,
@@ -259,6 +259,21 @@ DG.Actor.prototype.rotate = function (left, top) {
             '0px -' + (this._current.row * this._options.height) + 'px'
         );
     }
+};
+
+DG.Actor.prototype.fire = function (left, top) {
+    var x = Math.floor(left / this._options.tileWidth),
+        y = Math.floor(top / this._options.tileHeight),
+        projectile;
+        
+    projectile = new DG.Projectile({
+        startX: this._current.x,
+        startY: this._current.y,
+        sprite: '../assets/sprites/projectile-bullet.png',
+        playground: this._options.playground
+    });
+    
+    projectile.shoot(x, y);
 };
 
 DG.Actor.prototype.destroy = function (callback) {
