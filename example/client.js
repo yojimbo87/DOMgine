@@ -27,7 +27,7 @@ $(document).ready(function() {
     });
     
     playground.onMouseNavigation(function (left, top) {
-        actor1.move(left, top);
+        actor1.fire(left, top);
     });
 
     playground.onKeyboardNavigation(function (direction) {

@@ -6,7 +6,7 @@ body {
 }
 
 #playground { 
-    background: #000; 
+    background: #333; 
     border: 1px solid #000;
     cursor: url('../assets/cursors/arrow.cur'), default;
     height: 512px; 
