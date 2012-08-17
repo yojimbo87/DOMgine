@@ -200,13 +200,14 @@ Computes path with A* algorithm to avoid obstacles on playground map.
 
 *****
 
-    playground.onMouseNavigation(callback);
+    playground.onMouseClick(callback);
     
 **Parameters**
    
-`callback(left, top)` - callback invoked when left mouse button within playground element is clicked  
+`callback(left, top, state)` - callback invoked when left mouse button within playground element is clicked  
 - `left` - number of pixels from left corner of playground element (x coordinate)
 - `top` - number of pixels from top corner of playground element (y coordinate)
+- `state` - character which indicates if left mouse button was pressed pressed 'd' or released 'u'
   
 **Returns**
 
