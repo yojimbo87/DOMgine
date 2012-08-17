@@ -100,7 +100,7 @@ Playground class
 - `tileWidth` - number of pixels representing width of single tile used for determining location on map (16 by default)
 - `tileHeight` - number of pixels representing height of single tile used for determining location on map (16 by default)
   
-Constructor for playground object which is responsible for map functionality and pathfinding.
+Constructor for playground object which is responsible for map functionality and pathfinding. Map dimensions are calculated as (playground element width / tileWidth) and (playground element height / tileheight), therefore playground element width and height should be dividable by tileWidth and tileHeight.
 
 *****
 
