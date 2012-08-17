@@ -188,7 +188,8 @@ Checks if specified position on map isn't occupied.
    
 `start` - object which represents starting position
 - `x` - x map coordinate
-- `y` - y map coordinate  
+- `y` - y map coordinate
+
 `end` - object which represents ending position
 - `x` - x map coordinate
 - `y` - y map coordinate
