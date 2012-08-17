@@ -112,8 +112,7 @@ Constructor for playground object which is responsible for map functionality and
 
 `entityID` - string ID of entity
 
-`x` - current x map coordinate of entity
-
+`x` - current x map coordinate of entity  
 `y` - current y map coordinate of entity
 
 **Returns**
