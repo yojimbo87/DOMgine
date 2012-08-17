@@ -23,12 +23,12 @@ Style at your will:
 
     #playground { 
         background: #000;
-        cursor: url('sprites/arrow.cur'), default;
+        cursor: url('assets/cursors/arrow.cur'), default;
         height: 512px; 
         width: 512px; 
     }
 
-    .human { cursor: url('sprites/hand.cur'), pointer; }
+    .human { cursor: url('assets/cursors/hand.cur'), pointer; }
 
 And let it play:
     
@@ -93,22 +93,30 @@ Playground class
 
     var playground = DG.Playground(options);
     
-- `options` - object which holds following settings:
-  - `elementID` - DOM element ID string (empty string by default)
-  - `mapWidth` - number of pixels representing width of playground map
-  - `mapHeight` - number of pixels representing height of playground map
-  - `tileWidth` - number of pixels representing width of single tile used for determining location on map (16 by default)
-  - `tileHeight` - number of pixels representing height of single tile used for determining location on map (16 by default)
+**Parameters**
+
+`options` - object which holds following settings:
+- `elementID` - DOM element ID string (empty string by default)
+- `mapWidth` - number of pixels representing width of playground map
+- `mapHeight` - number of pixels representing height of playground map
+- `tileWidth` - number of pixels representing width of single tile used for determining location on map (16 by default)
+- `tileHeight` - number of pixels representing height of single tile used for determining location on map (16 by default)
   
 Constructor for playground object which is responsible for map functionality and pathfinding.
 
 *****
 
     playground.addEntity(entityID, x, y);
-    
-- `entityID` - string ID of entity
-- `x` - current x map coordinate of entity
-- `y` - current y map coordinate of entity
+
+**Parameters**
+
+`entityID` - string ID of entity
+`x` - current x map coordinate of entity
+`y` - current y map coordinate of entity
+
+**Returns**
+
+`void`
 
 Adds entity to playground map to track its' position. Returns `void`.
 
@@ -201,9 +209,9 @@ Actor class
   - `height` - number of pixels representing height of single picture within sprite (32 by default)
   - `tileWidth` - number of pixels representing width of single tile used for determining location (16 by default)
   - `tileHeight` - number of pixels representing height of single tile used for determining location (16 by default)
-  - `playground` - reference to playground object which is responsible for map and pathfinding (false by default)
+  - `playground` - reference to playground object (false by default)
 
-Constructor for standalone actor entity which performs create animation upon creation. If playground reference is passed within options object, entity adds and removes itself, updates each movement cycle on map and uses pathfinding and z-index status information given by playground object.
+Constructor for standalone actor entity which performs create animation upon creation. Playground reference is responsible for map related functionality.
 
 *****
 
