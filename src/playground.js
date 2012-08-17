@@ -1,4 +1,7 @@
-function Playground(options) {
+// global namespace for DOMgine functionality
+DG = {};
+
+DG.Playground = function (options) {
     options.map = options.map || {};
     options.tile = options.tile || {};
 
@@ -20,7 +23,7 @@ function Playground(options) {
     this._initMap();
 };
 
-Playground.prototype._initMap = function () {
+DG.Playground.prototype._initMap = function () {
     var i, ilen,
         j, jlen;
 
@@ -36,7 +39,7 @@ Playground.prototype._initMap = function () {
     }
 };
 
-Playground.prototype.addEntity = function (entityID, x, y) {
+DG.Playground.prototype.addEntity = function (entityID, x, y) {
     var entity = this._entities[entityID];
     
     if (entity === undefined) {
@@ -50,7 +53,7 @@ Playground.prototype.addEntity = function (entityID, x, y) {
     }
 };
 
-Playground.prototype.removeEntity = function (entityID) {
+DG.Playground.prototype.removeEntity = function (entityID) {
     var entity = this._entities[entityID];
     
     if (entity) {
@@ -60,7 +63,7 @@ Playground.prototype.removeEntity = function (entityID) {
     }
 };
 
-Playground.prototype.updateEntityPosition = function (entityID, x, y) {
+DG.Playground.prototype.updateEntityPosition = function (entityID, x, y) {
     var entity = this._entities[entityID];
         
     if (entity) {
@@ -76,7 +79,7 @@ Playground.prototype.updateEntityPosition = function (entityID, x, y) {
 // +1 - set z-index to high value
 // 0 - no change
 // -1 - set z-index to low value
-Playground.prototype.zIndexStatus = function (x, y) {
+DG.Playground.prototype.zIndexStatus = function (x, y) {
     var zIndexChange = 0;
     
     if (((y - 1) >= 0) && (this._map[y - 1][x] === 1)) {
@@ -88,7 +91,7 @@ Playground.prototype.zIndexStatus = function (x, y) {
     return zIndexChange;
 };
 
-Playground.prototype.checkPosition = function (x, y) {
+DG.Playground.prototype.checkPosition = function (x, y) {
     if ((x >= 0) && 
         (x < this._mapScaleWidth) &&
         (y >= 0) &&
@@ -100,7 +103,7 @@ Playground.prototype.checkPosition = function (x, y) {
     }
 };
 
-Playground.prototype.findPath = function (start, end) {
+DG.Playground.prototype.findPath = function (start, end) {
     var grid = new PF.Grid(
             this._mapScaleWidth,
             this._mapScaleHeight, 
@@ -116,7 +119,7 @@ Playground.prototype.findPath = function (start, end) {
     );
 };
 
-Playground.prototype.onMouseNavigation = function (callback) {
+DG.Playground.prototype.onMouseNavigation = function (callback) {
     this._element.on('click', function (event) {
         callback(
             event.pageX - this.offsetLeft,
@@ -125,7 +128,7 @@ Playground.prototype.onMouseNavigation = function (callback) {
     });
 };
 
-Playground.prototype.onMouseMove = function (callback) {
+DG.Playground.prototype.onMouseMove = function (callback) {
     this._element.on('mousemove', function (event) {
         callback(
             event.pageX - this.offsetLeft,
@@ -134,7 +137,7 @@ Playground.prototype.onMouseMove = function (callback) {
     });
 };
 
-Playground.prototype.onKeyboardNavigation = function (callback) {
+DG.Playground.prototype.onKeyboardNavigation = function (callback) {
     var keys = {},
         keysCount = 0,
         interval = null,
@@ -203,7 +206,7 @@ Playground.prototype.onKeyboardNavigation = function (callback) {
     });
 };
 
-Playground.prototype.printMap = function () {
+DG.Playground.prototype.printMap = function () {
     var $map = $('#map'),
         i, ilen, j, jlen;
     
