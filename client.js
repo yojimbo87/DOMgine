@@ -1,12 +1,12 @@
 $(document).ready(function() {
-    var playground = new Playground({
+    var playground = new DG.Playground({
         elementID: 'playground'
     });
     
-    var actor1 = new Walker({
-        elementID: 'actor1',
+    var actor1 = new DG.Actor({
+        id: 'actor1',
         cssClasses: 'human',
-        sprite: 'assets/sprites/walker-joe.png',
+        sprite: 'assets/sprites/actor-joe.png',
         start: {
             x: 2,
             y: 2
@@ -14,10 +14,10 @@ $(document).ready(function() {
         playground: playground
     });
     
-    var actor2 = new Walker({
-        elementID: 'actor2',
+    var actor2 = new DG.Actor({
+        id: 'actor2',
         cssClasses: 'human',
-        sprite: 'assets/sprites/walker-johny.png',
+        sprite: 'assets/sprites/actor-johny.png',
         start: {
             x: 4,
             y: 4
