@@ -40,7 +40,7 @@ And let it play:
         
         // create first actor entity
         var actor1 = new DG.Actor({
-            elementID: 'actor1',
+            id: 'actor1',
             cssClasses: 'human',
             sprite: 'assets/sprites/actor-joe.png',
             start: {
@@ -52,7 +52,7 @@ And let it play:
         
         // create second actor entity
         var actor2 = new DG.Actor({
-            elementID: 'actor2',
+            id: 'actor2',
             cssClasses: 'human',
             sprite: 'assets/sprites/actor-johny.png',
             start: {
@@ -255,7 +255,7 @@ Actor class
 **Parameters**
  
 `options` - object which holds following settings:  
-- `elementID` - DOM element ID string of entity (empty string by default)
+- `id` - ID string of entity which will be also used as DOM elementID (empty string by default)
 - `cssClasses` - space delimited string of CSS classes assigned to entity (empty string by default)
 - `sprite` - string path to sprite image (empty string by default)
 - `columnsCount` - number of columns within sprite where one column represents single movement state (8 by default)
