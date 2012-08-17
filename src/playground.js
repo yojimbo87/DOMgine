@@ -7,15 +7,13 @@ DG.Playground = function (options) {
 
     this._options = {
         elementID: options.id || 'playground',
-        mapWidth: options.mapWidth || 512,
-        mapHeight: options.mapHeight || 512,
         tileWidth: options.tileWidth || 16,
         tileHeight: options.tileHeight || 16
     };
     
     this._element = $('#' + this._options.elementID);
-    this._mapScaleWidth = 0;
-    this._mapScaleWidtHeight = 0;
+    this._mapWidth = this._element.width() / this._options.tileWidth;
+    this._mapHeight = this._element.height() / this._options.tileHeight;
     this._finder = new PF.AStarFinder({ allowDiagonal: true });
     this._map = [];
     this._entities = {};
@@ -27,13 +25,10 @@ DG.Playground.prototype._initMap = function () {
     var i, ilen,
         j, jlen;
 
-    this._mapScaleWidth = this._options.mapWidth / this._options.tileWidth;
-    this._mapScaleHeight = this._options.mapHeight / this._options.tileHeight;
-    
-    for (i = 0, ilen = this._mapScaleWidth; i < ilen; i++) {
+    for (i = 0, ilen = this._mapWidth; i < ilen; i++) {
         this._map[i] = [];
     
-        for (j = 0, jlen = this._mapScaleHeight; j < jlen; j++) {
+        for (j = 0, jlen = this._mapHeight; j < jlen; j++) {
             this._map[i][j] = 0;
         }
     }
@@ -84,7 +79,7 @@ DG.Playground.prototype.zIndexStatus = function (x, y) {
     
     if (((y - 1) >= 0) && (this._map[y - 1][x] === 1)) {
         zIndexChange = 1;
-    } else if (((y + 1) < this._mapScaleHeight) && (this._map[y + 1][x] === 1)) {
+    } else if (((y + 1) < this._mapHeight) && (this._map[y + 1][x] === 1)) {
         zIndexChange = -1;
     }
     
@@ -93,9 +88,9 @@ DG.Playground.prototype.zIndexStatus = function (x, y) {
 
 DG.Playground.prototype.checkPosition = function (x, y) {
     if ((x >= 0) && 
-        (x < this._mapScaleWidth) &&
+        (x < this._mapWidth) &&
         (y >= 0) &&
-        (y < this._mapScaleHeight) &&
+        (y < this._mapHeight) &&
         (this._map[y][x] === 0)) {
         return true;
     } else {
@@ -105,8 +100,8 @@ DG.Playground.prototype.checkPosition = function (x, y) {
 
 DG.Playground.prototype.findPath = function (start, end) {
     var grid = new PF.Grid(
-            this._mapScaleWidth,
-            this._mapScaleHeight, 
+            this._mapWidth,
+            this._mapHeight, 
             this._map
         );
     
