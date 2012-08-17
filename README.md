@@ -1,16 +1,19 @@
-Walker is a library which allows you to create lemmings style animated character(s) that are able to navigate within specific area.
+DOMgine is a DOM based game engine.
 
 Usage
 ===
 
-Below is an example usage of walker. You can also see it in action [here](http://yojimbo87.github.com/walker/).
+Below is a simple usage example of DOMgine. You can also see it in action [here](http://yojimbo87.github.com/DOMgine/).
 
 First include some js files:
 
+    <!--[if lt IE 9]>
+    <script src="../lib/shims.js" type="text/javascript"></script>
+    <![endif]-->
     <script src="http://code.jquery.com/jquery-1.8.0.min.js" type="text/javascript"></script>
-    <script src="walker/pathfinding-browser.js" type="text/javascript"></script>
-    <script src="walker/playground.js" type="text/javascript"></script>
-    <script src="walker/walker.js" type="text/javascript"></script>
+    <script src="lib/pathfinding-browser.js" type="text/javascript"></script>
+    <script src="lib/playground.js" type="text/javascript"></script>
+    <script src="lib/actor.js" type="text/javascript"></script>
 
 Then add a bit of HTML to body:
 
@@ -27,19 +30,19 @@ Style at your will:
 
     .human { cursor: url('sprites/hand.cur'), pointer; }
 
-And let it do its magic:
+And let it play:
     
     $(document).ready(function() {
-        // create playground for walker entities
-        var playground = new Playground({
+        // create playground for actor entities
+        var playground = new DG.Playground({
             elementID: 'playground'
         });
         
-        // create main walker which will move around
-        var actor1 = new Walker({
+        // create first actor entity
+        var actor1 = new DG.Actor({
             elementID: 'actor1',
             cssClasses: 'human',
-            sprite: 'sprites/lemming-joe.png',
+            sprite: 'assets/sprites/actor-joe.png',
             start: {
                 x: 2,
                 y: 2
@@ -47,11 +50,11 @@ And let it do its magic:
             playground: playground
         });
         
-        // create static walker
-        var actor2 = new Walker({
+        // create second actor entity
+        var actor2 = new DG.Actor({
             elementID: 'actor2',
             cssClasses: 'human',
-            sprite: 'sprites/lemming-johny.png',
+            sprite: 'assets/sprites/actor-johny.png',
             start: {
                 x: 4,
                 y: 4
@@ -59,12 +62,17 @@ And let it do its magic:
             playground: playground
         });
         
-        // navigate main walker to destination
+        // navigate first actor to destination coordinates
         playground.onMouseNavigation(function (left, top) {
             actor1.move(left, top);
         });
         
-        // rotate both walkers toward mouse direction
+        // navigate second actor towards direction
+        playground.onKeyboardNavigation(function (direction) {
+            actor2.step(direction);
+        });
+        
+        // rotate both actors towards mouse direction
         playground.onMouseMove(function (left, top) {
             actor1.rotate(left, top);
             actor2.rotate(left, top);
@@ -74,69 +82,16 @@ And let it do its magic:
 Dependencies
 ===
 
-- [jQuery](http://jquery.com/)
-- [Pathfinding.js](https://github.com/qiao/PathFinding.js)
+- [jQuery](http://jquery.com/) for DOM manipulation
+- [Pathfinding.js](https://github.com/qiao/PathFinding.js) for pathfinding algorithms
     
 Public API
 ===
 
-Walker class
----
-
-    var walker = Walker(options);
-
-- `options` - object which holds following settings:
-  - `elementID` - DOM element ID string of entity (empty string by default)
-  - `cssClasses` - space delimited string of CSS classes assigned to entity (empty string by default)
-  - `sprite` - string path to sprite image (empty string by default)
-  - `columnsCount` - number of columns within sprite where one column represents single movement state (8 by default)
-  - `rowsCount` - number of rows within sprite, where one row represents set of movement for single direction (8 by default)
-  - `width` - number of pixels representing width of single picture within sprite (32 by default)
-  - `height` - number of pixels representing height of single picture within sprite (32 by default)
-  - `tileWidth` - number of pixels representing width of single tile used for determining location (16 by default)
-  - `tileHeight` - number of pixels representing height of single tile used for determining location (16 by default)
-  - `playground` - reference to playground object which is responsible for map and pathfinding (false by default)
-
-Constructor for standalone walker entity which performs create animation upon creation. If playground reference is passed within options object, entity adds and removes itself, updates each movement cycle on map and uses pathfinding and z-index status information given by playground object.
-
-*****
-
-    walker.move(left, top);
-
-- `left` - number of pixels from left corner (x coordinate)
-- `top` - number of pixels from top corner (y coordinate)
-
-Initiates movement between current and destination point. When playground option is set, movement is calculated within map. Returns `void`.
-
-*****
-
-    walker.step(direction);
-    
-- `direction` - string based cardinal direction
-
-Moves entity to specified cardinal direction (can be north `n`, south, `s`, west `w`, east `e`, northwest `nw`, northeast `ne`, southwest `sw`, southeast `se` or numeric `0` value when movement should be stopped). Returns `void`.
-
-*****
-
-    walker.rotate(left, top);
-    
-- `left` - number of pixels from left corner (x coordinate)
-- `top` - number of pixels from top corner (y coordinate)
-
-Rotates walker entity towards cardinal direction computed from specified coordinates. Returns `void`.
-
-*****
-
-    walker.destroy(callback);
-
-- `callback` - callback invoked when animation is completed
-
-Performs destroy animation of single walker entity and removes element from DOM if playground options is set. Returns `void`.
-
 Playground class
 ---
 
-    var playground = Playground(options);
+    var playground = DG.Playground(options);
     
 - `options` - object which holds following settings:
   - `elementID` - DOM element ID string (empty string by default)
@@ -230,3 +185,56 @@ Invokes callback when mouse move event is fired within playground element. Retur
   - `direction` - string which represents direction based on characters pressed (can be north `n`, south, `s`, west `w`, east `e`, northwest `nw`, northeast `ne`, southwest `sw`, southeast `se` or numeric `0` value when movement stopped)
 
 Invokes callback when w, s, a, d characters on keyboards are pressed. Returns `void`.
+
+Actor class
+---
+
+    var actor = DG.Actor(options);
+
+- `options` - object which holds following settings:
+  - `elementID` - DOM element ID string of entity (empty string by default)
+  - `cssClasses` - space delimited string of CSS classes assigned to entity (empty string by default)
+  - `sprite` - string path to sprite image (empty string by default)
+  - `columnsCount` - number of columns within sprite where one column represents single movement state (8 by default)
+  - `rowsCount` - number of rows within sprite, where one row represents set of movement for single direction (8 by default)
+  - `width` - number of pixels representing width of single picture within sprite (32 by default)
+  - `height` - number of pixels representing height of single picture within sprite (32 by default)
+  - `tileWidth` - number of pixels representing width of single tile used for determining location (16 by default)
+  - `tileHeight` - number of pixels representing height of single tile used for determining location (16 by default)
+  - `playground` - reference to playground object which is responsible for map and pathfinding (false by default)
+
+Constructor for standalone actor entity which performs create animation upon creation. If playground reference is passed within options object, entity adds and removes itself, updates each movement cycle on map and uses pathfinding and z-index status information given by playground object.
+
+*****
+
+    actor.move(left, top);
+
+- `left` - number of pixels from left corner (x coordinate)
+- `top` - number of pixels from top corner (y coordinate)
+
+Initiates movement between current and destination point. When playground option is set, movement is calculated within map. Returns `void`.
+
+*****
+
+    actor.step(direction);
+    
+- `direction` - string based cardinal direction
+
+Moves entity to specified cardinal direction (can be north `n`, south, `s`, west `w`, east `e`, northwest `nw`, northeast `ne`, southwest `sw`, southeast `se` or numeric `0` value when movement should be stopped). Returns `void`.
+
+*****
+
+    actor.rotate(left, top);
+    
+- `left` - number of pixels from left corner (x coordinate)
+- `top` - number of pixels from top corner (y coordinate)
+
+Rotates actor entity towards cardinal direction computed from specified coordinates. Returns `void`.
+
+*****
+
+    actor.destroy(callback);
+
+- `callback` - callback invoked when animation is completed
+
+Performs destroy animation of single actor entity and removes element from DOM if playground options is set. Returns `void`.
