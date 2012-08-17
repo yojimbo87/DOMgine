@@ -1,4 +1,4 @@
-function Walker(options) {
+DG.Actor = function (options) {
     this._current = {
         column: options._currentColumn || 0,
         row: options._currentRow || 0,
@@ -74,7 +74,7 @@ function Walker(options) {
     this._createAnimation();
 };
 
-Walker.prototype.move = function (left, top) {
+DG.Actor.prototype.move = function (left, top) {
     var self = this,
         x = Math.floor(left / this._options.tileWidth),
         y = Math.floor(top / this._options.tileHeight),
@@ -117,7 +117,7 @@ Walker.prototype.move = function (left, top) {
     }
 };
 
-Walker.prototype.step = function (direction) {
+DG.Actor.prototype.step = function (direction) {
     var self = this,
         zIndexChange = 0,
         stepCount = 0,
@@ -243,7 +243,7 @@ Walker.prototype.step = function (direction) {
     }
 };
 
-Walker.prototype.rotate = function (left, top) {
+DG.Actor.prototype.rotate = function (left, top) {
     var direction = this._getDirection(
         Math.floor(left / this._options.tileWidth), 
         Math.floor(top / this._options.tileHeight)
@@ -264,7 +264,7 @@ Walker.prototype.rotate = function (left, top) {
     }
 };
 
-Walker.prototype.destroy = function (callback) {
+DG.Actor.prototype.destroy = function (callback) {
     var self = this,
         stepCount = 0;
         
@@ -319,7 +319,7 @@ Walker.prototype.destroy = function (callback) {
     );
 };
 
-Walker.prototype._createAnimation = function() {
+DG.Actor.prototype._createAnimation = function() {
     var self = this,
         stepCount = 0;
         
@@ -374,7 +374,7 @@ Walker.prototype._createAnimation = function() {
     );
 };
 
-Walker.prototype._getDirection = function (x, y) {
+DG.Actor.prototype._getDirection = function (x, y) {
     var direction = { 
             cardinality: 'w',
             row: 1
@@ -412,7 +412,7 @@ Walker.prototype._getDirection = function (x, y) {
     return direction;
 };
 
-Walker.prototype._animationCycle = function (iteration, callback) {
+DG.Actor.prototype._animationCycle = function (iteration, callback) {
     var self = this,
         stepCount = 0,
         nextX, nextY,
