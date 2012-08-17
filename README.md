@@ -111,6 +111,38 @@ Constructor for playground object which is responsible for map functionality and
 **Parameters**
 
 `entityID` - string ID of entity
+
+`x` - current x map coordinate of entity
+
+`y` - current y map coordinate of entity
+
+**Returns**
+
+`void`
+
+Adds entity to playground map to track its' position.
+
+*****
+
+    playground.removeEntity(entityID);
+
+**Parameters**
+
+`entityID` - string ID of entity
+
+**Returns**
+
+`void`
+
+Removes entity from playground map and DOM.
+
+*****
+
+    playground.updateEntityPosition(entityID, x, y);
+   
+**Parameters**
+   
+`entityID` - string ID of entity
 `x` - current x map coordinate of entity
 `y` - current y map coordinate of entity
 
@@ -118,98 +150,118 @@ Constructor for playground object which is responsible for map functionality and
 
 `void`
 
-Adds entity to playground map to track its' position. Returns `void`.
-
-*****
-
-    playground.removeEntity(entityID);
-    
-- `entityID` - string ID of entity
-
-Removes entity from playground map. Returns `void`.
-
-*****
-
-    playground.updateEntityPosition(entityID, x, y);
-    
-- `entityID` - string ID of entity
-- `x` - current x map coordinate of entity
-- `y` - current y map coordinate of entity
-
-Updates current position of specified entity within playground map. Returns `void`.
+Updates current position of specified entity within playground map.
 
 *****
 
     playground.zIndexStatus(x, y);
     
-- `x` - current x map coordinate of entity
-- `y` - current y map coordinate of entity
+**Parameters**
+  
+`x` - current x map coordinate of entity
+`y` - current y map coordinate of entity
 
-Checks if there aren't neighbor entities one tile position up and down within specified map coordinates to determine z-index overlay changes for entity. Returns `number` which indicates if z-index should be set to high value (+1), stay unchanged (0) or set to low value (-1).
+**Returns**
+
+`number` - indicates if z-index should be set to high value (+1), stay unchanged (0) or set to low value (-1)
+
+Checks if there aren't neighbor entities one tile position up and down within specified map coordinates to determine z-index overlay changes for entity.
 
 *****
 
     playground.checkPosition(x, y);
-    
-- `x` - x map coordinate
-- `y` - y map coordinate
+   
+**Parameters**
+     
+`x` - x map coordinate
+`y` - y map coordinate
 
-Checks if specified position on map isn't occupied. Returns `boolean` indicating if position is or isn't occupied.
+**Returns**
+
+`boolean` - indicates if position is or isn't occupied
+
+Checks if specified position on map isn't occupied.
 
 *****
 
     playground.findPath(start, end);
     
-- `start` - object with `x` and `y` coordinates which represents starting position
-- `end` - object with `x` and `y` coordinates which represents ending position
+**Parameters**
+   
+`start` - object with `x` and `y` coordinates which represents starting position
+`end` - object with `x` and `y` coordinates which represents ending position
 
-Computes path with A* algorithm to avoid obstacles on playground map. Returns `array` which consists of set of arrays where each holds two elements representing x and y coordinates within map.
+**Returns**
+
+`array` - consists of set of arrays where each holds two elements representing x and y coordinates within map.
+
+Computes path with A* algorithm to avoid obstacles on playground map.
 
 *****
 
     playground.onMouseNavigation(callback);
     
-- `callback(left, top)` - callback invoked when left mouse button within playground element is clicked
-  - `left` - number of pixels from left corner of playground element (x coordinate)
-  - `top` - number of pixels from top corner of playground element (y coordinate)
+**Parameters**
+   
+`callback(left, top)` - callback invoked when left mouse button within playground element is clicked
+- `left` - number of pixels from left corner of playground element (x coordinate)
+- `top` - number of pixels from top corner of playground element (y coordinate)
   
-Invokes callback when left mouse button click event is fired within playground element. Callback arguments are recalculated to position within playground. Returns `void`.
+**Returns**
+
+`void`
+
+Invokes callback when left mouse button click event is fired within playground element. Callback arguments are recalculated to position within playground.
 
 *****
 
     playground.onMouseMove(callback);
     
-- `callback(left, top)` - callback invoked when mouse move event is fired within playground element
-  - `left` - number of pixels from left corner of playground element (x coordinate)
-  - `top` - number of pixels from top corner of playground element (y coordinate)
+**Parameters**
+   
+`callback(left, top)` - callback invoked when mouse move event is fired within playground element
+- `left` - number of pixels from left corner of playground element (x coordinate)
+- `top` - number of pixels from top corner of playground element (y coordinate)
 
-Invokes callback when mouse move event is fired within playground element. Returns `void`.
+**Returns**
+
+`void`
+  
+Invokes callback when mouse move event is fired within playground element.
   
 *****
 
     playground.onKeyboardNavigation(callback);
-    
-- `callback(direction)` - callback invoked when w, s, a, d characters on keyboard are pressed
-  - `direction` - string which represents direction based on characters pressed (can be north `n`, south, `s`, west `w`, east `e`, northwest `nw`, northeast `ne`, southwest `sw`, southeast `se` or numeric `0` value when movement stopped)
 
-Invokes callback when w, s, a, d characters on keyboards are pressed. Returns `void`.
+**Parameters**
+ 
+`callback(direction)` - callback invoked when w, s, a, d characters on keyboard are pressed
+- `direction` - string which represents direction based on characters pressed (can be north `n`, south, `s`, west `w`, east `e`, northwest `nw`, northeast `ne`, southwest `sw`, southeast `se` or numeric `0` value when movement stopped)
+
+**Returns**
+
+`void`
+  
+Invokes callback when w, s, a, d characters on keyboards are pressed.
 
 Actor class
 ---
 
     var actor = DG.Actor(options);
 
-- `options` - object which holds following settings:
-  - `elementID` - DOM element ID string of entity (empty string by default)
-  - `cssClasses` - space delimited string of CSS classes assigned to entity (empty string by default)
-  - `sprite` - string path to sprite image (empty string by default)
-  - `columnsCount` - number of columns within sprite where one column represents single movement state (8 by default)
-  - `rowsCount` - number of rows within sprite, where one row represents set of movement for single direction (8 by default)
-  - `width` - number of pixels representing width of single picture within sprite (32 by default)
-  - `height` - number of pixels representing height of single picture within sprite (32 by default)
-  - `tileWidth` - number of pixels representing width of single tile used for determining location (16 by default)
-  - `tileHeight` - number of pixels representing height of single tile used for determining location (16 by default)
-  - `playground` - reference to playground object (false by default)
+**Parameters**
+ 
+`options` - object which holds following settings:
+- `elementID` - DOM element ID string of entity (empty string by default)
+- `cssClasses` - space delimited string of CSS classes assigned to entity (empty string by default)
+- `sprite` - string path to sprite image (empty string by default)
+- `columnsCount` - number of columns within sprite where one column represents single movement state (8 by default)
+- `rowsCount` - number of rows within sprite, where one row represents set of movement for single direction (8 by default)
+- `width` - number of pixels representing width of single picture within sprite (32 by default)
+- `height` - number of pixels representing height of single picture within sprite (32 by default)
+- `tileWidth` - number of pixels representing width of single tile used for determining location (16 by default)
+- `tileHeight` - number of pixels representing height of single tile used for determining location (16 by default)
+- `playground` - reference to playground object (false by default)
 
 Constructor for standalone actor entity which performs create animation upon creation. Playground reference is responsible for map related functionality.
 
@@ -217,32 +269,56 @@ Constructor for standalone actor entity which performs create animation upon cre
 
     actor.move(left, top);
 
-- `left` - number of pixels from left corner (x coordinate)
-- `top` - number of pixels from top corner (y coordinate)
+**Parameters**
+ 
+`left` - number of pixels from left corner (x coordinate)
+`top` - number of pixels from top corner (y coordinate)
 
-Initiates movement between current and destination point. When playground option is set, movement is calculated within map. Returns `void`.
+**Returns**
+
+`void`
+
+Initiates movement between current and destination point. When playground option is set, movement is calculated within map.
 
 *****
 
     actor.step(direction);
+   
+**Parameters**
     
-- `direction` - string based cardinal direction
+`direction` - string based cardinal direction
 
-Moves entity to specified cardinal direction (can be north `n`, south, `s`, west `w`, east `e`, northwest `nw`, northeast `ne`, southwest `sw`, southeast `se` or numeric `0` value when movement should be stopped). Returns `void`.
+**Returns**
+
+`void`
+
+Moves entity to specified cardinal direction (can be north `n`, south, `s`, west `w`, east `e`, northwest `nw`, northeast `ne`, southwest `sw`, southeast `se` or numeric `0` value when movement should be stopped).
 
 *****
 
     actor.rotate(left, top);
-    
-- `left` - number of pixels from left corner (x coordinate)
-- `top` - number of pixels from top corner (y coordinate)
+   
+**Parameters**
+       
+`left` - number of pixels from left corner (x coordinate)
+`top` - number of pixels from top corner (y coordinate)
 
-Rotates actor entity towards cardinal direction computed from specified coordinates. Returns `void`.
+**Returns**
+
+`void`
+
+Rotates actor entity towards cardinal direction computed from specified coordinates.
 
 *****
 
     actor.destroy(callback);
 
-- `callback` - callback invoked when animation is completed
+**Parameters**
 
-Performs destroy animation of single actor entity and removes element from DOM if playground options is set. Returns `void`.
+`callback` - callback invoked when animation is completed
+
+**Returns**
+
+`void`
+
+Performs destroy animation of single actor entity and removes element from DOM if playground options is set.
