@@ -13,13 +13,16 @@ DG.Actor = function (options) {
         // step action, e.g. in this situation it shouldn't listen to
         // invoked keyboard navigation changes in order to finish move
         isStepping: false,
+        // holds value of last step direction to determine if first sprite
+        // column should be rendered to indicate idle movement
+        lastStepDirection: 0,
         // flag to determine if entity is currently performing move action
         // e.g. this is useful to know when rotate shouldn't affect
         // current sprite animation
         isMoving: false,
-        // holds value of last step direction to determine if first sprite
-        // column should be rendered to indicate idle movement
-        lastStepDirection: 0
+        // flag to determine if actor is in shooting state
+        isShooting: false,
+        projectile: null
     };
     
     this._options = {
@@ -261,19 +264,20 @@ DG.Actor.prototype.rotate = function (left, top) {
     }
 };
 
-DG.Actor.prototype.fire = function (left, top) {
+DG.Actor.prototype.shoot = function (left, top, mouseState, shootingMode) {
     var x = Math.floor(left / this._options.tileWidth),
-        y = Math.floor(top / this._options.tileHeight),
-        projectile;
+        y = Math.floor(top / this._options.tileHeight);
         
-    projectile = new DG.Projectile({
-        startX: this._current.x,
-        startY: this._current.y,
-        sprite: '../assets/sprites/projectile-bullet.png',
-        playground: this._options.playground
-    });
-    
-    projectile.shoot(x, y);
+    if (!this._current.isShooting) {
+        this._current.projectile = new DG.Projectile({
+            startX: this._current.x,
+            startY: this._current.y,
+            sprite: '../assets/sprites/projectile-bullet.png',
+            playground: this._options.playground
+        });
+    }
+        
+    this._current.projectile.shoot(x, y, mouseState, shootingMode);
 };
 
 DG.Actor.prototype.destroy = function (callback) {

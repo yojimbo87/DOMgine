@@ -19,7 +19,8 @@ DG.Projectile = function (options) {
         row: 0,
         direction: 'n',
         x: Math.floor(options.startX) || 0,
-        y: Math.floor(options.startY) || 0
+        y: Math.floor(options.startY) || 0,
+        shootInterval: null
     };
     
     // if playground is present, append DOM element manually 
@@ -54,53 +55,27 @@ DG.Projectile = function (options) {
     });
 };
 
-DG.Projectile.prototype.shoot = function (x, y) {
-    var self = this,
-        direction = this._getDirection(x, y),
-        distance = this._getDistance(
-            { x: this._current.x, y: this._current.y },
-            { x: x, y: y}
-        );
-    
-    this._current.direction = direction.cardinality;
-    this._current.row = direction.row;
+DG.Projectile.prototype.shoot = function (x, y, mouseState, shootingMode) {
+    var self = this;
 
-    // set appropriate position from sprite
-    this._element.css(
-        'backgroundPosition',
-        (this._current.column * this._options.width) + 'px ' +
-        '-' + (this._current.row * this._options.height) + 'px'
-    );
-    
-    // compute duration of animation
-
-    this._element.animate(
-        {
-            left: x * this._options.tileWidth + (this._options.tileHeight / 2),
-            top: y * this._options.tileHeight - (this._options.tileHeight / 2)
-        }, 
-        {
-            duration: distance * 50, 
-            easing: 'linear',
-            step: function() {
-                /*stepCount++;
-                
-                // change position within sprite after certain amount of steps
-                if (stepCount % 15 === 0) {
-                    
-                }*/
-            },
-            complete: function() {
-                self._element.remove();
-                
-                if (self._options.playground !== false) {
-                    self._options.playground.removeEntity(self._options.elementID);
-                }
-                
-                //callback();
-            }
+    if (shootingMode === 'single') {
+        if (mouseState === 'up') {
+            this._animationCycle(x, y);
         }
-    );
+    } else if (shootingMode === 'burst') {
+        if (mouseState === 'down') {
+            //if (this._current.shootInterval === null) {
+                this._animationCycle(x, y);
+            
+                this._current.shootInterval = setInterval(function () {
+                    self._animationCycle(x, y);
+                }, 500);
+            //}
+        } else {
+            clearInterval(this._current.shootInterval);
+            this._current.shootInterval = null;
+        }
+    }
 };
 
 DG.Projectile.prototype._getDirection = function (x, y) {
@@ -164,4 +139,40 @@ DG.Projectile.prototype._getDistance = function (start, end) {
     }
     
     return distance;
+};
+
+DG.Projectile.prototype._animationCycle = function (x, y) {
+    var self = this,
+        direction = this._getDirection(x, y),
+        distance = this._getDistance(
+            { x: this._current.x, y: this._current.y },
+            { x: x, y: y}
+        );
+
+    this._current.direction = direction.cardinality;
+    this._current.row = direction.row;
+
+    // set appropriate position from sprite
+    this._element.css(
+        'backgroundPosition',
+        (this._current.column * this._options.width) + 'px ' +
+        '-' + (this._current.row * this._options.height) + 'px'
+    );
+    
+    this._element.animate(
+        {
+            left: x * this._options.tileWidth + (this._options.tileHeight / 2),
+            top: y * this._options.tileHeight - (this._options.tileHeight / 2)
+        }, 
+        {
+            duration: distance * 50, 
+            easing: 'linear',
+            step: function() {
+            },
+            complete: function() {
+                self._element.remove();
+                self._options.playground.removeEntity(self._options.elementID);
+            }
+        }
+    );
 };

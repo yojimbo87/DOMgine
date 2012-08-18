@@ -26,8 +26,8 @@ $(document).ready(function() {
         playground: playground
     });
     
-    playground.onMouseNavigation(function (left, top) {
-        actor1.fire(left, top);
+    playground.onMouseClick(function (left, top, state) {
+        actor1.shoot(left, top, state, 'burst');
     });
 
     playground.onKeyboardNavigation(function (direction) {

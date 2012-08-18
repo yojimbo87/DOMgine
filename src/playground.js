@@ -119,7 +119,7 @@ DG.Playground.prototype.onMouseClick = function (callback) {
         callback(
             event.pageX - this.offsetLeft,
             event.pageY - this.offsetTop,
-            'd'
+            'down'
         );
     });
     
@@ -127,7 +127,7 @@ DG.Playground.prototype.onMouseClick = function (callback) {
         callback(
             event.pageX - this.offsetLeft,
             event.pageY - this.offsetTop,
-            'u'
+            'up'
         );
     });
 };
